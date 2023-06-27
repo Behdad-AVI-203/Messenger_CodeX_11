@@ -18,9 +18,9 @@ public:
 private slots:
     void on_checkBox_echomode_clicked(bool checked);
 
-    void on_pushButton_ok_clicked();
+    void on_buttonBox_rejected();
 
-    void on_pushButton_cancel_clicked();
+    void on_buttonBox_accepted();
 
 private:
     Ui::Dialog_signup *ui;

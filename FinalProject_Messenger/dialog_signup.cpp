@@ -33,7 +33,14 @@ void Dialog_signup::on_checkBox_echomode_clicked(bool checked)
     }
 }
 
-void Dialog_signup::on_pushButton_ok_clicked()
+
+void Dialog_signup::on_buttonBox_rejected()
+{
+    this->close();
+}
+
+
+void Dialog_signup::on_buttonBox_accepted()
 {
     QString temp_url="http://api.barafardayebehtar.ml:8080/signup?";
     temp_url+="username="+ui->lineEdit_username->text()+"&"+"password="+ui->lineEdit_password->text()+"&"+"firstname="+ui->lineEdit_firstname->text()+"&"+"lastname="+ui->lineEdit_lastname->text();
@@ -48,24 +55,18 @@ void Dialog_signup::on_pushButton_ok_clicked()
             if (reply->error() == QNetworkReply::NoError) {
                 // If the request was successful, read the response
                 QByteArray data = reply->readAll();
+                QMessageBox::information(this,"response",data);
 
                 QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
                 QJsonObject jsonObj = jsonDoc.object();
 
-                QString code=jsonObj.value("code").toString();
+                QString message = jsonObj.value("message").toString();
+                QString code = jsonObj.value("code").toString();
 
-                if(code== "200"){
-                    QMessageBox::information(this,"response","Your account has been successfully created");
-
-                }
-                else if(code== "204"){
-                    QMessageBox::critical(this,"response","You have already created an account with this username");
-                }
-
-
+                qDebug()<<"message:"<<message<<", code: "<<code;
             } else {
                 // If there was an error, display the error message
-                QMessageBox::warning(this,"Erorr","Your attempt was unsuccessful.Pleas Try again");
+                qDebug() << "Error:" << reply->errorString();
             }
 
             // Cleanup the reply object and exit the application
@@ -73,8 +74,4 @@ void Dialog_signup::on_pushButton_ok_clicked()
 }
 
 
-void Dialog_signup::on_pushButton_cancel_clicked()
-{
-      this->close();
-}
 

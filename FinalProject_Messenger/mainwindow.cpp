@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include"dialog_signup.h"
+#include "dialog_login.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -20,5 +21,12 @@ void MainWindow::on_pushButton_signup_clicked()
     Dialog_signup* window=new Dialog_signup(this);
     window->show();
 
+}
+
+
+void MainWindow::on_pushButton_login_clicked()
+{
+    dialog_login* window = new dialog_login(this);
+    window->show();
 }
 

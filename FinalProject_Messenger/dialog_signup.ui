@@ -14,21 +14,12 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="1" colspan="3">
-    <widget class="QLineEdit" name="lineEdit_username"/>
-   </item>
-   <item row="4" column="0" colspan="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_lastname">
+     <property name="text">
+      <string>LastName:</string>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
+    </widget>
    </item>
    <item row="0" column="0">
     <widget class="QLabel" name="label_firstname">
@@ -37,17 +28,10 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="3">
-    <widget class="QCheckBox" name="checkBox_echomode">
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_username">
      <property name="text">
-      <string>Hide</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="3">
-    <widget class="QPushButton" name="pushButton_cancel">
-     <property name="text">
-      <string>Cancel</string>
+      <string>UserName:</string>
      </property>
     </widget>
    </item>
@@ -58,42 +42,74 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1" colspan="3">
-    <widget class="QLineEdit" name="lineEdit_firstname"/>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_username">
-     <property name="text">
-      <string>UserName:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_lastname">
-     <property name="text">
-      <string>LastName:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="2">
-    <widget class="QPushButton" name="pushButton_ok">
-     <property name="text">
-      <string>SignUp</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1" colspan="3">
-    <widget class="QLineEdit" name="lineEdit_lastname"/>
-   </item>
-   <item row="3" column="1" colspan="2">
+   <item row="3" column="1">
     <widget class="QLineEdit" name="lineEdit_password">
      <property name="echoMode">
-      <enum>QLineEdit::Normal</enum>
+      <enum>QLineEdit::Password</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" colspan="2">
+    <widget class="QLineEdit" name="lineEdit_username"/>
+   </item>
+   <item row="1" column="1" colspan="2">
+    <widget class="QLineEdit" name="lineEdit_lastname"/>
+   </item>
+   <item row="0" column="1" colspan="2">
+    <widget class="QLineEdit" name="lineEdit_firstname"/>
+   </item>
+   <item row="3" column="2">
+    <widget class="QCheckBox" name="checkBox_echomode">
+     <property name="text">
+      <string>Hide</string>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Dialog_signup</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Dialog_signup</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
