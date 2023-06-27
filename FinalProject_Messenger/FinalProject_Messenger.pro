@@ -13,12 +13,14 @@ SOURCES += \
     dialog_login.cpp \
     dialog_signup.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    user.cpp
 
 HEADERS += \
     dialog_login.h \
     dialog_signup.h \
-    mainwindow.h
+    mainwindow.h \
+    user.h
 
 FORMS += \
     dialog_login.ui \
