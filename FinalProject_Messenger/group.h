@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <QFile>
+#include <QDir>
 #include <QString>
 using namespace std;
 
@@ -11,8 +13,10 @@ class Group
 {
 public:
     Group();
-    Group(string title,string token,string groupname);
-    void SetGroup(string title,string token,string groupname);
+    Group(QString title,QString token,QString groupname);
+    void SetGroup(QString title,QString token,QString groupname);
+    void CreatedGroup(QString title,QString token,QString groupname);
+
 
 protected:
     QString Title;
