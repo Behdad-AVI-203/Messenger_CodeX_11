@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <QString>
 using namespace std;
 
 class Group
@@ -14,9 +15,9 @@ public:
     void SetGroup(string title,string token,string groupname);
 
 protected:
-    string Title;
-    string Token;
-    string GroupName;
+    QString Title;
+    QString Token;
+    QString GroupName;
 };
 
 #endif // GROUP_H
