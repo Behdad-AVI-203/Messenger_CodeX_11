@@ -2,7 +2,7 @@
 #define DIALOG_LOGIN_H
 
 #include <QDialog>
-
+#include <QString>
 namespace Ui {
 class Dialog_Login;
 }
@@ -22,6 +22,7 @@ private slots:
 
 private:
     Ui::Dialog_Login *ui;
+
 };
 
 #endif // DIALOG_LOGIN_H

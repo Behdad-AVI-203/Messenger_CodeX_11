@@ -13,11 +13,21 @@ StartWindow::~StartWindow()
     delete ui;
 }
 
+void StartWindow::SetTokenFromUserName(QString token)
+{
+    Token = token;
+}
+
+QString StartWindow::GetTokenFromUserName()
+{
+    return Token;
+}
+
 void StartWindow::on_actionCreat_Group_triggered()
 {
     Group* newGroup = new Group();
 
-    newGroup->CreatedGroup("token","mmd","Aldaghi");
+    newGroup->CreatedGroup("title",Token,"ali");
 
 }
 
