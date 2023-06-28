@@ -2,7 +2,7 @@
 #define DIALOG_LOGIN_H
 
 #include <QWidget>
-
+#include "sendtocontact.h"
 namespace Ui {
 class dialog_login;
 }

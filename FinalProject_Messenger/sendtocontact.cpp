@@ -1,54 +1,53 @@
-#include "dialog_login.h"
-#include "ui_dialog_login.h"
-#include "user.h"
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QUrl>
-#include <QDebug>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QMessageBox>
-#include <thread>
-#include <iostream>
-#include <string>
-#include "chatwindow.h"
-using namespace std;
+#include "sendtocontact.h"
+#include "ui_sendtocontact.h"
 
-
-dialog_login::dialog_login(QWidget *parent) :
+SendToContact::SendToContact(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::dialog_login)
+    ui(new Ui::SendToContact)
 {
     ui->setupUi(this);
 }
 
-dialog_login::~dialog_login()
+SendToContact::~SendToContact()
 {
     delete ui;
 }
 
-void dialog_login::on_OKBuuton_clicked()
+void SendToContact::SetChatWindowToken(string token)
 {
-    QString urlString = "http://api.barafardayebehtar.ml:8080/";
-    urlString = urlString + "login?" + "username=" + ui->UsernameLineEdit->text()
-    + "&password=" +ui->PasswordLineEdit->text();
+    this->token = token;
+}
 
-    QUrl url(urlString);
+string SendToContact::GetChatWindowToken()
+{
+    return token;
+}
+
+
+
+
+void SendToContact::on_SendButton_clicked()
+{
+    QString temp = "http://api.barafardayebehtar.ml:8080/sendmessageuser?";
+    temp+= "token="+QString::fromStdString(token)+"&dst=" + ui->UsernameContactLineEdit->text();
+    QUrl url(temp);
 
     QNetworkAccessManager manager;
+
     QNetworkReply* reply = manager.get(QNetworkRequest(url));
 
     QEventLoop loop;
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec(); // Block until the request is finished
 
-    if(reply->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
+    if(reply->error() == QNetworkReply::NoError)
     {
         QByteArray data = reply->readAll();
-
         QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
         QJsonObject jsonObject = jsonDocument.object();
+
+        QString message = jsonObject.value("message").toString();
+        QString code = jsonObject.value("code").toString();
 
         QString returnMessage = jsonObject.value("message").toString();
         QString returnCode = jsonObject.value("code").toString();
@@ -56,14 +55,9 @@ void dialog_login::on_OKBuuton_clicked()
 
         if(returnCode == "200")
         {
-
             QMessageBox::information(this,"Response sent by the server",data);
             QString temp = returnToken;
             qDebug()<<"token = "<<returnToken<<"\n";
-
-            ChatWindow* chatwindow = new ChatWindow();
-            chatwindow->SetChatWindowToken(returnToken.toStdString());
-            chatwindow->show();
         }
         if(returnCode == "404")
         {
@@ -77,12 +71,9 @@ void dialog_login::on_OKBuuton_clicked()
         {
             QMessageBox::warning(this,"Response sent by the server","Your request was not successful and the information you provided to the server is incorrect");
         }
-
     }
 
 
-
+    qDebug()<<"Token = "<<QString::fromStdString(token)<<"\n";
 }
-
-
 

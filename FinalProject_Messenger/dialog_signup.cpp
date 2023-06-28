@@ -16,7 +16,6 @@ Dialog_signup::Dialog_signup(QWidget *parent) :
     ui(new Ui::Dialog_signup)
 {
     ui->setupUi(this);
-    ui->lineEdit_password->setEchoMode(QLineEdit::Normal);
 }
 
 Dialog_signup::~Dialog_signup()
@@ -56,20 +55,18 @@ void Dialog_signup::on_buttonBox_accepted()
             if (reply->error() == QNetworkReply::NoError) {
                 // If the request was successful, read the response
                 QByteArray data = reply->readAll();
+                QMessageBox::information(this,"response",data);
+
                 QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
                 QJsonObject jsonObj = jsonDoc.object();
-                QMessageBox::information(this,"response",data);
-                if(jsonObj.value("code").toString()=="200"){
-                    QMessageBox::information(this,"response",jsonObj.value("message").toString());
-                }
-                else{
-                    QMessageBox::warning(this,"Warning",jsonObj.value("message").toString());
-                }
 
+                QString message = jsonObj.value("message").toString();
+                QString code = jsonObj.value("code").toString();
 
+                qDebug()<<"message:"<<message<<", code: "<<code;
             } else {
                 // If there was an error, display the error message
-                QMessageBox::warning(this,"Error",reply->errorString());
+                qDebug() << "Error:" << reply->errorString();
             }
 
             // Cleanup the reply object and exit the application
