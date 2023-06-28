@@ -15,6 +15,9 @@ public:
     explicit StartWindow(QWidget *parent = nullptr);
     ~StartWindow();
 
+private slots:
+    void on_actionLogout_triggered();
+
 private:
     Ui::StartWindow *ui;
 };

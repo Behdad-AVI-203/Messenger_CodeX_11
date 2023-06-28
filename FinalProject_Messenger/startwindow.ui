@@ -251,6 +251,8 @@
     </property>
     <addaction name="actionCreat_Group"/>
     <addaction name="actionCreat_Channel"/>
+    <addaction name="separator"/>
+    <addaction name="actionLogout"/>
    </widget>
    <widget class="QMenu" name="menuHelpe">
     <property name="title">
@@ -268,6 +270,11 @@
   <action name="actionCreat_Channel">
    <property name="text">
     <string>Creat Channel</string>
+   </property>
+  </action>
+  <action name="actionLogout">
+   <property name="text">
+    <string>Logout</string>
    </property>
   </action>
  </widget>

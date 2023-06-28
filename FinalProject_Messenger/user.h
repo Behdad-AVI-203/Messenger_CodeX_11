@@ -6,6 +6,10 @@
 #include <vector>
 #include <fstream>
 #include <map>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QDir>
+#include<QFile>
 using namespace std;
 #include "group.h"
 #include "channel.h"
@@ -21,6 +25,9 @@ public:
     void SetUserContacts(QString contact,Contact temp);
     void SetUserGroups(QString grname,Group temp);
     void SetUserChannels(QString chname,Channel temp);
+    QString GetUserName();
+    QString GetPassword();
+    QString GetToken();
 
 protected:
     QString UserName;

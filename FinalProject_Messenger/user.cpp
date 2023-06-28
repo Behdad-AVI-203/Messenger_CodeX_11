@@ -1,8 +1,7 @@
 #include "user.h"
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QDir>
-#include<QFile>
+#include"dialog_login.h"
+
+//QVector<User> U;
 
 User::User()
 {
@@ -54,5 +53,14 @@ void User::SetUserGroups(QString grname,Group temp){
 }
 void User::SetUserChannels(QString chname,Channel temp){
     Channels.insert(chname,temp);
+}
+QString User::GetUserName(){
+    return UserName;
+}
+QString User::GetPassword(){
+    return Password;
+}
+QString User::GetToken(){
+    return Token;
 }
 

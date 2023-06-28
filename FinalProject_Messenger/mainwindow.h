@@ -5,8 +5,6 @@
 #include<QString>
 #include<QVector>
 
-//QVector<class user> users;
-
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE

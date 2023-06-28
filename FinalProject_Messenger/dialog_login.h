@@ -2,6 +2,9 @@
 #define DIALOG_LOGIN_H
 
 #include <QDialog>
+#include"user.h"
+
+extern QVector<User> U;
 
 namespace Ui {
 class Dialog_Login;

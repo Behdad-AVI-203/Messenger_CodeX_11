@@ -16,7 +16,7 @@
 #include <iostream>
 #include <string>
 
-QVector<class User> user;
+QVector<User> U;
 
 Dialog_Login::Dialog_Login(QWidget *parent) :
     QDialog(parent),
@@ -56,7 +56,7 @@ void Dialog_Login::on_pushButton_login_clicked()
         {
             QMessageBox::information(this,"Response sent by the server",jsonObject.value("message").toString());
             User temp(ui->lineEdit_username->text(),ui->lineEdit_password->text(),jsonObject.value("token").toString());
-            user.push_back(temp);
+            U.push_back(temp);
             this->close();
 
             StartWindow* startwindow = new StartWindow();
