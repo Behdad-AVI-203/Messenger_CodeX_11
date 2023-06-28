@@ -19,7 +19,7 @@ public:
     Group(QString title,QString token,QString groupname);
     void SetGroup(QString title,QString token,QString groupname);
     void CreatedGroup(QString title,QString token,QString groupname);
-
+    void AddMessageToGroupWithGroupName(QString username, QString message,QString groupname);
 
 protected:
     QString Title;

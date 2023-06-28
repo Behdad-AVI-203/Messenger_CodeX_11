@@ -16,14 +16,20 @@ public:
     explicit StartWindow(QWidget *parent = nullptr);
     ~StartWindow();
     void SetTokenFromUserName(QString token);
+    void SetUsernameFromUserName(QString username);
     QString GetTokenFromUserName();
+    QString GetUsernameFromUserName();
+
 
 private slots:
     void on_actionCreat_Group_triggered();
 
+    void on_pushButton_entermessage_2_clicked();
+
 private:
     Ui::StartWindow *ui;
     QString Token;
+    QString Username;
 };
 
 #endif // STARTWINDOW_H

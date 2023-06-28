@@ -46,9 +46,20 @@ void Group::CreatedGroup( QString title,  QString token,  QString groupname)
            outFile.close();
 }
 
-void Group::AddMessageToGroupWithGroupName(QString message)
+void Group::AddMessageToGroupWithGroupName(QString username, QString message,QString groupname)
 {
+    QString cuuerntPath = QDir::currentPath();
+    QString filePath = cuuerntPath +"/AllGroups/" + groupname + ".txt";
+    QFile outFile(filePath);
+    qDebug()<<"file path = "<<filePath<<"\n";
+    outFile.open(QIODevice::Text | QIODevice::Append);
+    QString text = "username : " + username + "\n" + "message : " + message +"\n";
+    QTextStream outStream(&outFile);
+    outStream << text;
+    outFile.close();
 
 }
+
+
 
 
