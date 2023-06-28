@@ -25,9 +25,7 @@ QString StartWindow::GetTokenFromUserName()
 
 void StartWindow::on_actionCreat_Group_triggered()
 {
-    Group* newGroup = new Group();
-
-    newGroup->CreatedGroup("title",Token,"ali");
-
+    dialog_create_group* window = new dialog_create_group();
+    window->show();
 }
 

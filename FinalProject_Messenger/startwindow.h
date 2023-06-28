@@ -1,6 +1,6 @@
 #ifndef STARTWINDOW_H
 #define STARTWINDOW_H
-
+#include <dialog_create_group.h>
 #include <QMainWindow>
 #include "group.h"
 #include <QString>
