@@ -1,16 +1,26 @@
 #include "contact.h"
 
-Contact::Contact()
+Contact::Contact(QString contactname)
 {
+
+    ContactName=contactname;
 
 }
 
-void Contact::SetContactMessage(string message,string username)
+/*void Contact::SetContactMessage(string message,string username)
 {
-    qDebug()<<"message = "<<QString::fromStdString(message)<<" , Username = "<<QString::fromStdString(username)<<"\n";
-    Messages = message ;
-    string filePath = username;
-    ofstream outFile(filePath.append(".txt"),ios::app);
-    outFile<<"from User : "<<username<<"\nMessages : "<<Messages<<"\n";
-    outFile.close();
+
+
+    QFile file("multimap.txt");
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream out(&file);
+            for (auto it = map.begin(); it != map.end(); ++it) {
+                out << it.key() << ":" << it.value() << "\n";
+            }
+            file.close();
+        } else {
+            qDebug() << "Error opening file";
+            return 1;
+        }
 }
+*/

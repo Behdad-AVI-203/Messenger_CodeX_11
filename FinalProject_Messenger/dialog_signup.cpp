@@ -33,14 +33,7 @@ void Dialog_signup::on_checkBox_echomode_clicked(bool checked)
     }
 }
 
-
-void Dialog_signup::on_buttonBox_rejected()
-{
-    this->close();
-}
-
-
-void Dialog_signup::on_buttonBox_accepted()
+void Dialog_signup::on_pushButton_signup_clicked()
 {
     QString temp_url="http://api.barafardayebehtar.ml:8080/signup?";
     temp_url+="username="+ui->lineEdit_username->text()+"&"+"password="+ui->lineEdit_password->text()+"&"+"firstname="+ui->lineEdit_firstname->text()+"&"+"lastname="+ui->lineEdit_lastname->text();
@@ -55,18 +48,21 @@ void Dialog_signup::on_buttonBox_accepted()
             if (reply->error() == QNetworkReply::NoError) {
                 // If the request was successful, read the response
                 QByteArray data = reply->readAll();
-                QMessageBox::information(this,"response",data);
-
                 QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
                 QJsonObject jsonObj = jsonDoc.object();
 
-                QString message = jsonObj.value("message").toString();
-                QString code = jsonObj.value("code").toString();
+                if(jsonObj.value("code")=="200"){
 
-                qDebug()<<"message:"<<message<<", code: "<<code;
-            } else {
-                // If there was an error, display the error message
-                qDebug() << "Error:" << reply->errorString();
+                    QMessageBox::information(this,"response",jsonObj.value("message").toString());
+                    this->close();
+                }
+                else{
+                    QMessageBox::warning(this,"response",jsonObj.value("message").toString());
+                }
+
+            }
+            else {
+               QMessageBox::warning(this,"Error",reply->errorString());
             }
 
             // Cleanup the reply object and exit the application
@@ -74,4 +70,8 @@ void Dialog_signup::on_buttonBox_accepted()
 }
 
 
+void Dialog_signup::on_pushButton_cancel_clicked()
+{
+    this->close();
+}
 

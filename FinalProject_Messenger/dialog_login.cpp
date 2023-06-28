@@ -1,5 +1,8 @@
 #include "dialog_login.h"
 #include "ui_dialog_login.h"
+#include "dialog_login.h"
+#include "ui_dialog_login.h"
+#include"startwindow.h"
 #include "user.h"
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
@@ -12,27 +15,26 @@
 #include <thread>
 #include <iostream>
 #include <string>
-#include "chatwindow.h"
-using namespace std;
 
+QVector<class User> user;
 
-dialog_login::dialog_login(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::dialog_login)
+Dialog_Login::Dialog_Login(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::Dialog_Login)
 {
     ui->setupUi(this);
 }
 
-dialog_login::~dialog_login()
+Dialog_Login::~Dialog_Login()
 {
     delete ui;
 }
 
-void dialog_login::on_OKBuuton_clicked()
+void Dialog_Login::on_pushButton_login_clicked()
 {
     QString urlString = "http://api.barafardayebehtar.ml:8080/";
-    urlString = urlString + "login?" + "username=" + ui->UsernameLineEdit->text()
-    + "&password=" +ui->PasswordLineEdit->text();
+    urlString = urlString + "login?" + "username=" + ui->lineEdit_username->text()
+    + "&password=" +ui->lineEdit_password->text();
 
     QUrl url(urlString);
 
@@ -50,39 +52,35 @@ void dialog_login::on_OKBuuton_clicked()
         QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
         QJsonObject jsonObject = jsonDocument.object();
 
-        QString returnMessage = jsonObject.value("message").toString();
-        QString returnCode = jsonObject.value("code").toString();
-        QString returnToken = jsonObject.value("token").toString();
+        if(jsonObject.value("code").toString() == "200")
+        {
+            QMessageBox::information(this,"Response sent by the server",jsonObject.value("message").toString());
+            User temp(ui->lineEdit_username->text(),ui->lineEdit_password->text(),jsonObject.value("token").toString());
+            user.push_back(temp);
+            this->close();
 
-        if(returnCode == "200")
-        {
-
-            QMessageBox::information(this,"Response sent by the server",data);
-            QString temp = returnToken;
-            qDebug()<<"token = "<<returnToken<<"\n";
-
-            ChatWindow* chatwindow = new ChatWindow();
-            chatwindow->SetChatWindowToken(returnToken.toStdString());
-            chatwindow->show();
+            StartWindow* startwindow = new StartWindow();
+            startwindow->show();
         }
-        if(returnCode == "404")
+        if(jsonObject.value("code").toString() == "404")
         {
-            QMessageBox::warning(this,"Response sent by the server","Your request was not successful and the requested information was not found");
+            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
         }
-        if(returnCode == "204")
+        if(jsonObject.value("code").toString() == "204")
         {
-            QMessageBox::warning(this,"Response sent by the server","Your request was not successful and due to the duplicate information, it is not possible to make a request to the server.");
+            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
         }
-        if(returnCode == "401")
+        if(jsonObject.value("code").toString() == "401")
         {
-            QMessageBox::warning(this,"Response sent by the server","Your request was not successful and the information you provided to the server is incorrect");
+            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
         }
 
     }
-
-
-
 }
 
 
+void Dialog_Login::on_pushButton_cancel_clicked()
+{
+     this->close();
+}
 

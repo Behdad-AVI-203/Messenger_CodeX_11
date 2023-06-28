@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>StartWindow</class>
+ <widget class="QMainWindow" name="StartWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>659</width>
+    <height>593</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0" rowspan="2">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Contacts</string>
+      </property>
+      <widget class="QPushButton" name="pushButton_searchuser">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>31</y>
+         <width>80</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Search</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_searchuser">
+       <property name="geometry">
+        <rect>
+         <x>101</x>
+         <y>31</y>
+         <width>201</width>
+         <height>24</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="textEdit_conversation">
+       <property name="geometry">
+        <rect>
+         <x>104</x>
+         <y>61</y>
+         <width>201</width>
+         <height>451</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_message">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>518</y>
+         <width>211</width>
+         <height>24</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_entermessage">
+       <property name="geometry">
+        <rect>
+         <x>225</x>
+         <y>518</y>
+         <width>80</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Enter</string>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="textEdit_contacts">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>61</y>
+         <width>81</width>
+         <height>451</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="title">
+       <string>Groups</string>
+      </property>
+      <widget class="QLineEdit" name="lineEdit_searchgroupe">
+       <property name="geometry">
+        <rect>
+         <x>101</x>
+         <y>31</y>
+         <width>201</width>
+         <height>24</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="textEdit_groupmessages">
+       <property name="geometry">
+        <rect>
+         <x>105</x>
+         <y>61</y>
+         <width>201</width>
+         <height>171</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="textEdit_groups">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>61</y>
+         <width>81</width>
+         <height>171</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_message_2">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>238</y>
+         <width>211</width>
+         <height>24</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_entermessage_2">
+       <property name="geometry">
+        <rect>
+         <x>226</x>
+         <y>238</y>
+         <width>80</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Enter</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_searchgroupe">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>31</y>
+         <width>80</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Search</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QGroupBox" name="groupBox_searchchannel">
+      <property name="title">
+       <string>Channels</string>
+      </property>
+      <widget class="QPushButton" name="pushButton">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>31</y>
+         <width>80</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Search</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_searchchannel">
+       <property name="geometry">
+        <rect>
+         <x>101</x>
+         <y>31</y>
+         <width>201</width>
+         <height>24</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="textEdit_channelmessages">
+       <property name="geometry">
+        <rect>
+         <x>105</x>
+         <y>61</y>
+         <width>201</width>
+         <height>171</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="textEdit_channels">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>61</y>
+         <width>81</width>
+         <height>171</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_entermessage_3">
+       <property name="geometry">
+        <rect>
+         <x>226</x>
+         <y>238</y>
+         <width>80</width>
+         <height>24</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Enter</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_message_3">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>238</y>
+         <width>211</width>
+         <height>24</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>659</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionCreat_Group"/>
+    <addaction name="actionCreat_Channel"/>
+   </widget>
+   <widget class="QMenu" name="menuHelpe">
+    <property name="title">
+     <string>Helpe</string>
+    </property>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuHelpe"/>
+  </widget>
+  <action name="actionCreat_Group">
+   <property name="text">
+    <string>Creat Group</string>
+   </property>
+  </action>
+  <action name="actionCreat_Channel">
+   <property name="text">
+    <string>Creat Channel</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

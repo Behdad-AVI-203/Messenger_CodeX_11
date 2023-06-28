@@ -11,7 +11,6 @@ CONFIG += c++17
 
 SOURCES += \
     channel.cpp \
-    chatwindow.cpp \
     contact.cpp \
     dialog_login.cpp \
     dialog_signup.cpp \
@@ -19,27 +18,25 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     person.cpp \
-    sendtocontact.cpp \
+    startwindow.cpp \
     user.cpp
 
 HEADERS += \
     channel.h \
-    chatwindow.h \
     contact.h \
     dialog_login.h \
     dialog_signup.h \
     group.h \
     mainwindow.h \
     person.h \
-    sendtocontact.h \
+    startwindow.h \
     user.h
 
 FORMS += \
-    chatwindow.ui \
     dialog_login.ui \
     dialog_signup.ui \
     mainwindow.ui \
-    sendtocontact.ui
+    startwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

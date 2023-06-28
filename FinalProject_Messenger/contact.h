@@ -2,7 +2,7 @@
 #define CONTACT_H
 #include <iostream>
 #include <string>
-#include <vector>
+#include <QVector>
 #include <fstream>
 #include <map>
 #include <QDebug>
@@ -15,13 +15,11 @@ using namespace std;
 class Contact
 {
 public:
-    Contact();
-    void SetContactMessage(string message,string username);
-    string Messages;
-//    friend ofstream& operator<<(ostream& COUT,const Contact& C)
-//    {
-//        COUT<<"Messages :\n"<<C.Messages<<"\nfrom "<<C.
-//    }
+    Contact(QString contactname);
+    void SetConversation(QString type,QString message);
+protected:
+    QString ContactName;
+    QMultiMap <QString,QString> Conversation;
 };
 
 

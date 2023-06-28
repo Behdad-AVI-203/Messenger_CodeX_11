@@ -1,12 +1,36 @@
 #include "user.h"
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QDir>
+#include<QFile>
 
 User::User()
 {
     //defualt constructor
 }
 
-User::User(string username, string password, string lastname, string firstname, string token)
+User::User(QString username, QString password, QString token)
+{
+    Token = token;
+    UserName = username;
+    Password = password;
+    QDir().mkdir("User");
+    QString filePath = "User/"+username+".json";
+    QJsonObject obj;
+        obj["username"] = username;
+        obj["password"] = password;
+        obj["token"] = token;
+        QJsonDocument doc(obj);
+        QFile file(filePath);
+        file.open(QFile::WriteOnly | QFile::Text);
+        file.write(doc.toJson());
+        file.close();
+    QDir().mkdir("User/Contacts");
+    QDir().mkdir("User/Groups");
+    QDir().mkdir("User/Channels");
+}
+
+/*void User::SetUser(string username, string password, string lastname, string firstname, string token)
 {
     // initialize attribute
     Token = token;
@@ -14,41 +38,21 @@ User::User(string username, string password, string lastname, string firstname, 
     Password = password;
     LastName = lastname;
     FirstName =  firstname;
-    QDir* Dir = new QDir();
-//    qDebug()<<"DIR = "<<Dir->currentPath().append(".txt");
-    string filePath = "D:/FinalProject2/Messenger_CodeX_11/build-FinalProject_Messenger-Desktop_Qt_6_3_1_MinGW_64_bit-Debug/Users/";
-    filePath.append(username.append(".txt"));
-    ofstream outFile(filePath,ios::app);
-    if(outFile.is_open())
-    {
-        qDebug()<<"File created successfully\n";
-        outFile<<username<<' '<<password;
-    }
-    else
-    {
-        qDebug()<<"File created not successfully\n";
-    }
 }
+*/
 
-void User::SetUser(string username, string password, string lastname, string firstname, string token)
+void User::SetUserToken(QString token)
 {
-    // initialize attribute
     Token = token;
-    UserName = username;
-    Password = password;
-    LastName = lastname;
-    FirstName =  firstname;
 }
 
-void User::SetUserContactMessage(string dst, string username)
-{
-    SetUserNameUSER(username);
-    Contact *C = new Contact();
-    C->SetContactMessage(dst,UserName);
-    Contacts.insert(make_pair(Token,*C));
+void User::SetUserContacts(QString contact,Contact temp){
+    Contacts.insert(contact,temp);
+}
+void User::SetUserGroups(QString grname,Group temp){
+    Groups.insert(grname,temp);
+}
+void User::SetUserChannels(QString chname,Channel temp){
+    Channels.insert(chname,temp);
 }
 
-void User::SetUserNameUSER(string username)
-{
-    UserName = username;
-}

@@ -11,25 +11,24 @@ using namespace std;
 #include "channel.h"
 #include "contact.h"
 
-class User : public Group, public Channel ,public Contact
+class User
 {
 public:
     User();
-    User(string username,string password,string lastname,string firstname,string token);
-    void SetUser(string username,string password,string lastname,string firstname,string token);
-    void SetUserContactMessage(string dst,string username);
-    void SetUserNameUSER(string username);
-
+    User(QString username,QString password,QString token);
+    //void SetUser(string username,string password,string lastname,string firstname,string token);
+    void SetUserToken(QString token);
+    void SetUserContacts(QString contact,Contact temp);
+    void SetUserGroups(QString grname,Group temp);
+    void SetUserChannels(QString chname,Channel temp);
 
 protected:
-    string UserName;
-    string Password;
-    string LastName;
-    string FirstName;
-    string Token;
-    map<string ,Contact> Contacts;
-    vector<Group> Groups;
-    vector<Channel>Channels;
+    QString UserName;
+    QString Password;
+    QString Token;
+    QMap<QString ,Contact> Contacts;
+    QMap<QString,Group> Groups;
+    QMap<QString,Channel> Channels;
 };
 
 #endif // USER_H

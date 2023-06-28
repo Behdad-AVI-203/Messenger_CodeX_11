@@ -26,7 +26,7 @@ void MainWindow::on_pushButton_signup_clicked()
 
 void MainWindow::on_pushButton_login_clicked()
 {
-    dialog_login* window = new dialog_login(this);
+    Dialog_Login* window = new Dialog_Login(this);
     window->show();
 }
 

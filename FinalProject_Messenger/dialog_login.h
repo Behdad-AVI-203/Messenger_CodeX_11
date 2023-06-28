@@ -1,25 +1,27 @@
 #ifndef DIALOG_LOGIN_H
 #define DIALOG_LOGIN_H
 
-#include <QWidget>
-#include "sendtocontact.h"
+#include <QDialog>
+
 namespace Ui {
-class dialog_login;
+class Dialog_Login;
 }
 
-class dialog_login : public QWidget
+class Dialog_Login : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit dialog_login(QWidget *parent = nullptr);
-    ~dialog_login();
+    explicit Dialog_Login(QWidget *parent = nullptr);
+    ~Dialog_Login();
 
 private slots:
-    void on_OKBuuton_clicked();
+    void on_pushButton_login_clicked();
+
+    void on_pushButton_cancel_clicked();
 
 private:
-    Ui::dialog_login *ui;
+    Ui::Dialog_Login *ui;
 };
 
 #endif // DIALOG_LOGIN_H
