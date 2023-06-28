@@ -253,6 +253,8 @@
     <addaction name="actionCreat_Channel"/>
     <addaction name="separator"/>
     <addaction name="actionLogout"/>
+    <addaction name="separator"/>
+    <addaction name="actionRefresh"/>
    </widget>
    <widget class="QMenu" name="menuHelpe">
     <property name="title">
@@ -275,6 +277,11 @@
   <action name="actionLogout">
    <property name="text">
     <string>Logout</string>
+   </property>
+  </action>
+  <action name="actionRefresh">
+   <property name="text">
+    <string>Refresh</string>
    </property>
   </action>
  </widget>

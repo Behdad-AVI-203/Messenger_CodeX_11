@@ -36,37 +36,37 @@ void Dialog_signup::on_checkBox_echomode_clicked(bool checked)
 void Dialog_signup::on_pushButton_signup_clicked()
 {
     QString temp_url="http://api.barafardayebehtar.ml:8080/signup?";
-    temp_url+="username="+ui->lineEdit_username->text()+"&"+"password="+ui->lineEdit_password->text()+"&"+"firstname="+ui->lineEdit_firstname->text()+"&"+"lastname="+ui->lineEdit_lastname->text();
-    QUrl url(temp_url); // The API endpoint to request
-    QNetworkAccessManager manager;
+        temp_url+="username="+ui->lineEdit_username->text()+"&"+"password="+ui->lineEdit_password->text()+"&"+"firstname="+ui->lineEdit_firstname->text()+"&"+"lastname="+ui->lineEdit_lastname->text();
+        QUrl url(temp_url); // The API endpoint to request
+        QNetworkAccessManager manager;
 
-    QNetworkReply *reply = manager.get(QNetworkRequest(url)); // Send GET request
+        QNetworkReply *reply = manager.get(QNetworkRequest(url)); // Send GET request
 
-    QEventLoop loop;
-            connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-            loop.exec(); // Block until the request is finished
-            if (reply->error() == QNetworkReply::NoError) {
-                // If the request was successful, read the response
-                QByteArray data = reply->readAll();
-                QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
-                QJsonObject jsonObj = jsonDoc.object();
+        QEventLoop loop;
+                connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+                loop.exec(); // Block until the request is finished
+                if (reply->error() == QNetworkReply::NoError) {
+                    // If the request was successful, read the response
+                    QByteArray data = reply->readAll();
+                    QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+                    QJsonObject jsonObj = jsonDoc.object();
 
-                if(jsonObj.value("code")=="200"){
+                    if(jsonObj.value("code").toString()=="200"){
 
-                    QMessageBox::information(this,"response",jsonObj.value("message").toString());
-                    this->close();
+                        QMessageBox::information(this,"response",jsonObj.value("message").toString());
+                        this->close();
+                    }
+                    else{
+                        QMessageBox::warning(this,"response",jsonObj.value("message").toString());
+                    }
+
                 }
-                else{
-                    QMessageBox::warning(this,"response",jsonObj.value("message").toString());
+                else {
+                   QMessageBox::warning(this,"Error",reply->errorString());
                 }
 
-            }
-            else {
-               QMessageBox::warning(this,"Error",reply->errorString());
-            }
-
-            // Cleanup the reply object and exit the application
-            reply->deleteLater();
+                // Cleanup the reply object and exit the application
+                reply->deleteLater();
 }
 
 

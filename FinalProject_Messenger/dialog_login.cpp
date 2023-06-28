@@ -55,8 +55,10 @@ void Dialog_Login::on_pushButton_login_clicked()
         if(jsonObject.value("code").toString() == "200")
         {
             QMessageBox::information(this,"Response sent by the server",jsonObject.value("message").toString());
+            //qDebug()<<jsonObject.value("token").toString();
             User temp(ui->lineEdit_username->text(),ui->lineEdit_password->text(),jsonObject.value("token").toString());
             U.push_back(temp);
+            //qDebug() << U[0].GetToken();
             this->close();
 
             StartWindow* startwindow = new StartWindow();

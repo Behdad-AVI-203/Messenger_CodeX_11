@@ -17,7 +17,6 @@ SOURCES += \
     group.cpp \
     main.cpp \
     mainwindow.cpp \
-    person.cpp \
     startwindow.cpp \
     user.cpp
 
@@ -28,7 +27,6 @@ HEADERS += \
     dialog_signup.h \
     group.h \
     mainwindow.h \
-    person.h \
     startwindow.h \
     user.h
 
