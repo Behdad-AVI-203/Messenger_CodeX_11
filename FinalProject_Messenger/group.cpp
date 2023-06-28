@@ -19,30 +19,20 @@ void Group::SetGroup(QString title, QString token, QString groupname)
     GroupName = groupname;
 }
 
-void Group::CreatedGroup(QString title, QString token, QString groupname)
+void Group::CreatedGroup( QString title,  QString token,  QString groupname)
 {
     Token = token;
     Title = title;
     GroupName = groupname;
-    QString currentPath = QDir::currentPath();
-    QString folderPath = "AllGroups";
-    QDir directory(currentPath);
-    bool exist = directory.exists(folderPath);
-    if(!exist)
-    {
-        bool created = directory.mkdir(folderPath);
-        if(created == true)
-            //created successfully
-            qDebug()<<"Folder created successfully\n";
-        else
-        {
-            qDebug()<<"Failed to create successfully\n";
-        }
-    }
-    else
-    {
-        qDebug()<<"Folder exist\n";
-    }
 
+    QDir directory("AllGroups");
+        QString filePath = "AllGroups/" + groupname + ".txt";
+        QFile outFile(filePath);
+
+        outFile.open(QIODevice::Text | QIODevice::WriteOnly);
+        outFile.write("sdkjsdlksdks;dhadkadjfhaldf");
+        outFile.close();
 
 }
+
+

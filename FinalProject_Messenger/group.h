@@ -6,7 +6,10 @@
 #include <map>
 #include <QFile>
 #include <QDir>
+#include <QIODevice>
+#include <QTextStream>
 #include <QString>
+#include <fstream>
 using namespace std;
 
 class Group

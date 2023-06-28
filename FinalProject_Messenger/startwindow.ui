@@ -242,13 +242,14 @@
      <x>0</x>
      <y>0</y>
      <width>659</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="separator"/>
     <addaction name="actionCreat_Group"/>
     <addaction name="actionCreat_Channel"/>
    </widget>
@@ -261,6 +262,9 @@
    <addaction name="menuHelpe"/>
   </widget>
   <action name="actionCreat_Group">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Creat Group</string>
    </property>
