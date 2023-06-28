@@ -46,4 +46,9 @@ void Group::CreatedGroup( QString title,  QString token,  QString groupname)
            outFile.close();
 }
 
+void Group::AddMessageToGroupWithGroupName(QString message)
+{
+
+}
+
 
