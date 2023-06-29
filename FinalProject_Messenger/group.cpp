@@ -53,7 +53,7 @@ void Group::AddMessageToGroupWithGroupName(QString username, QString message,QSt
     //c48f7c7939b7269d01443a431825f&dst=ap&body=hello%20all
 
     QString urlString = "http://api.barafardayebehtar.ml:8080/sendmessagegroup?token=";
-    urlString += Token+"&dst="+username+"&body="+message;
+    urlString += Token+"&dst="+groupname+"&body="+message;
     qDebug()<<"Token = "<<Token<<"\n";
     QNetworkAccessManager manager;
 

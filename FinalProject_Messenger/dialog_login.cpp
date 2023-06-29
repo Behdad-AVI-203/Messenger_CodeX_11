@@ -64,9 +64,27 @@ void Dialog_Login::on_pushButton_login_clicked()
             User temp(ui->lineEdit_username->text(),ui->lineEdit_password->text(),jsonObject.value("token").toString());
             user.push_back(temp);
             this->close();
+
+            QString tempToken; //if token is null , read token from file;
+            if(loginToken!="") {
+                QFile file("Token.txt");
+                file.open(QIODevice::Append);
+                QTextStream outFile(&file);
+                outFile<<loginToken;
+                file.close();
+            }
+            else
+            {
+                QFile file("Token.txt");
+                file.open(QIODevice::ReadOnly|QIODevice::Text);
+                QTextStream inFile(&file);
+                tempToken = inFile.readAll();
+                file.close();
+                loginToken = tempToken;
+                qDebug()<<"loginToken = "<<loginToken<<"\n";
+            }
+
             StartWindow* startwindow = new StartWindow();
-//            qDebug()<<"Token1 = "<<loginToken<<"\n";
-//            qDebug()<<"Username = "<<ui->lineEdit_username->text()<<"\n";
             startwindow->SetTokenFromUserName(loginToken);
             startwindow->SetUsernameFromUserName(ui->lineEdit_username->text());
             startwindow->show();
@@ -85,6 +103,7 @@ void Dialog_Login::on_pushButton_login_clicked()
         }
 
     }
+
 }
 
 

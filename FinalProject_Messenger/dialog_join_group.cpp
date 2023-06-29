@@ -25,7 +25,7 @@ QString dialog_Join_Group::GetJoinGroupToken()
 
 
 
-void dialog_Join_Group::on_JoinBuuton_clicked()
+void dialog_Join_Group::on_JoinBuuton_clicked()//join group
 {
     QString urlString = "http://api.barafardayebehtar.ml:8080/joingroup?token=";
     urlString+=Token+"&group_name="+ui->NameGroupLineEdit->text();
