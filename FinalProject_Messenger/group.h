@@ -10,6 +10,21 @@
 #include <QTextStream>
 #include <QString>
 #include <fstream>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QUrl>
+#include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QMessageBox>
+#include <thread>
+#include <QEventLoop>
+#include <QObject>
+#include <QDialog>
+
+
+
 using namespace std;
 
 class Group
@@ -20,7 +35,8 @@ public:
     void SetGroup(QString title,QString token,QString groupname);
     void CreatedGroup(QString title,QString token,QString groupname);
     void AddMessageToGroupWithGroupName(QString username, QString message,QString groupname);
-
+    void CheckMembershipInTheGroup(QString token,QString groupname);
+    void MembershipInSpecialGroup(QString token,QString groupname);
 protected:
     QString Title;
     QString Token;

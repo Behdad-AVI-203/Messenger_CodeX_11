@@ -13,6 +13,7 @@ SOURCES += \
     channel.cpp \
     contact.cpp \
     dialog_create_group.cpp \
+    dialog_join_group.cpp \
     dialog_login.cpp \
     dialog_signup.cpp \
     group.cpp \
@@ -26,6 +27,7 @@ HEADERS += \
     channel.h \
     contact.h \
     dialog_create_group.h \
+    dialog_join_group.h \
     dialog_login.h \
     dialog_signup.h \
     group.h \
@@ -36,6 +38,7 @@ HEADERS += \
 
 FORMS += \
     dialog_create_group.ui \
+    dialog_join_group.ui \
     dialog_login.ui \
     dialog_signup.ui \
     mainwindow.ui \

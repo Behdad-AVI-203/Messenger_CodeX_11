@@ -48,3 +48,12 @@ void StartWindow::on_pushButton_entermessage_2_clicked()
     ui->lineEdit_message_2->text().clear();
 }
 
+
+void StartWindow::on_actionJoin_Group_triggered()
+{
+    dialog_Join_Group* window = new dialog_Join_Group();
+    window->SetJoinGroupToken(Token);
+    window->show();
+
+}
+

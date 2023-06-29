@@ -60,6 +60,19 @@ void Group::AddMessageToGroupWithGroupName(QString username, QString message,QSt
 
 }
 
+void Group::CheckMembershipInTheGroup(QString token, QString groupname)
+{
+    QString urlString = "";///////////////////////////////
+}
+
+void Group::MembershipInSpecialGroup(QString token, QString groupname)
+{
+    //http://api.barafardayebehtar.ml:8080/joingroup?token=7a3c48f7c7
+    //939b7269d01443a431825f&group_name=ap
+
+
+}
+
 
 
 

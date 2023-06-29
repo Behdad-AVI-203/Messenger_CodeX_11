@@ -3,6 +3,7 @@
 #include <dialog_create_group.h>
 #include <QMainWindow>
 #include "group.h"
+#include "dialog_join_group.h"
 #include <QString>
 namespace Ui {
 class StartWindow;
@@ -25,6 +26,8 @@ private slots:
     void on_actionCreat_Group_triggered();
 
     void on_pushButton_entermessage_2_clicked();
+
+    void on_actionJoin_Group_triggered();
 
 private:
     Ui::StartWindow *ui;
