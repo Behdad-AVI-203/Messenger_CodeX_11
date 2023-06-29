@@ -30,6 +30,11 @@ Dialog_Login::~Dialog_Login()
     delete ui;
 }
 
+void Dialog_Login::SetUsernameFromLoginWindow(QString username)
+{
+    Username = username;
+}
+
 void Dialog_Login::on_pushButton_login_clicked()
 {
     QString urlString = "http://api.barafardayebehtar.ml:8080/";
@@ -60,8 +65,10 @@ void Dialog_Login::on_pushButton_login_clicked()
             user.push_back(temp);
             this->close();
             StartWindow* startwindow = new StartWindow();
-            qDebug()<<"Token1 = "<<loginToken<<"\n";
+//            qDebug()<<"Token1 = "<<loginToken<<"\n";
+//            qDebug()<<"Username = "<<ui->lineEdit_username->text()<<"\n";
             startwindow->SetTokenFromUserName(loginToken);
+            startwindow->SetUsernameFromUserName(ui->lineEdit_username->text());
             startwindow->show();
         }
         if(jsonObject.value("code").toString() == "404")
