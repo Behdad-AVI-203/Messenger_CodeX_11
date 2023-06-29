@@ -17,12 +17,11 @@
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QMessageBox>
 #include <thread>
 #include <QEventLoop>
 #include <QObject>
 #include <QDialog>
-
+#include <QMessageBox>
 
 
 using namespace std;
@@ -37,6 +36,8 @@ public:
     void AddMessageToGroupWithGroupName(QString username, QString message,QString groupname);
     void CheckMembershipInTheGroup(QString token,QString groupname);
     void MembershipInSpecialGroup(QString token,QString groupname);
+    void SetTokenOfUsernameGroup(QString token);
+
 protected:
     QString Title;
     QString Token;

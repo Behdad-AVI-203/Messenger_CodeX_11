@@ -49,7 +49,7 @@ void dialog_Join_Group::on_JoinBuuton_clicked()
 
         if(jsonObject.value("code").toString() == "200")
         {
-            QMessageBox::information(this,"respons by server","Creat group successfully");
+            QMessageBox::information(this,"respons by server",jsonObject.value("message").toString());
         }
         if(jsonObject.value("code").toString() == "404")
         {

@@ -1,4 +1,5 @@
 #include "group.h"
+#include <QLabel>
 
 Group::Group()
 {
@@ -48,6 +49,54 @@ void Group::CreatedGroup( QString title,  QString token,  QString groupname)
 
 void Group::AddMessageToGroupWithGroupName(QString username, QString message,QString groupname)
 {
+    //http://api.barafardayebehtar.ml:8080/sendmessagegroup?token=7a3
+    //c48f7c7939b7269d01443a431825f&dst=ap&body=hello%20all
+
+    QString urlString = "http://api.barafardayebehtar.ml:8080/sendmessagegroup?token=";
+    urlString += Token+"&dst="+username+"&body="+message;
+    qDebug()<<"Token = "<<Token<<"\n";
+    QNetworkAccessManager manager;
+
+    QNetworkReply* reply = manager.get(QNetworkRequest(urlString));
+
+    QEventLoop loop;
+    QAbstractSocket::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec(); // Block until the request is finished
+
+    if(reply->error() == QNetworkReply::NoError)
+    {
+        QByteArray data = reply->readAll();
+
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+
+        QJsonObject jsonObject = jsonDocument.object();
+
+        if(jsonObject.value("code").toString() == "200")
+        {
+//            QMessageBox::information(this,"respons by server",jsonObject.value("message").toString());
+            QLabel* label = new QLabel(jsonObject.value("message").toString());
+            label->show();
+        }
+        if(jsonObject.value("code").toString() == "404")
+        {
+            QLabel* label = new QLabel(jsonObject.value("message").toString());
+            label->show();
+//            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
+        }
+        if(jsonObject.value("code").toString() == "204")
+        {
+            QLabel* label = new QLabel(jsonObject.value("message").toString());
+            label->show();
+//            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
+        }
+        if(jsonObject.value("code").toString() == "401")
+        {
+            QLabel* label = new QLabel(jsonObject.value("message").toString());
+            label->show();
+//            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
+        }
+    }
+
     QString cuuerntPath = QDir::currentPath();
     QString filePath = cuuerntPath +"/AllGroups/" + groupname + ".txt";
     QFile outFile(filePath);
@@ -57,7 +106,6 @@ void Group::AddMessageToGroupWithGroupName(QString username, QString message,QSt
     QTextStream outStream(&outFile);
     outStream << text;
     outFile.close();
-
 }
 
 void Group::CheckMembershipInTheGroup(QString token, QString groupname)
@@ -71,6 +119,11 @@ void Group::MembershipInSpecialGroup(QString token, QString groupname)
     //939b7269d01443a431825f&group_name=ap
 
 
+}
+
+void Group::SetTokenOfUsernameGroup(QString token)
+{
+    Token = token;
 }
 
 

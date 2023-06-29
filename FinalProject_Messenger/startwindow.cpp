@@ -44,8 +44,9 @@ void StartWindow::on_actionCreat_Group_triggered()
 void StartWindow::on_pushButton_entermessage_2_clicked()
 {
     Group* G = new Group();
+    G->SetTokenOfUsernameGroup(Token);
     G->AddMessageToGroupWithGroupName(Username,ui->lineEdit_message_2->text(),ui->lineEdit_searchgroupe->text());
-    ui->lineEdit_message_2->text().clear();
+    ui->lineEdit_message_2->clear();
 }
 
 
