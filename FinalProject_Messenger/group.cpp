@@ -1,5 +1,6 @@
 #include "group.h"
 #include <QLabel>
+#include <QTimer>
 
 Group::Group()
 {
@@ -75,12 +76,20 @@ void Group::AddMessageToGroupWithGroupName(QString username, QString message,QSt
         {
 //            QMessageBox::information(this,"respons by server",jsonObject.value("message").toString());
             QLabel* label = new QLabel(jsonObject.value("message").toString());
+            label->setFixedSize(400,100);
             label->show();
+            QTimer::singleShot(1000, [=]() {
+                label->deleteLater();
+            });
         }
         if(jsonObject.value("code").toString() == "404")
         {
             QLabel* label = new QLabel(jsonObject.value("message").toString());
+            label->setFixedSize(400,100);
             label->show();
+            QTimer::singleShot(1000, [=]() {
+                label->deleteLater();
+            });
 //            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
         }
         if(jsonObject.value("code").toString() == "204")
@@ -92,8 +101,11 @@ void Group::AddMessageToGroupWithGroupName(QString username, QString message,QSt
         if(jsonObject.value("code").toString() == "401")
         {
             QLabel* label = new QLabel(jsonObject.value("message").toString());
+            label->setFixedSize(400,100);
             label->show();
-//            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
+            QTimer::singleShot(1000, [=]() {
+                label->deleteLater();
+            });
         }
     }
 
@@ -117,8 +129,6 @@ void Group::MembershipInSpecialGroup(QString token, QString groupname)
 {
     //http://api.barafardayebehtar.ml:8080/joingroup?token=7a3c48f7c7
     //939b7269d01443a431825f&group_name=ap
-
-
 }
 
 void Group::SetTokenOfUsernameGroup(QString token)

@@ -57,3 +57,115 @@ void StartWindow::on_actionJoin_Group_triggered()
 
 }
 
+
+
+
+
+
+void StartWindow::on_textEdit_groupmessages_textChanged()
+{
+    ui->textEdit_groups->setText("Sdlks;sl;d;sld;sdlkl");
+}
+
+
+void StartWindow::on_textEdit_groups_selectionChanged()
+{
+    ui->textEdit_groups->setText("Sdlks;sl;d;sld;sdlkl");
+}
+
+
+void StartWindow::on_textEdit_groupmessages_selectionChanged()
+{
+    //http://api.barafardayebehtar.ml:8080/getgroupchats?token=7a3c48
+//    f7c7939b7269d01443a431825f&dst=ap&date=20001121081415
+
+    QString GroupName[10];
+    int index = 0;
+
+    QString urlString = "http://api.barafardayebehtar.ml:8080/getgrouplist?token=";
+    urlString +=Token;
+
+    QNetworkAccessManager manager;
+
+    QNetworkReply* reply = manager.get(QNetworkRequest(urlString));
+
+    if(reply->error() == QNetworkReply::NoError)
+    {
+        QByteArray data = reply->readAll();
+
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+
+        QJsonObject jsonObject = jsonDocument.object();
+
+        if(jsonObject.value("code").toString() == "200")
+        {
+            QString blocks = "block ";
+            int Conuter = 0;
+            QMessageBox::information(this,"respons by server",jsonObject.value("message").toString());
+            for(int i=0;i<10;i++)
+            {
+
+                blocks += QString::fromUtf8(to_string(i));
+                if(jsonObject.value(blocks).toString()!="")
+                {
+                    GroupName[i].append(jsonObject.value(blocks).toString());
+                }
+                else
+                {
+                    break;
+                }
+                Conuter++;
+            }
+        }
+        if(jsonObject.value("code").toString() == "404")
+        {
+            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
+        }
+        if(jsonObject.value("code").toString() == "204")
+        {
+            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
+        }
+        if(jsonObject.value("code").toString() == "401")
+        {
+            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
+        }
+
+
+    }
+
+    //    QByteArray data = reply->readAll();
+
+//    QJsonDocument JsonDocument = QJsonDocument::fromJson(data);
+
+//    QJsonObject JsonObject = JsonDocument.object();
+//    QString blocks = "block ";
+//    int Conuter = 0;
+
+//        if(JsonObject.value("code").toString()=="200")
+//        {
+//            QMessageBox::information(this,"response by server",JsonObject.value("message").toString());
+//            for(int i=0;i<10;i++)
+//            {
+
+//                blocks += QString::fromUtf8(to_string(i));
+//                if(JsonObject.value(blocks).toString()!=" ")
+//                {
+//                    GroupName[i].append(JsonObject.value(blocks).toString());
+//                }
+//                else
+//                {
+//                    break;
+//                }
+//                Conuter++;
+//            }
+//        }
+
+//    for(int i=0;i<Conuter;i++)
+//    {
+//        qDebug()<<GroupName[i]<<"\n";
+//    }
+
+
+    ui->textEdit_groupmessages->setText(GroupName[0]);
+}
+

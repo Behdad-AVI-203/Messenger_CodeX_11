@@ -5,6 +5,7 @@
 #include "group.h"
 #include "dialog_join_group.h"
 #include <QString>
+#include <QTextCharFormat>
 namespace Ui {
 class StartWindow;
 }
@@ -28,6 +29,12 @@ private slots:
     void on_pushButton_entermessage_2_clicked();
 
     void on_actionJoin_Group_triggered();
+
+    void on_textEdit_groupmessages_textChanged();
+
+    void on_textEdit_groups_selectionChanged();
+
+    void on_textEdit_groupmessages_selectionChanged();
 
 private:
     Ui::StartWindow *ui;
