@@ -21,7 +21,7 @@ void Group::SetGroup(QString title, QString token, QString groupname)
     GroupName = groupname;
 }
 
-void Group::CreatedGroup( QString title,  QString token,  QString groupname)
+void Group::CreatedNewGroup( QString title,  QString token,  QString groupname)
 {
     Token = token;
     Title = title;

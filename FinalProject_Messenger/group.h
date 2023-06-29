@@ -32,7 +32,7 @@ public:
     Group();
     Group(QString title,QString token,QString groupname);
     void SetGroup(QString title,QString token,QString groupname);
-    void CreatedGroup(QString title,QString token,QString groupname);
+    void CreatedNewGroup(QString title,QString token,QString groupname);
     void AddMessageToGroupWithGroupName(QString username, QString message,QString groupname);
     void CheckMembershipInTheGroup(QString token,QString groupname);
     void MembershipInSpecialGroup(QString token,QString groupname);

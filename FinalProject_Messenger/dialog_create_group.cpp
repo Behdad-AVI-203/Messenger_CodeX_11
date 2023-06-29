@@ -67,7 +67,7 @@ void dialog_create_group::on_pushButton_clicked()
         }
 
         Group* newGroup = new Group();
-        newGroup->CreatedGroup(ui->TitleLineEdit->text(),Token,ui->NameLineEdit->text());
+        newGroup->CreatedNewGroup(ui->TitleLineEdit->text(),Token,ui->NameLineEdit->text());
         close();
 }
 

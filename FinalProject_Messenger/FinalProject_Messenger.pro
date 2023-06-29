@@ -12,6 +12,7 @@ CONFIG += c++17
 SOURCES += \
     channel.cpp \
     contact.cpp \
+    dialog_create_channel.cpp \
     dialog_create_group.cpp \
     dialog_join_group.cpp \
     dialog_login.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
 HEADERS += \
     channel.h \
     contact.h \
+    dialog_create_channel.h \
     dialog_create_group.h \
     dialog_join_group.h \
     dialog_login.h \
@@ -37,6 +39,7 @@ HEADERS += \
     user.h
 
 FORMS += \
+    dialog_create_channel.ui \
     dialog_create_group.ui \
     dialog_join_group.ui \
     dialog_login.ui \

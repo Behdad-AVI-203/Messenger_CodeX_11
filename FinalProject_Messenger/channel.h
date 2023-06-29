@@ -4,6 +4,25 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <QFile>
+#include <QDir>
+#include <QIODevice>
+#include <QTextStream>
+#include <QString>
+#include <fstream>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QUrl>
+#include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <thread>
+#include <QEventLoop>
+#include <QObject>
+#include <QDialog>
+#include <QMessageBox>
+
 using namespace std;
 
 
@@ -11,10 +30,17 @@ class Channel
 {
 public:
     Channel();
+    void SetAdminAndIsAdmin(QString admin,bool isaAdmin);
+    void SendChannelMessageByAdmin(QString channelName, bool isadmin, QString message);
+    void CreateNewChannel(QString username,QString title, QString channelName);
+
 protected:
-    string Token;
-    string Title;
-    string ChannelName;
+    QString Token;
+    QString Title;
+    QString ChannelName;
+    QString Admin;
+    bool IsAdmin;
+
 };
 
 #endif // CHANNEL_H
