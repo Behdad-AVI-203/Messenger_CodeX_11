@@ -11,9 +11,9 @@ void Channel::SetAdminAndIsAdmin(QString admin, bool isadmin)
     IsAdmin = isadmin;
 }
 
-void Channel::CreateNewChannel(QString username, QString title, QString channelName)
+void Channel::CreateNewChannel(QString token, QString title, QString channelName)
 {
-    SetAdminAndIsAdmin(username,true);
+    SetAdminAndIsAdmin(token,true);
     ChannelName = channelName;
     Title = title;
     //initiolize attribute of class
@@ -46,8 +46,6 @@ void Channel::CreateNewChannel(QString username, QString title, QString channelN
 
             qDebug() << "Folder" << directoryName << "already exists.";
         }
-
-
 
 }
 

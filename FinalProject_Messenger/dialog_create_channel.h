@@ -16,13 +16,15 @@ class dialog_create_Channel : public QWidget
 public:
     explicit dialog_create_Channel(QWidget *parent = nullptr);
     ~dialog_create_Channel();
+    void SetTokenFromChannel(QString channel);
+
 
 private slots:
     void on_CreatedButton_clicked();
 
 private:
     Ui::dialog_create_Channel *ui;
-    QString Username;
+    QString Token;
 };
 
 #endif // DIALOG_CREATE_CHANNEL_H

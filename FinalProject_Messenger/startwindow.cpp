@@ -133,39 +133,16 @@ void StartWindow::on_textEdit_groupmessages_selectionChanged()
 
     }
 
-    //    QByteArray data = reply->readAll();
-
-//    QJsonDocument JsonDocument = QJsonDocument::fromJson(data);
-
-//    QJsonObject JsonObject = JsonDocument.object();
-//    QString blocks = "block ";
-//    int Conuter = 0;
-
-//        if(JsonObject.value("code").toString()=="200")
-//        {
-//            QMessageBox::information(this,"response by server",JsonObject.value("message").toString());
-//            for(int i=0;i<10;i++)
-//            {
-
-//                blocks += QString::fromUtf8(to_string(i));
-//                if(JsonObject.value(blocks).toString()!=" ")
-//                {
-//                    GroupName[i].append(JsonObject.value(blocks).toString());
-//                }
-//                else
-//                {
-//                    break;
-//                }
-//                Conuter++;
-//            }
-//        }
-
-//    for(int i=0;i<Conuter;i++)
-//    {
-//        qDebug()<<GroupName[i]<<"\n";
-//    }
-
+    // بهداد زذه باید جابه جا کنم
 
     ui->textEdit_groupmessages->setText(GroupName[0]);
+}
+
+
+void StartWindow::on_actionCreat_Channel_triggered()
+{
+    dialog_create_Channel* window = new dialog_create_Channel();
+    window->SetTokenFromChannel(Token);
+    window->show();
 }
 

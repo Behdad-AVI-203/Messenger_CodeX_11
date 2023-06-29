@@ -31,31 +31,84 @@
     <string>Create Channel</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QPushButton" name="CreatedButton">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>240</y>
-     <width>221</width>
-     <height>101</height>
+     <x>340</x>
+     <y>500</y>
+     <width>93</width>
+     <height>29</height>
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>Create</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>340</y>
-     <width>221</width>
-     <height>101</height>
+     <x>180</x>
+     <y>160</y>
+     <width>431</width>
+     <height>161</height>
     </rect>
    </property>
-   <property name="text">
-    <string>TextLabel</string>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Channel Name :</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="ChannelNameLineEdit">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>320</y>
+     <width>431</width>
+     <height>161</height>
+    </rect>
    </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QLabel" name="label_3">
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Channel title :</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="ChannelTitleLineEdit">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

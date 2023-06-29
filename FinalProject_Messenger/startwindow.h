@@ -4,8 +4,10 @@
 #include <QMainWindow>
 #include "group.h"
 #include "dialog_join_group.h"
+#include "dialog_create_channel.h"
 #include <QString>
 #include <QTextCharFormat>
+
 namespace Ui {
 class StartWindow;
 }
@@ -35,6 +37,8 @@ private slots:
     void on_textEdit_groups_selectionChanged();
 
     void on_textEdit_groupmessages_selectionChanged();
+
+    void on_actionCreat_Channel_triggered();
 
 private:
     Ui::StartWindow *ui;
