@@ -1,5 +1,6 @@
 #include "startwindow.h"
 #include "ui_startwindow.h"
+#include "dialog_join_channel.h"
 
 StartWindow::StartWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -149,6 +150,8 @@ void StartWindow::on_actionCreat_Channel_triggered()
 
 void StartWindow::on_actionJoin_Channel_triggered()
 {
-
+    dialog_join_Channel* C = new dialog_join_Channel();
+    C->SetJoinChannelToken(Token);
+    C->show();
 }
 

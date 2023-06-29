@@ -15,12 +15,15 @@ class dialog_join_Channel : public QWidget
 public:
     explicit dialog_join_Channel(QWidget *parent = nullptr);
     ~dialog_join_Channel();
+    void SetJoinChannelToken(QString token);
+    QString GetJoinChannelToken();
 
 private slots:
     void on_JoinButton_clicked();
 
 private:
     Ui::dialog_join_Channel *ui;
+    QString Token;
 };
 
 #endif // DIALOG_JOIN_CHANNEL_H

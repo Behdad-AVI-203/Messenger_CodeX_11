@@ -40,6 +40,8 @@ private slots:
 
     void on_actionCreat_Channel_triggered();
 
+    void on_actionJoin_Channel_triggered();
+
 private:
     Ui::StartWindow *ui;
     QString Token;

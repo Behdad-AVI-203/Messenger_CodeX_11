@@ -20,7 +20,7 @@ void dialog_create_Channel::SetTokenFromChannel(QString token)
 
 void dialog_create_Channel::SetCreateChannelToken(QString token)
 {
-
+    Token = token;
 }
 
 void dialog_create_Channel::on_CreatedButton_clicked()

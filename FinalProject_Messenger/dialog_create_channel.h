@@ -17,6 +17,7 @@ public:
     explicit dialog_create_Channel(QWidget *parent = nullptr);
     ~dialog_create_Channel();
     void SetTokenFromChannel(QString channel);
+    void SetCreateChannelToken(QString token);
 
 
 private slots:
