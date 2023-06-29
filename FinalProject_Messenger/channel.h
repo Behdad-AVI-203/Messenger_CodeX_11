@@ -22,6 +22,8 @@
 #include <QObject>
 #include <QDialog>
 #include <QMessageBox>
+#include <QLabel>
+#include <QTimer>
 
 using namespace std;
 
@@ -33,6 +35,7 @@ public:
     void SetAdminAndIsAdmin(QString admin,bool isaAdmin);
     void SendChannelMessageByAdmin(QString channelName, bool isadmin, QString message);
     void CreateNewChannel(QString token,QString title, QString channelName);
+    void AddMessageToChannel(QString message,QString channelName,QString username);
 
 protected:
     QString Token;

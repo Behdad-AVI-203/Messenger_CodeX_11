@@ -22,7 +22,7 @@ void dialog_create_Channel::on_CreatedButton_clicked()
 {
     Channel* C = new Channel();
     C->CreateNewChannel(Token,ui->ChannelTitleLineEdit->text(),ui->ChannelNameLineEdit->text());
-    QMessageBox::information(this,"channel create successfully","Channel Name : "+ui->ChannelNameLineEdit->text() + "Channel Title : "+ui->ChannelTitleLineEdit->text());
+//    QMessageBox::information(this,"channel create successfully","Channel Name : "+ui->ChannelNameLineEdit->text() + "Channel Title : "+ui->ChannelTitleLineEdit->text());
     close();
 }
 

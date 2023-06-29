@@ -95,7 +95,11 @@ void Group::AddMessageToGroupWithGroupName(QString username, QString message,QSt
         if(jsonObject.value("code").toString() == "204")
         {
             QLabel* label = new QLabel(jsonObject.value("message").toString());
+            label->setFixedSize(400,100);
             label->show();
+            QTimer::singleShot(1000, [=]() {
+                label->deleteLater();
+            });
 //            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
         }
         if(jsonObject.value("code").toString() == "401")
