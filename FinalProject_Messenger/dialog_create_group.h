@@ -3,6 +3,16 @@
 #include "group.h"
 #include <QWidget>
 #include <QString>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QUrl>
+#include<QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include<QMessageBox>
+#include<thread>
+
 namespace Ui {
 class dialog_create_group;
 }
