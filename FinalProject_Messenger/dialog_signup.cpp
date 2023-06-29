@@ -16,6 +16,7 @@ Dialog_signup::Dialog_signup(QWidget *parent) :
     ui(new Ui::Dialog_signup)
 {
     ui->setupUi(this);
+    ui->lineEdit_password->setEchoMode(QLineEdit::Normal);
 }
 
 Dialog_signup::~Dialog_signup()
@@ -51,13 +52,13 @@ void Dialog_signup::on_pushButton_signup_clicked()
                     QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
                     QJsonObject jsonObj = jsonDoc.object();
 
-                    if(jsonObj.value("code").toString()=="200"){
+                    if(jsonObj["code"].toString()=="200"){
 
-                        QMessageBox::information(this,"response",jsonObj.value("message").toString());
+                        QMessageBox::information(this,"response",jsonObj["message"].toString());
                         this->close();
                     }
                     else{
-                        QMessageBox::warning(this,"response",jsonObj.value("message").toString());
+                        QMessageBox::warning(this,"response",jsonObj["message"].toString());
                     }
 
                 }

@@ -14,7 +14,7 @@ User::User(QString username, QString password, QString token)
     UserName = username;
     Password = password;
     QDir().mkdir("User");
-    QString filePath = "User/"+username+".json";
+    QString filePath = "User/user.json";
     QJsonObject obj;
         obj["username"] = username;
         obj["password"] = password;
@@ -62,5 +62,13 @@ QString User::GetPassword(){
 }
 QString User::GetToken(){
     return Token;
+}
+Contact User::GetContact(QString name){
+    Contact temp(name);
+    temp=Contacts[name];
+    return temp;
+}
+bool User::IsContactExist(QString name){
+    return Contacts.contains(name);
 }
 

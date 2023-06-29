@@ -23,6 +23,7 @@ Dialog_Login::Dialog_Login(QWidget *parent) :
     ui(new Ui::Dialog_Login)
 {
     ui->setupUi(this);
+    ui->lineEdit_password->setEchoMode(QLineEdit::Normal);
 }
 
 Dialog_Login::~Dialog_Login()
@@ -52,11 +53,11 @@ void Dialog_Login::on_pushButton_login_clicked()
         QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
         QJsonObject jsonObject = jsonDocument.object();
 
-        if(jsonObject.value("code").toString() == "200")
+        if(jsonObject["code"].toString() == "200")
         {
-            QMessageBox::information(this,"Response sent by the server",jsonObject.value("message").toString());
-            //qDebug()<<jsonObject.value("token").toString();
-            User temp(ui->lineEdit_username->text(),ui->lineEdit_password->text(),jsonObject.value("token").toString());
+            QMessageBox::information(this,"Response sent by the server",jsonObject["message"].toString());
+
+            User temp(ui->lineEdit_username->text(),ui->lineEdit_password->text(),jsonObject["token"].toString());
             U.push_back(temp);
             //qDebug() << U[0].GetToken();
             this->close();
@@ -64,17 +65,17 @@ void Dialog_Login::on_pushButton_login_clicked()
             StartWindow* startwindow = new StartWindow();
             startwindow->show();
         }
-        if(jsonObject.value("code").toString() == "404")
+        if(jsonObject["code"].toString() == "404")
         {
-            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
+            QMessageBox::warning(this,"Response sent by the server",jsonObject["message"].toString());
         }
-        if(jsonObject.value("code").toString() == "204")
+        if(jsonObject["code"].toString() == "204")
         {
-            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
+            QMessageBox::warning(this,"Response sent by the server",jsonObject["message"].toString());
         }
-        if(jsonObject.value("code").toString() == "401")
+        if(jsonObject["code"].toString() == "401")
         {
-            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
+            QMessageBox::warning(this,"Response sent by the server",jsonObject["message"].toString());
         }
 
     }
@@ -84,5 +85,15 @@ void Dialog_Login::on_pushButton_login_clicked()
 void Dialog_Login::on_pushButton_cancel_clicked()
 {
      this->close();
+}
+
+void Dialog_Login::on_checkBox_setecho_clicked(bool checked)
+{
+    if(checked){
+        ui->lineEdit_password->setEchoMode(QLineEdit::Password);
+    }
+    else{
+        ui->lineEdit_password->setEchoMode(QLineEdit::Normal);
+    }
 }
 

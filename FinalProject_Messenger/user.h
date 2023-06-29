@@ -28,6 +28,8 @@ public:
     QString GetUserName();
     QString GetPassword();
     QString GetToken();
+    Contact GetContact(QString contact);
+    bool IsContactExist(QString name);
 
 protected:
     QString UserName;

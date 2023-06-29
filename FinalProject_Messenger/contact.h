@@ -15,9 +15,9 @@ using namespace std;
 class Contact
 {
 public:
+    Contact(){}
     Contact(QString contactname);
     void SetConversation(QString type,QString message);
-protected:
     QString ContactName;
     QMultiMap <QString,QString> Conversation;
 };

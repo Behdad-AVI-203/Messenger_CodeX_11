@@ -23,6 +23,10 @@ private slots:
 
     void on_pushButton_cancel_clicked();
 
+
+
+    void on_checkBox_setecho_clicked(bool checked);
+
 private:
     Ui::Dialog_Login *ui;
 };
