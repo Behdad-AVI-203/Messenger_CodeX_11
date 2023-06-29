@@ -16,8 +16,12 @@
 #include <iostream>
 #include <string>
 #include<thread>
+#include <QListView>
+#include <QStringListModel>
+#include <QMessageBox>
 #include<QGridLayout>
 #include<QTextCursor>
+#include<QTimer>
 #include<QDir>
 
 //QVector<User> U;
@@ -27,15 +31,18 @@ StartWindow::StartWindow(QWidget *parent) :
     ui(new Ui::StartWindow)
 {
     ui->setupUi(this);
-    ui->textEdit_groups->setEnabled(false);
-    ui->textEdit_channels->setEnabled(false);
-    ui->textEdit_contacts->setEnabled(false);
+    //ui->textEdit_groups->setEnabled(false);
+   // ui->textEdit_channels->setEnabled(false);
+    //ui->textEdit_contacts->setEnabled(false);
     ui->textEdit_groupmessages->setEnabled(false);
     ui->textEdit_channelmessages->setEnabled(false);
     ui->textEdit_conversation->setEnabled(false);
     ui->pushButton_entermessage_contact->setEnabled(false);    //qDebug() << U[0].GetToken();
     ui->pushButton_entermessage_group->setEnabled(false);
     ui->pushButton_entermessage_channel->setEnabled(false);
+    connect(this, SIGNAL(ContactSignal(QString)),this, SLOT(show_conversation(QString)));
+    connect(timer,SIGNAL(timeout()),this,SLOT(refresh()));
+    timer->start(5000);
     //refresh();
 }
 
@@ -118,7 +125,9 @@ void StartWindow::on_actionRefresh_triggered()
                 int v=0;
                 while(true){
                     if(!jsonObject_user["block"+QString::number(v)].isNull()){
-                        ui->textEdit_channels->append(jsonObject_user["block "+QString::number(v)].toObject()["username"].toString());
+                        contact_items<<jsonObject_user["block "+QString::number(v)].toObject()["username"].toString();
+                        contact_model->setStringList(contact_items); // set the items in the model
+                        ui->listView_contacts->setModel(contact_model);
                         Contact temp(jsonObject_user["block "+QString::number(v)].toObject()["username"].toString());
                         U[0].SetUserContacts(jsonObject_user["block "+QString::number(v)].toObject()["username"].toString(),temp);
                         v++;
@@ -127,9 +136,6 @@ void StartWindow::on_actionRefresh_triggered()
                         break;
                     }
                 }
-            }
-            else{
-            ui->textEdit_contacts->setText(jsonObject_user["message"].toString());
             }
         }
 
@@ -155,7 +161,9 @@ void StartWindow::on_actionRefresh_triggered()
                     int j=0;
                     while(true){
                         if(!jsonObject_group["block"+QString::number(j)].isNull()){
-                            ui->textEdit_channels->append(jsonObject_group["block "+QString::number(j)].toObject()["group_name"].toString());
+                            group_items<<jsonObject_group["block "+QString::number(j)].toObject()["group_name"].toString();
+                            group_model->setStringList(group_items); // set the items in the model
+                            ui->listView_groups->setModel(group_model);
                             j++;
                         }
                         else{
@@ -164,7 +172,7 @@ void StartWindow::on_actionRefresh_triggered()
                     }
                 }
                 else{
-                ui->textEdit_groups->setText(jsonObject_group["message"].toString());
+                //ui->textEdit_groups->setText(jsonObject_group["message"].toString());
             }
                 }
             QString urlString_channel = "http://api.barafardayebehtar.ml:8080/";
@@ -189,7 +197,9 @@ void StartWindow::on_actionRefresh_triggered()
                         int i=0;
                         while(true){
                             if(!jsonObject_channel["block"+QString::number(i)].isNull()){
-                                ui->textEdit_channels->append(jsonObject_channel["block "+QString::number(i)].toObject()["channel_name"].toString());
+                                channel_items<<jsonObject_channel["block "+QString::number(i)].toObject()["channel_name"].toString();
+                                channel_model->setStringList(channel_items); // set the items in the model
+                                ui->listView_channels->setModel(channel_model);
                                 i++;
                             }
                             else{
@@ -197,9 +207,6 @@ void StartWindow::on_actionRefresh_triggered()
                             }
                         }
                     }
-                    else{
-                    ui->textEdit_channels->setText(jsonObject_channel["message"].toString());
-                }
                     }
 }
 
@@ -366,4 +373,72 @@ void StartWindow::refresh_conversation(QString name){
     }
 }
     }
+
+
+void StartWindow::on_listView_contacts_clicked(const QModelIndex &index)
+{
+    QString itemText = index.data(Qt::DisplayRole).toString(); // get the text of the clicked item
+    emit ContactSignal(itemText);
+}
+
+void StartWindow::show_conversation(QString name){
+    while(true){
+    QString urlString = "http://api.barafardayebehtar.ml:8080/";
+    urlString = urlString + "getuserchats?" + "token=" + U[0].GetToken()
+    + "&dst=" +name;
+
+    QUrl url(urlString);
+
+    QNetworkAccessManager manager;
+    QNetworkReply* reply = manager.get(QNetworkRequest(url));
+
+    QEventLoop loop;
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec(); // Block until the request is finished
+
+    if(reply->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
+    {
+        QByteArray data = reply->readAll();
+
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+        QJsonObject jsonObject = jsonDocument.object();
+
+        if(jsonObject["code"].toString() == "200")
+        {
+            int i=0;
+            while(!jsonObject["block "+QString::number(i)].isNull()){
+                if(jsonObject["block "+QString::number(i)].toObject()["src"].toString()!=U[0].GetUserName()){
+                    ui->textEdit_conversation->setAlignment(Qt::AlignLeft | Qt::AlignTop); // Set text alignment to left-to-right
+                    ui->textEdit_conversation->append(jsonObject["block "+QString::number(i)].toObject()["body"].toString());
+                    QTextCursor cursor = ui->textEdit_conversation->textCursor();
+                    cursor.movePosition(QTextCursor::End);
+                    cursor.movePosition(QTextCursor::NextBlock);
+                    cursor.movePosition(QTextCursor::StartOfBlock);
+                }
+                else{
+                    ui->textEdit_conversation->setAlignment(Qt::AlignRight | Qt::AlignTop);
+                    ui->textEdit_conversation->append(jsonObject["block "+QString::number(i)].toObject()["body"].toString());
+                    QTextCursor cursor = ui->textEdit_conversation->textCursor();
+                    cursor.movePosition(QTextCursor::End);
+                    cursor.movePosition(QTextCursor::NextBlock);
+                    cursor.movePosition(QTextCursor::StartOfBlock);
+                }
+            }
+        }
+        if(jsonObject["code"].toString() == "404")
+        {
+            QMessageBox::warning(this,"Response sent by the server",jsonObject["message"].toString());
+        }
+        if(jsonObject["code"].toString() == "204")
+        {
+            QMessageBox::warning(this,"Response sent by the server",jsonObject["message"].toString());
+        }
+        if(jsonObject["code"].toString() == "401")
+        {
+            QMessageBox::warning(this,"Response sent by the server",jsonObject["message"].toString());
+        }
+
+    }
+}
+}
 
