@@ -146,3 +146,9 @@ void StartWindow::on_actionCreat_Channel_triggered()
     window->show();
 }
 
+
+void StartWindow::on_actionJoin_Channel_triggered()
+{
+
+}
+
