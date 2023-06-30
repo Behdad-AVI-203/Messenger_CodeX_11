@@ -18,34 +18,7 @@ void Channel::CreateNewChannel(QString token, QString title, QString channelName
     Title = title;
     //initiolize attribute of class
 
-    QString directoryName = "AllChannels";
-        QDir directory(directoryName);//current directory
-        if (!directory.exists()) {
-            if (directory.mkpath(directoryName)) {
-                qDebug() << "Folder" << directoryName << "created successfully!";
 
-                QString filePath = "AllChannels/" + channelName + ".txt";
-                QFile outFile(filePath);
-                outFile.open(QIODevice::Text | QIODevice::Append | QIODevice::WriteOnly);
-                QString text ="channelName : "+channelName+"\n"+"title : "+title+"\n";
-                   QTextStream outStream(&outFile);
-                   outStream << text;
-                   outFile.close();
-
-            } else {
-                qDebug() << "Error creating folder" << directoryName;
-            }
-        } else {
-            QString filePath = "User/Channels" + channelName + ".txt";
-            QFile outFile(filePath);
-            outFile.open(QIODevice::Text | QIODevice::Append | QIODevice::WriteOnly);
-            QString text ="channelName : "+channelName+"\n"+"title : "+title+"\n";
-            QTextStream outStream(&outFile);
-            outStream << text;
-            outFile.close();
-
-            qDebug() << "Folder" << directoryName << "already exists.";
-        }
 
         //http://api.barafardayebehtar.ml:8080/createchannel?token=7a3c48
 //        f7c7939b7269d01443a431825f&channel_name=mychannel&channel_title
@@ -78,6 +51,67 @@ void Channel::CreateNewChannel(QString token, QString title, QString channelName
                 QTimer::singleShot(1000, [=]() {
                     label->deleteLater();
                 });
+
+                //Working with files (saved format: Jason format)/////////////
+                {
+                    QJsonObject FileObject;
+                    FileObject.insert("ChannelName", channelName);
+                    FileObject.insert("Title", title);
+
+                    QJsonDocument FileDocument(FileObject);
+                    QByteArray WriteData = FileDocument.toJson(QJsonDocument::Indented);
+
+                    QString filePath = "User/Channels/" + channelName + ".txt";
+                    QDir directory("User/Channels");
+
+                    if (!directory.exists())
+                    {
+                        if (directory.mkpath("."))
+                        {
+                            qDebug() << "Folder User/Channels created successfully!";
+                        }
+                    }
+
+                    QFile outFile(filePath);
+                    if (outFile.open(QIODevice::WriteOnly | QIODevice::Text))
+                    {
+                        QTextStream text(&outFile);
+                        text << WriteData;
+                        outFile.close();
+                        qDebug() << "Data written to file: " << filePath;
+                    }
+
+                }
+
+
+//                QString directoryName = "User/Channels";
+//                    QDir directory(directoryName);//current directory
+//                    if (!directory.exists()) {
+//                        if (directory.mkpath(directoryName)) {
+//                            qDebug() << "Folder" << directoryName << "created successfully!";
+
+//                            QString filePath = "User/Channels" + channelName + ".txt";
+//                            QFile outFile(filePath);
+//                            outFile.open(QIODevice::Text | QIODevice::Append | QIODevice::WriteOnly);
+//                            QString text ="channelName : "+channelName+"\n"+"title : "+title+"\n";
+//                               QTextStream outStream(&outFile);
+//                               outStream << text;
+//                               outFile.close();
+
+//                        } else {
+//                            qDebug() << "Error creating folder" << directoryName;
+//                        }
+//                    } else {
+//                        QString filePath = "User/Channels" + channelName + ".txt";
+//                        QFile outFile(filePath);
+//                        outFile.open(QIODevice::Text | QIODevice::Append | QIODevice::WriteOnly);
+//                        QString text ="channelName : "+channelName+"\n"+"title : "+title+"\n";
+//                        QTextStream outStream(&outFile);
+//                        outStream << text;
+//                        outFile.close();
+
+//                        qDebug() << "Folder" << directoryName << "already exists.";
+//                    }
             }
             if(JsonObject.value("code").toString() == "404")
             {
@@ -111,8 +145,8 @@ void Channel::CreateNewChannel(QString token, QString title, QString channelName
 
         }
 
-
 }
+
 
 void Channel::AddMessageToChannelWithChannelName(QString message, QString channelName, QString username)
 {
@@ -176,8 +210,8 @@ void Channel::AddMessageToChannelWithChannelName(QString message, QString channe
             });
         }
     }
-
 }
+
 
 void Channel::SetChannelTokenWithAdmin(QString token)
 {
