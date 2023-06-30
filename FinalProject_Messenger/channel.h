@@ -33,9 +33,10 @@ class Channel
 public:
     Channel();
     void SetAdminAndIsAdmin(QString admin,bool isaAdmin);
-    void SendChannelMessageByAdmin(QString channelName, bool isadmin, QString message);
+//    void SendChannelMessageByAdmin(QString channelName, bool isadmin, QString message);
     void CreateNewChannel(QString token,QString title, QString channelName);
-    void AddMessageToChannel(QString message,QString channelName,QString username);
+    void AddMessageToChannelWithChannelName(QString message,QString channelName,QString username);
+    void SetChannelTokenWithAdmin(QString token);
 
 protected:
     QString Token;

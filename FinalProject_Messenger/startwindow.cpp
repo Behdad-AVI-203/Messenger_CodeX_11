@@ -155,3 +155,11 @@ void StartWindow::on_actionJoin_Channel_triggered()
     C->show();
 }
 
+
+void StartWindow::on_pushButton_entermessage_3_clicked()
+{
+    Channel* C = new Channel();
+    C->SetChannelTokenWithAdmin(Token);
+    C->AddMessageToChannelWithChannelName(Token,ui->lineEdit_searchchannel->text(),ui->lineEdit_message_3->text());
+}
+

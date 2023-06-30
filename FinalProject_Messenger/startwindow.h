@@ -42,6 +42,8 @@ private slots:
 
     void on_actionJoin_Channel_triggered();
 
+    void on_pushButton_entermessage_3_clicked();
+
 private:
     Ui::StartWindow *ui;
     QString Token;

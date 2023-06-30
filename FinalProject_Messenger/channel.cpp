@@ -114,12 +114,14 @@ void Channel::CreateNewChannel(QString token, QString title, QString channelName
 
 }
 
-void Channel::AddMessageToChannel(QString message, QString channelName, QString username)
+void Channel::AddMessageToChannelWithChannelName(QString message, QString channelName, QString username)
 {
 //http://api.barafardayebehtar.ml:8080/sendmessagechannel?token=7
 //a3c48f7c7939b7269d01443a431825f&dst=mychannel&body=hello%20all
     QString urlString = "http://api.barafardayebehtar.ml:8080/sendmessagechannel?token=";
-    urlString += Token + "&dst=" + channelName + "&body=" + message;
+    urlString = urlString + Token + "&dst=" + channelName + "&body=" + message;
+
+    qDebug()<<"URL : "<<urlString<<"\n";
 
     QNetworkAccessManager manager;
 
@@ -175,5 +177,10 @@ void Channel::AddMessageToChannel(QString message, QString channelName, QString 
         }
     }
 
+}
+
+void Channel::SetChannelTokenWithAdmin(QString token)
+{
+    Token = token;
 }
 
