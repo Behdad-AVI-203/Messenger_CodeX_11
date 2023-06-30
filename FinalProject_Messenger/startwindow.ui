@@ -303,8 +303,7 @@
     <addaction name="separator"/>
     <addaction name="actionCreat_Group"/>
     <addaction name="actionCreat_Channel"/>
-    <addaction name="separator"/>
-<<<<<<< HEAD
+    <addaction name="separator"/> HEAD
     <addaction name="actionLogout"/>
     <addaction name="separator"/>
     <addaction name="actionRefresh"/>
