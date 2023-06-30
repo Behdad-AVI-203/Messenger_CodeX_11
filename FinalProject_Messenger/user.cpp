@@ -54,6 +54,15 @@ void User::SetUserGroups(QString grname,Group temp){
 void User::SetUserChannels(QString chname,Channel temp){
     Channels.insert(chname,temp);
 }
+void User::ClearContacts(){
+    Contacts.clear();
+}
+void User::ClearGroups(){
+    Contacts.clear();
+}
+void User::ClearChannels(){
+    Contacts.clear();
+}
 QString User::GetUserName(){
     return UserName;
 }

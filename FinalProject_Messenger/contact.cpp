@@ -6,7 +6,12 @@ Contact::Contact(QString contactname)
     ContactName=contactname;
 
 }
-
+void Contact::ClearConversation(){
+    Conversation.clear();
+}
+void Contact::SetConversation(QString type,QString message){
+    Conversation.insert(type,message);
+}
 /*void Contact::SetContactMessage(string message,string username)
 {
 

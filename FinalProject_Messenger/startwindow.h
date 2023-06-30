@@ -1,12 +1,12 @@
 #ifndef STARTWINDOW_H
 #define STARTWINDOW_H
-#include <QListView>
-#include <QStringListModel>
+#include <QListWidgetItem>
+
 #include <QMessageBox>
 #include<QTimer>
 #include <QMainWindow>
 
-//QString contactname;
+extern QString contactname;
 
 namespace Ui {
 class StartWindow;
@@ -25,26 +25,20 @@ public:
 private slots:
     void on_actionLogout_triggered();
 
-    void on_actionRefresh_triggered();
-
-    void on_pushButton_entermessage_clicked();
+    void refreshlistview();
 
     void on_pushButton_searchuser_clicked();
 
-    void on_listView_contacts_clicked(const QModelIndex &index);
+    void show_conversation();
+    void on_pushButton_entermessage_contact_clicked();
 
-    void show_conversation(QString name);
+    void on_listWidget_contacts_itemClicked(QListWidgetItem *item);
+
 signals:
-    void ContactSignal(QString name);
+    void ContactSignal();
 
 private:
     Ui::StartWindow *ui;
-    QStringListModel* contact_model = new QStringListModel(this);
-    QStringList contact_items;
-    QStringListModel* group_model = new QStringListModel(this);
-    QStringList group_items;
-    QStringListModel* channel_model = new QStringListModel(this);
-    QStringList channel_items;
     QTimer* timer = new QTimer(this);
 };
 

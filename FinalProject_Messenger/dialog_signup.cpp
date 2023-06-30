@@ -36,6 +36,7 @@ void Dialog_signup::on_checkBox_echomode_clicked(bool checked)
 
 void Dialog_signup::on_pushButton_signup_clicked()
 {
+    if(!ui->lineEdit_username->text().isEmpty()&&!ui->lineEdit_password->text().isEmpty()){
     QString temp_url="http://api.barafardayebehtar.ml:8080/signup?";
         temp_url+="username="+ui->lineEdit_username->text()+"&"+"password="+ui->lineEdit_password->text()+"&"+"firstname="+ui->lineEdit_firstname->text()+"&"+"lastname="+ui->lineEdit_lastname->text();
         QUrl url(temp_url); // The API endpoint to request
@@ -54,20 +55,21 @@ void Dialog_signup::on_pushButton_signup_clicked()
 
                     if(jsonObj["code"].toString()=="200"){
 
-                        QMessageBox::information(this,"response",jsonObj["message"].toString());
+                        QMessageBox::information(this,"SignUp",jsonObj["message"].toString());
                         this->close();
                     }
                     else{
-                        QMessageBox::warning(this,"response",jsonObj["message"].toString());
+                        QMessageBox::warning(this,"SignUp",jsonObj["message"].toString());
                     }
 
                 }
                 else {
-                   QMessageBox::warning(this,"Error",reply->errorString());
+                   QMessageBox::warning(this,"SignUp","You are not connected");
                 }
 
                 // Cleanup the reply object and exit the application
                 reply->deleteLater();
+    }
 }
 
 

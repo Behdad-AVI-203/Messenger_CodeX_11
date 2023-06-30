@@ -25,6 +25,9 @@ public:
     void SetUserContacts(QString contact,Contact temp);
     void SetUserGroups(QString grname,Group temp);
     void SetUserChannels(QString chname,Channel temp);
+    void ClearContacts();
+    void ClearGroups();
+    void ClearChannels();
     QString GetUserName();
     QString GetPassword();
     QString GetToken();

@@ -33,10 +33,10 @@ Dialog_Login::~Dialog_Login()
 
 void Dialog_Login::on_pushButton_login_clicked()
 {
+    if(!ui->lineEdit_username->text().isEmpty()&&!ui->lineEdit_password->text().isEmpty()){
     QString urlString = "http://api.barafardayebehtar.ml:8080/";
     urlString = urlString + "login?" + "username=" + ui->lineEdit_username->text()
     + "&password=" +ui->lineEdit_password->text();
-
     QUrl url(urlString);
 
     QNetworkAccessManager manager;
@@ -55,29 +55,24 @@ void Dialog_Login::on_pushButton_login_clicked()
 
         if(jsonObject["code"].toString() == "200")
         {
-            QMessageBox::information(this,"Response sent by the server",jsonObject["message"].toString());
+            QMessageBox::information(this,"LogIn",jsonObject["message"].toString());
 
             User temp(ui->lineEdit_username->text(),ui->lineEdit_password->text(),jsonObject["token"].toString());
             U.push_back(temp);
             //qDebug() << U[0].GetToken();
             this->close();
 
-            StartWindow* startwindow = new StartWindow();
+            StartWindow* startwindow = new StartWindow(this);
             startwindow->show();
         }
-        if(jsonObject["code"].toString() == "404")
+        else
         {
-            QMessageBox::warning(this,"Response sent by the server",jsonObject["message"].toString());
+            QMessageBox::warning(this,"LogIn",jsonObject["message"].toString());
         }
-        if(jsonObject["code"].toString() == "204")
-        {
-            QMessageBox::warning(this,"Response sent by the server",jsonObject["message"].toString());
-        }
-        if(jsonObject["code"].toString() == "401")
-        {
-            QMessageBox::warning(this,"Response sent by the server",jsonObject["message"].toString());
-        }
-
+    }
+    else{
+    QMessageBox::warning(this,"LogIn","You are not connected");
+    }
     }
 }
 
