@@ -22,7 +22,7 @@ void Channel::CreateNewChannel(QString token, QString title, QString channelName
         QDir directory(directoryName);//current directory
         if (!directory.exists()) {
             if (directory.mkpath(directoryName)) {
-                qDebug() << "Folder" << directoryName << "created successfully.";
+                qDebug() << "Folder" << directoryName << "created successfully!";
 
                 QString filePath = "AllChannels/" + channelName + ".txt";
                 QFile outFile(filePath);
@@ -116,6 +116,64 @@ void Channel::CreateNewChannel(QString token, QString title, QString channelName
 
 void Channel::AddMessageToChannel(QString message, QString channelName, QString username)
 {
+//http://api.barafardayebehtar.ml:8080/sendmessagechannel?token=7
+//a3c48f7c7939b7269d01443a431825f&dst=mychannel&body=hello%20all
+    QString urlString = "http://api.barafardayebehtar.ml:8080/sendmessagechannel?token=";
+    urlString += Token + "&dst=" + channelName + "&body=" + message;
+
+    QNetworkAccessManager manager;
+
+    QNetworkReply* reply = manager.get(QNetworkRequest(urlString));
+
+    QEventLoop loop;
+    QAbstractSocket::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec(); // Block until the request is finished
+
+    if(reply->error() == QNetworkReply::NoError)
+    {
+        QByteArray data = reply->readAll();
+
+        QJsonDocument JsonDocument = QJsonDocument::fromJson(data);
+
+        QJsonObject JsonObject = JsonDocument.object();
+
+        if(JsonObject.value("code").toString()=="200")
+        {
+            QLabel* label = new QLabel(JsonObject.value("message").toString());
+            label->setFixedSize(400,100);
+            label->show();
+            QTimer::singleShot(1000, [=]() {
+                label->deleteLater();
+            });
+        }
+        if(JsonObject.value("code").toString() == "404")
+        {
+            QLabel* label = new QLabel(JsonObject.value("message").toString());
+            label->setFixedSize(400,100);
+            label->show();
+            QTimer::singleShot(1000, [=]() {
+                label->deleteLater();
+            });
+        }
+        if(JsonObject.value("code").toString() == "204")
+        {
+            QLabel* label = new QLabel(JsonObject.value("message").toString());
+            label->setFixedSize(400,100);
+            label->show();
+            QTimer::singleShot(1000, [=]() {
+                label->deleteLater();
+            });
+        }
+        if(JsonObject.value("code").toString() == "401")
+        {
+            QLabel* label = new QLabel(JsonObject.value("message").toString());
+            label->setFixedSize(400,100);
+            label->show();
+            QTimer::singleShot(1000, [=]() {
+                label->deleteLater();
+            });
+        }
+    }
 
 }
 

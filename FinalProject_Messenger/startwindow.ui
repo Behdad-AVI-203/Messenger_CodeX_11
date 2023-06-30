@@ -102,6 +102,9 @@
          <height>24</height>
         </rect>
        </property>
+       <property name="text">
+        <string/>
+       </property>
       </widget>
       <widget class="QTextEdit" name="textEdit_groupmessages">
        <property name="geometry">
