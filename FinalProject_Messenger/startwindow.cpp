@@ -24,6 +24,11 @@ void StartWindow::SetUsernameFromUserName(QString username)
     Username = username;
 }
 
+void StartWindow::SetPasswordFromUserName(QString password)
+{
+    Password = password;
+}
+
 QString StartWindow::GetTokenFromUserName()
 {
     return Token;
@@ -161,5 +166,71 @@ void StartWindow::on_pushButton_entermessage_3_clicked()
     Channel* C = new Channel();
     C->SetChannelTokenWithAdmin(Token);
     C->AddMessageToChannelWithChannelName(Token,ui->lineEdit_searchchannel->text(),ui->lineEdit_message_3->text());
+}
+
+
+void StartWindow::on_actionLogout_triggered()
+{
+//http://api.barafardayebehtar.ml:8080/logout?username=sara&passw
+//ord=1234
+    QString urlString = "http://api.barafardayebehtar.ml:8080/logout?username=";
+    urlString +=  Username + "&password=" + Password;
+
+    QNetworkAccessManager manager;
+
+    QNetworkReply* reply = manager.get(QNetworkRequest(urlString));
+
+    QEventLoop loop;
+    QAbstractSocket::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec(); // Block until the request is finished
+
+    if(reply->error() == QNetworkReply::NoError)
+    {
+        QByteArray data = reply->readAll();
+
+        QJsonDocument JsonDocument = QJsonDocument::fromJson(data);
+
+        QJsonObject JsonObject = JsonDocument.object();
+
+        if(JsonObject.value("code").toString()=="200")
+        {
+            QLabel* label = new QLabel(JsonObject.value("message").toString());
+            label->setFixedSize(400,100);
+            label->show();
+            QTimer::singleShot(2000, [=]() {
+                label->deleteLater();
+            });
+            close();
+        }
+        if(JsonObject.value("code").toString() == "404")
+        {
+            QLabel* label = new QLabel(JsonObject.value("message").toString());
+            label->setFixedSize(400,100);
+            label->show();
+            QTimer::singleShot(2000, [=]() {
+                label->deleteLater();
+            });
+        }
+        if(JsonObject.value("code").toString() == "204")
+        {
+            QLabel* label = new QLabel(JsonObject.value("message").toString());
+            label->setFixedSize(400,100);
+            label->show();
+            QTimer::singleShot(1000, [=]() {
+                label->deleteLater();
+            });
+        }
+        if(JsonObject.value("code").toString() == "401")
+        {
+            QLabel* label = new QLabel(JsonObject.value("message").toString());
+            label->setFixedSize(400,100);
+            label->show();
+            QTimer::singleShot(2000, [=]() {
+                label->deleteLater();
+            });
+        }
+
+    }
+
 }
 

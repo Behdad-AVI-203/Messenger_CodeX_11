@@ -258,6 +258,7 @@
     <addaction name="separator"/>
     <addaction name="actionJoin_Group"/>
     <addaction name="actionJoin_Channel"/>
+    <addaction name="actionLogout"/>
    </widget>
    <widget class="QMenu" name="menuHelpe">
     <property name="title">
@@ -288,6 +289,11 @@
   <action name="actionJoin_Channel">
    <property name="text">
     <string>Join Channel</string>
+   </property>
+  </action>
+  <action name="actionLogout">
+   <property name="text">
+    <string>Logout</string>
    </property>
   </action>
  </widget>

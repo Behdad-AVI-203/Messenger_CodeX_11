@@ -36,7 +36,7 @@ void Channel::CreateNewChannel(QString token, QString title, QString channelName
                 qDebug() << "Error creating folder" << directoryName;
             }
         } else {
-            QString filePath = "AllGroups/" + channelName + ".txt";
+            QString filePath = "User/Channels" + channelName + ".txt";
             QFile outFile(filePath);
             outFile.open(QIODevice::Text | QIODevice::Append | QIODevice::WriteOnly);
             QString text ="channelName : "+channelName+"\n"+"title : "+title+"\n";
@@ -144,7 +144,7 @@ void Channel::AddMessageToChannelWithChannelName(QString message, QString channe
             QLabel* label = new QLabel(JsonObject.value("message").toString());
             label->setFixedSize(400,100);
             label->show();
-            QTimer::singleShot(1000, [=]() {
+            QTimer::singleShot(2000, [=]() {
                 label->deleteLater();
             });
         }
@@ -153,7 +153,7 @@ void Channel::AddMessageToChannelWithChannelName(QString message, QString channe
             QLabel* label = new QLabel(JsonObject.value("message").toString());
             label->setFixedSize(400,100);
             label->show();
-            QTimer::singleShot(1000, [=]() {
+            QTimer::singleShot(2000, [=]() {
                 label->deleteLater();
             });
         }
@@ -162,7 +162,7 @@ void Channel::AddMessageToChannelWithChannelName(QString message, QString channe
             QLabel* label = new QLabel(JsonObject.value("message").toString());
             label->setFixedSize(400,100);
             label->show();
-            QTimer::singleShot(1000, [=]() {
+            QTimer::singleShot(2000, [=]() {
                 label->deleteLater();
             });
         }
@@ -171,7 +171,7 @@ void Channel::AddMessageToChannelWithChannelName(QString message, QString channe
             QLabel* label = new QLabel(JsonObject.value("message").toString());
             label->setFixedSize(400,100);
             label->show();
-            QTimer::singleShot(1000, [=]() {
+            QTimer::singleShot(2000, [=]() {
                 label->deleteLater();
             });
         }

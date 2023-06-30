@@ -86,6 +86,7 @@ void Dialog_Login::on_pushButton_login_clicked()
 
             StartWindow* startwindow = new StartWindow();
             startwindow->SetTokenFromUserName(loginToken);
+            startwindow->SetPasswordFromUserName(ui->lineEdit_password->text());
             startwindow->SetUsernameFromUserName(ui->lineEdit_username->text());
             startwindow->show();
         }

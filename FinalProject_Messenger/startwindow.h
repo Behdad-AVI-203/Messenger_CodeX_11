@@ -21,6 +21,7 @@ public:
     ~StartWindow();
     void SetTokenFromUserName(QString token);
     void SetUsernameFromUserName(QString username);
+    void SetPasswordFromUserName(QString password);
     QString GetTokenFromUserName();
     QString GetUsernameFromUserName();
 
@@ -44,10 +45,13 @@ private slots:
 
     void on_pushButton_entermessage_3_clicked();
 
+    void on_actionLogout_triggered();
+
 private:
     Ui::StartWindow *ui;
     QString Token;
     QString Username;
+    QString Password;
 };
 
 #endif // STARTWINDOW_H

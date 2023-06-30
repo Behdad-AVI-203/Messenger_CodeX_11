@@ -114,7 +114,7 @@ void Group::AddMessageToGroupWithGroupName(QString username, QString message,QSt
     }
 
     QString cuuerntPath = QDir::currentPath();
-    QString filePath = cuuerntPath +"/AllGroups/" + groupname + ".txt";
+    QString filePath = cuuerntPath +"/User/Groups" + groupname + ".txt";
     QFile outFile(filePath);
     qDebug()<<"file path = "<<filePath<<"\n";
     outFile.open(QIODevice::Text | QIODevice::Append);
