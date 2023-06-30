@@ -37,6 +37,8 @@ public:
     void CheckMembershipInTheGroup(QString token,QString groupname);
     void MembershipInSpecialGroup(QString token,QString groupname);
     void SetTokenOfUsernameGroup(QString token);
+    int GetBlocks(QString token,QString groupname);
+    QJsonObject GetGroupsChatsWithToken(int block ,QString token, QString groupname);
 
 protected:
     QString Title;

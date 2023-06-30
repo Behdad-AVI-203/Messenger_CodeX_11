@@ -27,25 +27,36 @@ void Group::CreatedNewGroup( QString title,  QString token,  QString groupname)
     Title = title;
     GroupName = groupname;
 
-    QString directoryName = "AllGroups";
-        QDir directory(directoryName);
+    //Working with files (saved format: Jason format)/////////////
+    {
+        QJsonObject FileObject;
+        FileObject.insert("GroupName", groupname);
+        FileObject.insert("Title", title);
 
-        if (!directory.exists()) {
-            if (directory.mkpath(directoryName)) {
-                qDebug() << "Folder" << directoryName << "created successfully.";
-            } else {
-                qDebug() << "Error creating folder" << directoryName;
+        QJsonDocument FileDocument(FileObject);
+        QByteArray WriteData = FileDocument.toJson(QJsonDocument::Indented);
+
+        QString filePath = "User/Groups/" + groupname + ".txt";
+        QDir directory("User/Groups");
+
+        if (!directory.exists())
+        {
+            if (directory.mkpath("."))
+            {
+                qDebug() << "Folder User/Groups created successfully!";
             }
-        } else {
-            qDebug() << "Folder" << directoryName << "already exists.";
         }
-        QString filePath = "AllGroups/" + groupname + ".txt";
+
         QFile outFile(filePath);
-        outFile.open(QIODevice::Text | QIODevice::Append | QIODevice::WriteOnly);
-        QString text = "token : "+token +"\n"+"groupname : "+groupname+"\n"+"title : "+title+"\n";
-           QTextStream outStream(&outFile);
-           outStream << text;
-           outFile.close();
+        if (outFile.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            QTextStream text(&outFile);
+            text << WriteData;
+            outFile.close();
+            qDebug() << "Data written to file: " << filePath;
+        }
+
+    }
 }
 
 void Group::AddMessageToGroupWithGroupName(QString username, QString message,QString groupname)
@@ -74,7 +85,44 @@ void Group::AddMessageToGroupWithGroupName(QString username, QString message,QSt
 
         if(jsonObject.value("code").toString() == "200")
         {
+            GetBlocks(Token,groupname);
 //            QMessageBox::information(this,"respons by server",jsonObject.value("message").toString());
+            //-------------------------------------------------------------------------------
+            int number = 0;
+            //read all message in file (json format)
+            {
+
+            }
+
+            //-------------------------------------------------------------------------------
+
+            //-------------------------------------------------------------------------------
+            // stored message in file(json format)
+            {
+                for(int i=0;i<GetBlocks(Token,groupname);i++)
+                {
+                    QJsonObject FileObject = GetGroupsChatsWithToken(i,Token,groupname);
+
+                    QJsonDocument FileDocument (FileObject);
+
+                     QString filePath = "User/Groups/" + groupname + ".txt";
+
+                     QByteArray WriteData = FileDocument.toJson(QJsonDocument::Indented);
+
+                     QFile outFile(filePath);
+                     if (outFile.open(QIODevice::Append | QIODevice::Text))
+                     {
+                         QTextStream text(&outFile);
+                         text << WriteData;
+                         outFile.close();
+                         qDebug() << "Data written to file: " << filePath;
+                     }
+                }
+
+
+            }
+
+            //-------------------------------------------------------------------------------
             QLabel* label = new QLabel(jsonObject.value("message").toString());
             label->setFixedSize(400,100);
             label->show();
@@ -113,15 +161,6 @@ void Group::AddMessageToGroupWithGroupName(QString username, QString message,QSt
         }
     }
 
-    QString cuuerntPath = QDir::currentPath();
-    QString filePath = cuuerntPath +"/User/Groups" + groupname + ".txt";
-    QFile outFile(filePath);
-    qDebug()<<"file path = "<<filePath<<"\n";
-    outFile.open(QIODevice::Text | QIODevice::Append);
-    QString text = "username : " + username + "\n" + "message : " + message +"\n";
-    QTextStream outStream(&outFile);
-    outStream << text;
-    outFile.close();
 }
 
 void Group::CheckMembershipInTheGroup(QString token, QString groupname)
@@ -138,6 +177,91 @@ void Group::MembershipInSpecialGroup(QString token, QString groupname)
 void Group::SetTokenOfUsernameGroup(QString token)
 {
     Token = token;
+}
+
+int Group::GetBlocks(QString token, QString groupname)
+{
+    QDate currentDate = QDate::currentDate();
+
+    QTime currentTime = QTime::currentTime();
+
+    qDebug()<<"Date : "<<currentDate.toString()+ " " + currentTime.toString()<<"\n";
+
+    int Number = 0;
+//http://api.barafardayebehtar.ml:8080/getgroupchats?token=7a3c48
+//f7c7939b7269d01443a431825f&dst=ap&date=20001121081415
+    QString urlString = "http://api.barafardayebehtar.ml:8080/getgroupchats?token=";
+    urlString += token + "&dst=" + groupname  ;
+
+    QNetworkAccessManager manager;
+
+    QNetworkReply* reply = manager.get(QNetworkRequest(urlString));
+
+    QEventLoop loop;
+    QAbstractSocket::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec(); // Block until the request is finished
+
+    if(reply->error() == QNetworkReply::NoError)
+    {
+        QByteArray data = reply->readAll();
+
+        QJsonDocument JsonDocument = QJsonDocument::fromJson(data);
+
+        QJsonObject JsonObject = JsonDocument.object();
+
+        if(JsonObject.value("code").toString()=="200")
+        {
+            for(int i=0;i<150;i++)
+            {
+                QJsonObject block = JsonObject.value("block " + QString::number(i)).toObject();
+                if(block.value("body").toString()!="")
+                {
+                    Number ++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+        }
+        qDebug()<<"Number : "<<Number<<"\n";
+        return Number;
+
+
+    }
+
+}
+
+QJsonObject Group::GetGroupsChatsWithToken(int block ,QString token, QString groupname)
+{
+    int temp = block;
+    QString urlString = "http://api.barafardayebehtar.ml:8080/getgroupchats?token=";
+    urlString += token + "&dst=" + groupname  ;
+
+    QNetworkAccessManager manager;
+
+    QNetworkReply* reply = manager.get(QNetworkRequest(urlString));
+
+    QEventLoop loop;
+    QAbstractSocket::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec(); // Block until the request is finished
+
+    if(reply->error() == QNetworkReply::NoError)
+    {
+        QByteArray data = reply->readAll();
+
+        QJsonDocument JsonDocument = QJsonDocument::fromJson(data);
+
+        QJsonObject JsonObject = JsonDocument.object();
+
+        if(JsonObject.value("code").toString()=="200")
+        {
+            QJsonObject Block = JsonObject.value("block " +  QString::number(temp)).toObject();
+            return Block;
+        }
+    }
+
 }
 
 
