@@ -51,7 +51,7 @@ void Channel::CreateNewChannel(QString token, QString title, QString channelName
 //        f7c7939b7269d01443a431825f&channel_name=mychannel&channel_title
 //        =Channel1
         QString urlString = "http://api.barafardayebehtar.ml:8080/createchannel?token=";
-        urlString += token + "&channel_name=" + channelName + "channel_title=" + title;
+        urlString += token + "&channel_name=" + channelName + "&channel_title=" + title;
 
         QNetworkAccessManager manager;
 
