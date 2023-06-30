@@ -287,20 +287,31 @@
     <rect>
      <x>0</x>
      <y>0</y>
+<<<<<<< HEAD
      <width>1168</width>
      <height>21</height>
+=======
+     <width>659</width>
+     <height>26</height>
+>>>>>>> ea1a81db0fc2fc1cc6c26e8f740bab25ad81f3fc
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="separator"/>
     <addaction name="actionCreat_Group"/>
     <addaction name="actionCreat_Channel"/>
     <addaction name="separator"/>
+<<<<<<< HEAD
     <addaction name="actionLogout"/>
     <addaction name="separator"/>
     <addaction name="actionRefresh"/>
+=======
+    <addaction name="actionJoin_Group"/>
+    <addaction name="actionJoin_Channel"/>
+>>>>>>> ea1a81db0fc2fc1cc6c26e8f740bab25ad81f3fc
    </widget>
    <widget class="QMenu" name="menuHelpe">
     <property name="title">
@@ -311,6 +322,9 @@
    <addaction name="menuHelpe"/>
   </widget>
   <action name="actionCreat_Group">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Creat Group</string>
    </property>
@@ -320,6 +334,7 @@
     <string>Creat Channel</string>
    </property>
   </action>
+<<<<<<< HEAD
   <action name="actionLogout">
    <property name="text">
     <string>Logout</string>
@@ -328,6 +343,16 @@
   <action name="actionRefresh">
    <property name="text">
     <string>Refresh</string>
+=======
+  <action name="actionJoin_Group">
+   <property name="text">
+    <string>Join Group</string>
+   </property>
+  </action>
+  <action name="actionJoin_Channel">
+   <property name="text">
+    <string>Join Channel</string>
+>>>>>>> ea1a81db0fc2fc1cc6c26e8f740bab25ad81f3fc
    </property>
   </action>
  </widget>
