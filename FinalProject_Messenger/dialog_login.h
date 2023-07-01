@@ -2,10 +2,14 @@
 #define DIALOG_LOGIN_H
 
 #include <QDialog>
+<<<<<<< HEAD
 #include"user.h"
 
 extern QVector<User> U;
 
+=======
+#include <QString>
+>>>>>>> FixChannel
 namespace Ui {
 class Dialog_Login;
 }
@@ -17,6 +21,7 @@ class Dialog_Login : public QDialog
 public:
     explicit Dialog_Login(QWidget *parent = nullptr);
     ~Dialog_Login();
+    void SetUsernameFromLoginWindow(QString username);
 
 private slots:
     void on_pushButton_login_clicked();
@@ -29,6 +34,7 @@ private slots:
 
 private:
     Ui::Dialog_Login *ui;
+    QString Username;
 };
 
 #endif // DIALOG_LOGIN_H

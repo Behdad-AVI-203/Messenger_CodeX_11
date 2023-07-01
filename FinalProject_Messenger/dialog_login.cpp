@@ -31,6 +31,11 @@ Dialog_Login::~Dialog_Login()
     delete ui;
 }
 
+void Dialog_Login::SetUsernameFromLoginWindow(QString username)
+{
+    Username = username;
+}
+
 void Dialog_Login::on_pushButton_login_clicked()
 {
     if(!ui->lineEdit_username->text().isEmpty()&&!ui->lineEdit_password->text().isEmpty()){
@@ -55,6 +60,7 @@ void Dialog_Login::on_pushButton_login_clicked()
 
         if(jsonObject["code"].toString() == "200")
         {
+<<<<<<< HEAD
             if(jsonObject["token"].toString()!=""){
             QMessageBox::information(this,"LogIn",jsonObject["message"].toString());
             User temp(ui->lineEdit_username->text(),ui->lineEdit_password->text(),jsonObject["token"].toString());
@@ -63,6 +69,37 @@ void Dialog_Login::on_pushButton_login_clicked()
             this->close();
 
             StartWindow* startwindow = new StartWindow(this);
+=======
+            QString loginToken = jsonObject.value("token").toString();
+            QMessageBox::information(this,"Response sent by the server",jsonObject.value("message").toString());
+            User temp(ui->lineEdit_username->text(),ui->lineEdit_password->text(),jsonObject.value("token").toString());
+            user.push_back(temp);
+            this->close();
+
+            QString tempToken; //if token is null , read token from file;
+            if(loginToken!="") {
+                QFile file("Token.txt");
+                file.open(QIODevice::Append);
+                QTextStream outFile(&file);
+                outFile<<loginToken;
+                file.close();
+            }
+            else
+            {
+                QFile file("Token.txt");
+                file.open(QIODevice::ReadOnly|QIODevice::Text);
+                QTextStream inFile(&file);
+                tempToken = inFile.readAll();
+                file.close();
+                loginToken = tempToken;
+                qDebug()<<"loginToken = "<<loginToken<<"\n";
+            }
+
+            StartWindow* startwindow = new StartWindow();
+            startwindow->SetTokenFromUserName(loginToken);
+            startwindow->SetPasswordFromUserName(ui->lineEdit_password->text());
+            startwindow->SetUsernameFromUserName(ui->lineEdit_username->text());
+>>>>>>> FixChannel
             startwindow->show();
             }
             else{
@@ -78,6 +115,7 @@ void Dialog_Login::on_pushButton_login_clicked()
     QMessageBox::warning(this,"LogIn","You are not connected");
     }
     }
+
 }
 
 
