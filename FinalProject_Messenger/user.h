@@ -20,7 +20,6 @@ class User
 public:
     User();
     User(QString username,QString password,QString token);
-    //void SetUser(string username,string password,string lastname,string firstname,string token);
     void SetUserToken(QString token);
     void SetUserContacts(QString contact,Contact temp);
     void SetUserGroups(QString grname,Group temp);

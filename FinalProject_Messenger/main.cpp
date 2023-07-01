@@ -2,6 +2,7 @@
 #include"startwindow.h"
 #include"user.h"
 #include<QFile>
+#include<QDate>
 #include<QJsonDocument>
 #include<QJsonObject>
 #include"dialog_login.h"
@@ -13,6 +14,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QDir folder("User");
+
     if(!folder.isEmpty()){
         QFile file("User/user.json");
         file.open(QIODevice::ReadOnly);

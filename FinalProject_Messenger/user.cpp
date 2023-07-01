@@ -44,7 +44,6 @@ void User::SetUserToken(QString token)
 {
     Token = token;
 }
-
 void User::SetUserContacts(QString contact,Contact temp){
     Contacts.insert(contact,temp);
 }

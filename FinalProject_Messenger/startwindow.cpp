@@ -44,6 +44,9 @@ StartWindow::StartWindow(QWidget *parent) :
     connect(timer,SIGNAL(timeout()),this,SLOT(refreshlistview()));
     connect(timer,SIGNAL(timeout()),this,SLOT(show_conversation()));
     timer->start(3000);
+    QObject::connect(this, &QWidget::destroyed, []() {
+        qDebug() << "Window was closed";
+    });
 }
 
 StartWindow::~StartWindow()
@@ -252,12 +255,12 @@ void StartWindow::show_conversation(){
             int i=0;
             U[0].GetContact(contactname).ClearConversation();
             while(jsonObject.contains("block "+QString::number(i))){
-                QString message=jsonObject["block "+QString::number(i)].toObject()["src"].toString()+" : "+
-                        jsonObject["block "+QString::number(i)].toObject()["body"].toString();
-                ui->textEdit_conversation->append(message);
-                ui->textEdit_conversation->append(jsonObject["block "+QString::number(i)].toObject()["date"].toString());
+                ui->textEdit_conversation->append(jsonObject["block "+QString::number(i)].toObject()["src"].toString()+" :");
+                QString message=jsonObject["block "+QString::number(i)].toObject()["body"].toString()+"       "+
+                        jsonObject["block "+QString::number(i)].toObject()["date"].toString();
+                ui->textEdit_conversation->append(message);           
                 ui->textEdit_conversation->append("");
-                U[0].GetContact(contactname).SetConversation(jsonObject["block "+QString::number(i)].toObject()["src"].toString(),jsonObject["block "+QString::number(i)].toObject()["body"].toString());
+                U[0].GetContact(contactname).SetConversation(jsonObject["block "+QString::number(i)].toObject()["src"].toString(),message);
                 i++;
             }
             ui->pushButton_entermessage_contact->setEnabled(true);
@@ -294,11 +297,14 @@ void StartWindow::on_pushButton_entermessage_contact_clicked()
         QByteArray data = reply->readAll();
         QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
         QJsonObject jsonObject = jsonDocument.object();
+        if(jsonObject["code"].toString()=="200"){
+            ui->lineEdit_messageuser->clear();
+            show_conversation();
+        }
+        else{
+        QMessageBox::warning(this,"EnterMessage",jsonObject["message"].toString());
+}
 
-            QMessageBox::warning(this,"EnterMessage",jsonObject["message"].toString());
-
-        ui->lineEdit_messageuser->clear();
-        show_conversation();
     }
     else{
 

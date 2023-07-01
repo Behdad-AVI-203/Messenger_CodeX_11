@@ -55,8 +55,8 @@ void Dialog_Login::on_pushButton_login_clicked()
 
         if(jsonObject["code"].toString() == "200")
         {
+            if(jsonObject["token"].toString()!=""){
             QMessageBox::information(this,"LogIn",jsonObject["message"].toString());
-
             User temp(ui->lineEdit_username->text(),ui->lineEdit_password->text(),jsonObject["token"].toString());
             U.push_back(temp);
             //qDebug() << U[0].GetToken();
@@ -64,6 +64,10 @@ void Dialog_Login::on_pushButton_login_clicked()
 
             StartWindow* startwindow = new StartWindow(this);
             startwindow->show();
+            }
+            else{
+                QMessageBox::warning(this,"LogIn","You have not Logged out of the program.\nPlease logout from the program first");
+            }
         }
         else
         {

@@ -13,6 +13,7 @@ SOURCES += \
     channel.cpp \
     contact.cpp \
     dialog_login.cpp \
+    dialog_logout.cpp \
     dialog_signup.cpp \
     group.cpp \
     main.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     channel.h \
     contact.h \
     dialog_login.h \
+    dialog_logout.h \
     dialog_signup.h \
     group.h \
     mainwindow.h \
@@ -32,6 +34,7 @@ HEADERS += \
 
 FORMS += \
     dialog_login.ui \
+    dialog_logout.ui \
     dialog_signup.ui \
     mainwindow.ui \
     startwindow.ui

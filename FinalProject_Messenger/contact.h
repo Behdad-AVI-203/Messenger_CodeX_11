@@ -19,6 +19,7 @@ public:
     Contact(QString contactname);
     void SetConversation(QString type,QString message);
     void ClearConversation();
+    void SetLastestDate(QString date);
 protected:
     QString ContactName;
     QMultiMap <QString,QString> Conversation;
