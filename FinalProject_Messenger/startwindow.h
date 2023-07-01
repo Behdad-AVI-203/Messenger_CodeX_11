@@ -10,6 +10,8 @@
 #include <QStringListModel>
 #include <QListView>
 #include <QListWidgetItem>
+#include <QTimer>
+#include <QTextEdit>
 
 namespace Ui {
 class StartWindow;
@@ -43,6 +45,8 @@ private slots:
     void on_pushButton_entermessage_3_clicked();
 
     void on_actionLogout_triggered();
+
+    void on_textEdit_channels_2_selectionChanged();
 
 private:
     Ui::StartWindow *ui;

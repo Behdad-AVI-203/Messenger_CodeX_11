@@ -1,12 +1,17 @@
 #include "startwindow.h"
 #include "ui_startwindow.h"
 #include "dialog_join_channel.h"
+#include <QThread>
 
 StartWindow::StartWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::StartWindow)
 {
     ui->setupUi(this);
+//    zQThread* thread1 = new QThread();
+//        QObject::connect(thread1, &QThread::started, [](){
+//            function1();
+//        });
 }
 
 StartWindow::~StartWindow()
@@ -160,4 +165,8 @@ void StartWindow::on_actionLogout_triggered()
 }
 
 
+void StartWindow::on_textEdit_channels_2_selectionChanged()
+{
+    ui->textEdit_channels_2->setText("Salam");
+}
 

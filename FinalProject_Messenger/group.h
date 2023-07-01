@@ -20,6 +20,7 @@
 #include <thread>
 #include <QEventLoop>
 #include <QObject>
+#include <QThread>
 #include <QDialog>
 #include <QMessageBox>
 
@@ -39,6 +40,7 @@ public:
     void SetTokenOfUsernameGroup(QString token);
     int GetBlocks(QString token,QString groupname);
     QJsonObject GetGroupsChatsWithToken(int block ,QString token, QString groupname);
+    void SetCountGroup(int count);
 
 protected:
     QString Title;
