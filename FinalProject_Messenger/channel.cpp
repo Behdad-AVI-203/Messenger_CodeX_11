@@ -13,12 +13,11 @@ void Channel::SetAdminAndIsAdmin(QString admin, bool isadmin)
 
 void Channel::CreateNewChannel(QString token, QString title, QString channelName)
 {
+    Count = 0;
     SetAdminAndIsAdmin(token,true);
     ChannelName = channelName;
     Title = title;
     //initiolize attribute of class
-
-
 
         //http://api.barafardayebehtar.ml:8080/createchannel?token=7a3c48
 //        f7c7939b7269d01443a431825f&channel_name=mychannel&channel_title
@@ -118,10 +117,15 @@ void Channel::CreateNewChannel(QString token, QString title, QString channelName
 }
 
 
-void Channel::AddMessageToChannelWithChannelName(QString message, QString channelName, QString username)
+void Channel::AddMessageToChannelWithChannelName(QString token, QString channelName, QString message)
 {
 //http://api.barafardayebehtar.ml:8080/sendmessagechannel?token=7
 //a3c48f7c7939b7269d01443a431825f&dst=mychannel&body=hello%20all
+
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    QString formattedDateTime = currentDateTime.toString("yyyyMMddhhmmss");
+
+    qDebug() << formattedDateTime;
     QString urlString = "http://api.barafardayebehtar.ml:8080/sendmessagechannel?token=";
     urlString = urlString + Token + "&dst=" + channelName + "&body=" + message;
 
@@ -145,6 +149,26 @@ void Channel::AddMessageToChannelWithChannelName(QString message, QString channe
 
         if(JsonObject.value("code").toString()=="200")
         {
+            {
+                QJsonObject FileObject = GetChannelsChatsWithToken(Count,Token,channelName);
+                Count++;
+                QJsonDocument FileDocument (FileObject);
+
+                 QString filePath = "User/Channels/" + channelName + ".txt";
+
+                 QByteArray WriteData = FileDocument.toJson(QJsonDocument::Indented);
+
+                 QFile outFile(filePath);
+                 if (outFile.open(QIODevice::Append | QIODevice::Text))
+                 {
+                     QTextStream text(&outFile);
+                     text << WriteData;
+                     outFile.close();
+                     qDebug() << "Data written to file: " << filePath;
+
+                 }
+
+            }
             QLabel* label = new QLabel(JsonObject.value("message").toString());
             label->setFixedSize(400,100);
             label->show();
@@ -186,5 +210,39 @@ void Channel::AddMessageToChannelWithChannelName(QString message, QString channe
 void Channel::SetChannelTokenWithAdmin(QString token)
 {
     Token = token;
+}
+
+QJsonObject Channel::GetChannelsChatsWithToken(int block, QString token, QString channelname)
+{
+//http://api.barafardayebehtar.ml:8080/getchannelchats?token=7a3c
+//48f7c7939b7269d01443a431825f&dst=aplab&date=20001121081415
+    int temp = block;
+    QString urlString = "http://api.barafardayebehtar.ml:8080/getchannelchats?token=";
+    urlString += token + "&dst=" + channelname  ;
+
+    QNetworkAccessManager manager;
+
+    QNetworkReply* reply = manager.get(QNetworkRequest(urlString));
+
+    QEventLoop loop;
+    QAbstractSocket::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec(); // Block until the request is finished
+
+    if(reply->error() == QNetworkReply::NoError)
+    {
+        QByteArray data = reply->readAll();
+
+        QJsonDocument JsonDocument = QJsonDocument::fromJson(data);
+
+        QJsonObject JsonObject = JsonDocument.object();
+
+        if(JsonObject.value("code").toString()=="200")
+        {
+            QJsonObject Block = JsonObject.value("block " +  QString::number(temp)).toObject();
+            return Block;
+        }
+    }
+
+
 }
 

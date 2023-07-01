@@ -23,6 +23,7 @@ void Group::SetGroup(QString title, QString token, QString groupname)
 
 void Group::CreatedNewGroup( QString title,  QString token,  QString groupname)
 {
+    Count = 0;
     Token = token;
     Title = title;
     GroupName = groupname;
@@ -93,32 +94,28 @@ void Group::AddMessageToGroupWithGroupName(QString username, QString message,QSt
             {
 
             }
-
             //-------------------------------------------------------------------------------
 
             //-------------------------------------------------------------------------------
             // stored message in file(json format)
             {
-                for(int i=0;i<GetBlocks(Token,groupname);i++)
-                {
-                    QJsonObject FileObject = GetGroupsChatsWithToken(i,Token,groupname);
+                QJsonObject FileObject = GetGroupsChatsWithToken(Count,Token,groupname);
+                Count++;
+                QJsonDocument FileDocument (FileObject);
 
-                    QJsonDocument FileDocument (FileObject);
+                 QString filePath = "User/Groups/" + groupname + ".txt";
 
-                     QString filePath = "User/Groups/" + groupname + ".txt";
+                 QByteArray WriteData = FileDocument.toJson(QJsonDocument::Indented);
 
-                     QByteArray WriteData = FileDocument.toJson(QJsonDocument::Indented);
+                 QFile outFile(filePath);
+                 if (outFile.open(QIODevice::Append | QIODevice::Text))
+                 {
+                     QTextStream text(&outFile);
+                     text << WriteData;
+                     outFile.close();
+                     qDebug() << "Data written to file: " << filePath;
 
-                     QFile outFile(filePath);
-                     if (outFile.open(QIODevice::Append | QIODevice::Text))
-                     {
-                         QTextStream text(&outFile);
-                         text << WriteData;
-                         outFile.close();
-                         qDebug() << "Data written to file: " << filePath;
-                     }
-                }
-
+                 }
 
             }
 

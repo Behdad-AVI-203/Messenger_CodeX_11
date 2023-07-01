@@ -35,8 +35,10 @@ public:
     void SetAdminAndIsAdmin(QString admin,bool isaAdmin);
 //    void SendChannelMessageByAdmin(QString channelName, bool isadmin, QString message);
     void CreateNewChannel(QString token,QString title, QString channelName);
-    void AddMessageToChannelWithChannelName(QString message,QString channelName,QString username);
+    void AddMessageToChannelWithChannelName(QString token, QString channelName, QString message);
     void SetChannelTokenWithAdmin(QString token);
+    QJsonObject GetChannelsChatsWithToken(int block ,QString token, QString channelname);
+
 
 protected:
     QString Token;
@@ -44,6 +46,7 @@ protected:
     QString ChannelName;
     QString Admin;
     bool IsAdmin;
+    int Count;
 
 };
 

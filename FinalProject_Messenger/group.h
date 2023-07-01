@@ -44,6 +44,7 @@ protected:
     QString Title;
     QString Token;
     QString GroupName;
+    int Count;
 };
 
 #endif // GROUP_H
