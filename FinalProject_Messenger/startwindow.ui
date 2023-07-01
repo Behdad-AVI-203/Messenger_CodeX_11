@@ -50,7 +50,6 @@
    <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-<<<<<<< HEAD
    <widget class="QGroupBox" name="groupBox_contact">
     <property name="geometry">
      <rect>
@@ -282,260 +281,26 @@
      </property>
     </widget>
    </widget>
-=======
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0" rowspan="2">
-     <widget class="QGroupBox" name="groupBox">
-      <property name="title">
-       <string>Contacts</string>
-      </property>
-      <widget class="QPushButton" name="pushButton_searchuser">
-       <property name="geometry">
-        <rect>
-         <x>12</x>
-         <y>31</y>
-         <width>80</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Search</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_searchuser">
-       <property name="geometry">
-        <rect>
-         <x>101</x>
-         <y>31</y>
-         <width>201</width>
-         <height>24</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QTextEdit" name="textEdit_conversation">
-       <property name="geometry">
-        <rect>
-         <x>104</x>
-         <y>61</y>
-         <width>201</width>
-         <height>451</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_message">
-       <property name="geometry">
-        <rect>
-         <x>12</x>
-         <y>518</y>
-         <width>211</width>
-         <height>24</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_entermessage">
-       <property name="geometry">
-        <rect>
-         <x>225</x>
-         <y>518</y>
-         <width>80</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Enter</string>
-       </property>
-      </widget>
-      <widget class="QTextEdit" name="textEdit_contacts">
-       <property name="geometry">
-        <rect>
-         <x>12</x>
-         <y>61</y>
-         <width>81</width>
-         <height>451</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QGroupBox" name="groupBox_2">
-      <property name="title">
-       <string>Groups</string>
-      </property>
-      <widget class="QLineEdit" name="lineEdit_searchgroupe">
-       <property name="geometry">
-        <rect>
-         <x>101</x>
-         <y>31</y>
-         <width>201</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-      <widget class="QTextEdit" name="textEdit_groupmessages">
-       <property name="geometry">
-        <rect>
-         <x>105</x>
-         <y>61</y>
-         <width>201</width>
-         <height>171</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_message_2">
-       <property name="geometry">
-        <rect>
-         <x>12</x>
-         <y>238</y>
-         <width>211</width>
-         <height>24</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_entermessage_2">
-       <property name="geometry">
-        <rect>
-         <x>226</x>
-         <y>238</y>
-         <width>80</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Enter</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_searchgroupe">
-       <property name="geometry">
-        <rect>
-         <x>12</x>
-         <y>31</y>
-         <width>80</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Search</string>
-       </property>
-      </widget>
-      <widget class="QTextEdit" name="textEdit_channels_2">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>60</y>
-         <width>81</width>
-         <height>171</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QGroupBox" name="groupBox_searchchannel">
-      <property name="title">
-       <string>Channels</string>
-      </property>
-      <widget class="QPushButton" name="pushButton">
-       <property name="geometry">
-        <rect>
-         <x>12</x>
-         <y>31</y>
-         <width>80</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Search</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_searchchannel">
-       <property name="geometry">
-        <rect>
-         <x>101</x>
-         <y>31</y>
-         <width>201</width>
-         <height>24</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QTextEdit" name="textEdit_channelmessages">
-       <property name="geometry">
-        <rect>
-         <x>105</x>
-         <y>61</y>
-         <width>201</width>
-         <height>171</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QTextEdit" name="textEdit_channels">
-       <property name="geometry">
-        <rect>
-         <x>12</x>
-         <y>61</y>
-         <width>81</width>
-         <height>171</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_entermessage_3">
-       <property name="geometry">
-        <rect>
-         <x>226</x>
-         <y>238</y>
-         <width>80</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Enter</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_message_3">
-       <property name="geometry">
-        <rect>
-         <x>12</x>
-         <y>238</y>
-         <width>211</width>
-         <height>24</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-    </item>
-   </layout>
->>>>>>> FixChannel
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-<<<<<<< HEAD
      <width>1168</width>
      <height>21</height>
-=======
-     <width>659</width>
-     <height>26</height>
->>>>>>> FixChannel
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="separator"/>
     <addaction name="actionCreat_Group"/>
     <addaction name="actionCreat_Channel"/>
     <addaction name="separator"/>
-<<<<<<< HEAD
-=======
     <addaction name="actionJoin_Group"/>
     <addaction name="actionJoin_Channel"/>
->>>>>>> FixChannel
+    <addaction name="separator"/>
     <addaction name="actionLogout"/>
    </widget>
    <widget class="QMenu" name="menuHelpe">
@@ -547,20 +312,20 @@
    <addaction name="menuHelpe"/>
   </widget>
   <action name="actionCreat_Group">
-   <property name="checkable">
-    <bool>false</bool>
-   </property>
    <property name="text">
-    <string>Creat Group</string>
+    <string>Create Group</string>
    </property>
   </action>
   <action name="actionCreat_Channel">
    <property name="text">
-    <string>Creat Channel</string>
+    <string>Create Channel</string>
    </property>
   </action>
-<<<<<<< HEAD
-=======
+  <action name="actionLogout">
+   <property name="text">
+    <string>Logout</string>
+   </property>
+  </action>
   <action name="actionJoin_Group">
    <property name="text">
     <string>Join Group</string>
@@ -569,12 +334,6 @@
   <action name="actionJoin_Channel">
    <property name="text">
     <string>Join Channel</string>
-   </property>
-  </action>
->>>>>>> FixChannel
-  <action name="actionLogout">
-   <property name="text">
-    <string>Logout</string>
    </property>
   </action>
  </widget>

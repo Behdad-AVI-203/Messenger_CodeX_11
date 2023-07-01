@@ -1,32 +1,33 @@
 #include "dialog_join_channel.h"
 #include "ui_dialog_join_channel.h"
 #include "channel.h"
-dialog_join_Channel::dialog_join_Channel(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::dialog_join_Channel)
+
+Dialog_Join_Channel::Dialog_Join_Channel(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::Dialog_Join_Channel)
 {
     ui->setupUi(this);
 }
 
-dialog_join_Channel::~dialog_join_Channel()
+Dialog_Join_Channel::~Dialog_Join_Channel()
 {
     delete ui;
 }
 
-void dialog_join_Channel::SetJoinChannelToken(QString token)
+void Dialog_Join_Channel::SetJoinChannelToken(QString token)
 {
     Token = token;
 }
 
-QString dialog_join_Channel::GetJoinChannelToken()
+QString Dialog_Join_Channel::GetJoinChannelToken()
 {
     return Token;
 }
 
-void dialog_join_Channel::on_JoinButton_clicked()
+void Dialog_Join_Channel::on_pushButton_join_clicked()
 {
     QString urlString = "http://api.barafardayebehtar.ml:8080/joinchannel?token=";
-    urlString+=Token+"&channel_name="+ui->ChannelNameLineEdit->text();
+    urlString+=Token+"&channel_name="+ui->lineEdit_channelname->text();
     qDebug()<<"url = "<<urlString<<"\n";
 
     QNetworkAccessManager manager;
@@ -63,5 +64,11 @@ void dialog_join_Channel::on_JoinButton_clicked()
         }
     }
     close();
+}
+
+
+void Dialog_Join_Channel::on_pushButton_cancel_clicked()
+{
+    this->close();
 }
 

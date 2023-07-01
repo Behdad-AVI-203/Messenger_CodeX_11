@@ -1,7 +1,6 @@
 #include "group.h"
 #include <QLabel>
 #include <QTimer>
-#include <QJsonArray>
 
 Group::Group()
 {
@@ -93,53 +92,15 @@ void Group::AddMessageToGroupWithGroupName(QString username, QString message,QSt
             int number = 0;
             //read all message in file (json format)
             {
-                QString filePath = "User/Groups/";
 
-                    QFile file(filePath);
-                    if (!file.open(QIODevice::ReadOnly))
-                    {
-                        qDebug() << "Failed to open the file.";
-                    }
-
-                    QByteArray jsonData = file.readAll();
-                    file.close();
-
-                    QJsonParseError error;
-                    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData, &error);
-                    if (error.error != QJsonParseError::NoError)
-                    {
-                        qDebug() << "Failed to parse JSON:" << error.errorString();
-                    }
-
-                    if (!jsonDoc.isArray())
-                    {
-                        qDebug() << "Invalid JSON format: not an array.";
-                    }
-
-                    QJsonArray jsonArray = jsonDoc.array();
-                    int counter = 1;
-                    int index = 0;
-                    for (QJsonValueRef value : jsonArray)
-                    {
-
-                        if (value.isObject())
-                        {
-                            QJsonObject jsonObj = value.toObject();
-                            jsonObj["block " + QString::number(index)] = counter++;
-                            index++;
-                            qDebug() << jsonObj;
-                        }
-                    }
-                     qDebug()<<"INDEX : "<<index;
             }
             //-------------------------------------------------------------------------------
 
             //-------------------------------------------------------------------------------
             // stored message in file(json format)
             {
-//                Count = GetBlocks();
                 QJsonObject FileObject = GetGroupsChatsWithToken(Count,Token,groupname);
-//                Count++;
+                Count++;
                 QJsonDocument FileDocument (FileObject);
 
                  QString filePath = "User/Groups/" + groupname + ".txt";
@@ -298,11 +259,6 @@ QJsonObject Group::GetGroupsChatsWithToken(int block ,QString token, QString gro
         }
     }
 
-}
-
-void Group::SetCountGroup(int count)
-{
-    Count = count;
 }
 
 

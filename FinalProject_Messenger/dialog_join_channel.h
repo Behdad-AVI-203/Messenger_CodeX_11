@@ -1,28 +1,30 @@
 #ifndef DIALOG_JOIN_CHANNEL_H
 #define DIALOG_JOIN_CHANNEL_H
 
-#include <QWidget>
+#include <QDialog>
 #include <QString>
 
 namespace Ui {
-class dialog_join_Channel;
+class Dialog_Join_Channel;
 }
 
-class dialog_join_Channel : public QWidget
+class Dialog_Join_Channel : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit dialog_join_Channel(QWidget *parent = nullptr);
-    ~dialog_join_Channel();
+    explicit Dialog_Join_Channel(QWidget *parent = nullptr);
+    ~Dialog_Join_Channel();
     void SetJoinChannelToken(QString token);
     QString GetJoinChannelToken();
 
 private slots:
-    void on_JoinButton_clicked();
+    void on_pushButton_join_clicked();
+
+    void on_pushButton_cancel_clicked();
 
 private:
-    Ui::dialog_join_Channel *ui;
+    Ui::Dialog_Join_Channel *ui;
     QString Token;
 };
 

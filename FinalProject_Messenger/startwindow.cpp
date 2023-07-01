@@ -1,6 +1,5 @@
 #include "startwindow.h"
 #include "ui_startwindow.h"
-<<<<<<< HEAD
 #include"startwindow.h"
 #include"dialog_login.h"
 #include"user.h"
@@ -26,20 +25,21 @@
 #include<QTextCursor>
 #include<QTimer>
 #include<QDir>
+#include"group.h"
+#include"channel.h"
+#include"dialog_create_channel.h"
+#include"dialog_create_group.h"
+#include"dialog_join_channel.h"
+#include"dialog_join_group.h"
 
 //QVector<User> U;
 QString contactname;
-=======
-#include "dialog_join_channel.h"
-#include <QThread>
->>>>>>> FixChannel
 
 StartWindow::StartWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::StartWindow)
 {
     ui->setupUi(this);
-<<<<<<< HEAD
     ui->textEdit_groupmessages->setReadOnly(true);
     ui->textEdit_channelmessages->setReadOnly(true);
     ui->textEdit_conversation->setReadOnly(true);
@@ -53,12 +53,6 @@ StartWindow::StartWindow(QWidget *parent) :
     QObject::connect(this, &QWidget::destroyed, []() {
         qDebug() << "Window was closed";
     });
-=======
-//    zQThread* thread1 = new QThread();
-//        QObject::connect(thread1, &QThread::started, [](){
-//            function1();
-//        });
->>>>>>> FixChannel
 }
 
 StartWindow::~StartWindow()
@@ -66,7 +60,31 @@ StartWindow::~StartWindow()
     delete ui;
 }
 
-<<<<<<< HEAD
+void StartWindow::SetTokenFromUserName(QString token)
+{
+    Token = token;
+}
+
+void StartWindow::SetUsernameFromUserName(QString username)
+{
+    Username = username;
+}
+
+void StartWindow::SetPasswordFromUserName(QString password)
+{
+    Password = password;
+}
+
+QString StartWindow::GetTokenFromUserName()
+{
+    return Token;
+}
+
+QString StartWindow::GetUsernameFromUserName()
+{
+    return Username;
+}
+
 void StartWindow::on_actionLogout_triggered()
 {
     QString urlString = "http://api.barafardayebehtar.ml:8080/";
@@ -331,156 +349,55 @@ void StartWindow::on_listWidget_contacts_itemClicked(QListWidgetItem *item)
     const QString text = item->text();
     contactname=text;
     show_conversation();
-=======
-void StartWindow::SetTokenFromUserName(QString token)
-{
-    Token = token;
 }
 
-void StartWindow::SetUsernameFromUserName(QString username)
-{
-    Username = username;
-}
-
-void StartWindow::SetPasswordFromUserName(QString password)
-{
-    Password = password;
-}
-
-QString StartWindow::GetTokenFromUserName()
-{
-    return Token;
-}
-
-QString StartWindow::GetUsernameFromUserName()
-{
-    return Username;
-}
 
 void StartWindow::on_actionCreat_Group_triggered()
 {
-    dialog_create_group* window = new dialog_create_group();
+    Dialog_Create_Group* window = new Dialog_Create_Group();
     window->SetCreateGroupToken(Token);
     window->show();
 }
 
 
-void StartWindow::on_pushButton_entermessage_2_clicked()
+void StartWindow::on_actionCreat_Channel_triggered()
 {
-    Group* G = new Group();
-    G->SetTokenOfUsernameGroup(Token);
-    G->AddMessageToGroupWithGroupName(Username,ui->lineEdit_message_2->text(),ui->lineEdit_searchgroupe->text());
+    Dialog_Create_Channel* window = new Dialog_Create_Channel();
+    window->SetTokenFromChannel(Token);
+    window->show();
 }
 
 
 void StartWindow::on_actionJoin_Group_triggered()
 {
-    dialog_Join_Group* window = new dialog_Join_Group();
+    Dialog_Join_Group* window = new Dialog_Join_Group();
     window->SetJoinGroupToken(Token);
-    window->show();
-
-}
-
-
-
-
-
-
-
-
-void StartWindow::on_actionCreat_Channel_triggered()
-{
-    dialog_create_Channel* window = new dialog_create_Channel();
-    window->SetTokenFromChannel(Token);
     window->show();
 }
 
 
 void StartWindow::on_actionJoin_Channel_triggered()
 {
-    dialog_join_Channel* C = new dialog_join_Channel();
+    Dialog_Join_Channel* C = new Dialog_Join_Channel();
     C->SetJoinChannelToken(Token);
     C->show();
 }
 
 
-void StartWindow::on_pushButton_entermessage_3_clicked()
+void StartWindow::on_pushButton_entermessage_group_clicked()
+{
+    Group* G = new Group();
+    G->SetTokenOfUsernameGroup(Token);
+    G->AddMessageToGroupWithGroupName(Username,ui->lineEdit_messagegroup->text(),ui->lineEdit_searchgroupe->text());
+
+}
+
+
+void StartWindow::on_pushButton_entermessage_channel_clicked()
 {
     Channel* C = new Channel();
     C->SetChannelTokenWithAdmin(Token);
-    C->AddMessageToChannelWithChannelName(Token,ui->lineEdit_searchchannel->text(),ui->lineEdit_message_3->text());
-}
+    C->AddMessageToChannelWithChannelName(Token,ui->lineEdit_searchchannel->text(),ui->lineEdit_messagechannel->text());
 
-
-void StartWindow::on_actionLogout_triggered()
-{
-//http://api.barafardayebehtar.ml:8080/logout?username=sara&passw
-//ord=1234
-    QString urlString = "http://api.barafardayebehtar.ml:8080/logout?username=";
-    urlString +=  Username + "&password=" + Password;
-
-    QNetworkAccessManager manager;
-
-    QNetworkReply* reply = manager.get(QNetworkRequest(urlString));
-
-    QEventLoop loop;
-    QAbstractSocket::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-    loop.exec(); // Block until the request is finished
-
-    if(reply->error() == QNetworkReply::NoError)
-    {
-        QByteArray data = reply->readAll();
-
-        QJsonDocument JsonDocument = QJsonDocument::fromJson(data);
-
-        QJsonObject JsonObject = JsonDocument.object();
-
-        if(JsonObject.value("code").toString()=="200")
-        {
-            QLabel* label = new QLabel(JsonObject.value("message").toString());
-            label->setFixedSize(400,100);
-            label->show();
-            QTimer::singleShot(2000, [=]() {
-                label->deleteLater();
-            });
-            close();
-        }
-        if(JsonObject.value("code").toString() == "404")
-        {
-            QLabel* label = new QLabel(JsonObject.value("message").toString());
-            label->setFixedSize(400,100);
-            label->show();
-            QTimer::singleShot(2000, [=]() {
-                label->deleteLater();
-            });
-        }
-        if(JsonObject.value("code").toString() == "204")
-        {
-            QLabel* label = new QLabel(JsonObject.value("message").toString());
-            label->setFixedSize(400,100);
-            label->show();
-            QTimer::singleShot(1000, [=]() {
-                label->deleteLater();
-            });
-        }
-        if(JsonObject.value("code").toString() == "401")
-        {
-            QLabel* label = new QLabel(JsonObject.value("message").toString());
-            label->setFixedSize(400,100);
-            label->show();
-            QTimer::singleShot(2000, [=]() {
-                label->deleteLater();
-            });
-        }
-
-    }
-
-}
-
-
-void StartWindow::on_textEdit_channels_2_selectionChanged()
-{
-    ui->textEdit_channels_2->setText("Salam");
->>>>>>> FixChannel
 }
 

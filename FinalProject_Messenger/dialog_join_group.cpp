@@ -1,34 +1,32 @@
 #include "dialog_join_group.h"
 #include "ui_dialog_join_group.h"
 
-dialog_Join_Group::dialog_Join_Group(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::dialog_Join_Group)
+Dialog_Join_Group::Dialog_Join_Group(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::Dialog_Join_Group)
 {
     ui->setupUi(this);
 }
 
-dialog_Join_Group::~dialog_Join_Group()
+Dialog_Join_Group::~Dialog_Join_Group()
 {
     delete ui;
 }
 
-void dialog_Join_Group::SetJoinGroupToken(QString token)
+void Dialog_Join_Group::SetJoinGroupToken(QString token)
 {
     Token = token;
 }
 
-QString dialog_Join_Group::GetJoinGroupToken()
+QString Dialog_Join_Group::GetJoinGroupToken()
 {
     return Token;
 }
 
-
-
-void dialog_Join_Group::on_JoinBuuton_clicked()//join group
+void Dialog_Join_Group::on_pushButton_join_clicked()
 {
     QString urlString = "http://api.barafardayebehtar.ml:8080/joingroup?token=";
-    urlString+=Token+"&group_name="+ui->NameGroupLineEdit->text();
+    urlString+=Token+"&group_name="+ui->lineEdit_groupname->text();
     qDebug()<<"url = "<<urlString<<"\n";
 
     QNetworkAccessManager manager;
@@ -65,5 +63,11 @@ void dialog_Join_Group::on_JoinBuuton_clicked()//join group
         }
     }
     close();
+}
+
+
+void Dialog_Join_Group::on_pushButton_cancel_clicked()
+{
+    this->close();
 }
 

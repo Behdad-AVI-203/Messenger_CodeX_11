@@ -1,30 +1,30 @@
 #ifndef DIALOG_JOIN_GROUP_H
 #define DIALOG_JOIN_GROUP_H
 
-#include <QWidget>
+#include <QDialog>
 #include "group.h"
 
 namespace Ui {
-class dialog_Join_Group;
+class Dialog_Join_Group;
 }
 
-class dialog_Join_Group : public QWidget
+class Dialog_Join_Group : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit dialog_Join_Group(QWidget *parent = nullptr);
-    ~dialog_Join_Group();
+    explicit Dialog_Join_Group(QWidget *parent = nullptr);
+    ~Dialog_Join_Group();
     void SetJoinGroupToken(QString token);
     QString GetJoinGroupToken();
 
 private slots:
+    void on_pushButton_join_clicked();
 
-
-    void on_JoinBuuton_clicked();
+    void on_pushButton_cancel_clicked();
 
 private:
-    Ui::dialog_Join_Group *ui;
+    Ui::Dialog_Join_Group *ui;
     QString Token;
 
 };

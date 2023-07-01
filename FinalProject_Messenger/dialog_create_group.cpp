@@ -1,35 +1,36 @@
 #include "dialog_create_group.h"
 #include "ui_dialog_create_group.h"
 
-dialog_create_group::dialog_create_group(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::dialog_create_group)
+Dialog_Create_Group::Dialog_Create_Group(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::Dialog_Create_Group)
 {
     ui->setupUi(this);
 }
 
-dialog_create_group::~dialog_create_group()
+Dialog_Create_Group::~Dialog_Create_Group()
 {
     delete ui;
 }
 
-void dialog_create_group::SetCreateGroupToken(QString token)
+void Dialog_Create_Group::SetCreateGroupToken(QString token)
 {
     Token = token;
 }
 
-QString dialog_create_group::GetCreateGroupToken()
+QString Dialog_Create_Group::GetCreateGroupToken()
 {
     return Token;
 }
 
-void dialog_create_group::on_pushButton_clicked()
+
+void Dialog_Create_Group::on_pushButton_create_clicked()
 {
     //http://api.barafardayebehtar.ml:8080/creategroup?token=7a3c48f7
 //    c7939b7269d01443a431825f&group_name=G1&group_title=Group1
         QString urlString = "http://api.barafardayebehtar.ml:8080/";
         urlString = urlString + "creategroup?token=" + Token +
-        + "&group_name=" +ui->NameLineEdit->text()+"&group_title="+ui->TitleLineEdit->text();
+        + "&group_name=" +ui->lineEdit_groupname->text()+"&group_title="+ui->lineEdit_grouptitle->text();
 
         QNetworkAccessManager manager;
 
@@ -67,7 +68,13 @@ void dialog_create_group::on_pushButton_clicked()
         }
 
         Group* newGroup = new Group();
-        newGroup->CreatedNewGroup(ui->TitleLineEdit->text(),Token,ui->NameLineEdit->text());
+        newGroup->CreatedNewGroup(ui->lineEdit_grouptitle->text(),Token,ui->lineEdit_groupname->text());
         close();
+}
+
+
+void Dialog_Create_Group::on_pushButton_cancel_clicked()
+{
+    this->close();
 }
 

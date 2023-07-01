@@ -1,7 +1,7 @@
 #ifndef DIALOG_CREATE_GROUP_H
 #define DIALOG_CREATE_GROUP_H
+
 #include "group.h"
-#include <QWidget>
 #include <QString>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
@@ -14,24 +14,26 @@
 #include<thread>
 
 namespace Ui {
-class dialog_create_group;
+class Dialog_Create_Group;
 }
 
-class dialog_create_group : public QWidget
+class Dialog_Create_Group : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit dialog_create_group(QWidget *parent = nullptr);
-    ~dialog_create_group();
+    explicit Dialog_Create_Group(QWidget *parent = nullptr);
+    ~Dialog_Create_Group();
     void SetCreateGroupToken(QString token);
     QString GetCreateGroupToken();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_pushButton_create_clicked();
+
+    void on_pushButton_cancel_clicked();
 
 private:
-    Ui::dialog_create_group *ui;
+    Ui::Dialog_Create_Group *ui;
     QString Token;
 };
 

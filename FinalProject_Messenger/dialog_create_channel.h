@@ -1,31 +1,32 @@
 #ifndef DIALOG_CREATE_CHANNEL_H
 #define DIALOG_CREATE_CHANNEL_H
 
-#include <QWidget>
+#include <QDialog>
 #include "channel.h"
 
-
 namespace Ui {
-class dialog_create_Channel;
+class Dialog_Create_Channel;
 }
 
-class dialog_create_Channel : public QWidget
+class Dialog_Create_Channel : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit dialog_create_Channel(QWidget *parent = nullptr);
-    ~dialog_create_Channel();
+    explicit Dialog_Create_Channel(QWidget *parent = nullptr);
+    ~Dialog_Create_Channel();
     void SetTokenFromChannel(QString channel);
     void SetCreateChannelToken(QString token);
 
-
 private slots:
-    void on_CreatedButton_clicked();
+    void on_pushButton_create_clicked();
+
+    void on_pushButton_cancel_clicked();
 
 private:
-    Ui::dialog_create_Channel *ui;
+    Ui::Dialog_Create_Channel *ui;
     QString Token;
+
 };
 
 #endif // DIALOG_CREATE_CHANNEL_H
