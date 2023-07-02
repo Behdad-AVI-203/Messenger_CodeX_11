@@ -1,5 +1,8 @@
 #include "dialog_create_group.h"
 #include "ui_dialog_create_group.h"
+#include"dialog_login.h"
+
+
 
 Dialog_Create_Group::Dialog_Create_Group(QWidget *parent) :
     QDialog(parent),
@@ -29,7 +32,7 @@ void Dialog_Create_Group::on_pushButton_create_clicked()
     //http://api.barafardayebehtar.ml:8080/creategroup?token=7a3c48f7
 //    c7939b7269d01443a431825f&group_name=G1&group_title=Group1
         QString urlString = "http://api.barafardayebehtar.ml:8080/";
-        urlString = urlString + "creategroup?token=" + Token +
+        urlString = urlString + "creategroup?token=" + U[0].GetToken() +
         + "&group_name=" +ui->lineEdit_groupname->text()+"&group_title="+ui->lineEdit_grouptitle->text();
 
         QNetworkAccessManager manager;
@@ -50,20 +53,13 @@ void Dialog_Create_Group::on_pushButton_create_clicked()
 
             if(jsonObject.value("code").toString() == "200")
             {
-                QMessageBox::information(this,"respons by server","Creat group successfully");
+                QMessageBox::information(this,"Creat Group","Creat group successfully");
             }
-            if(jsonObject.value("code").toString() == "404")
+            else
             {
-                QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
+                QMessageBox::warning(this,"Creat Group",jsonObject.value("message").toString());
             }
-            if(jsonObject.value("code").toString() == "204")
-            {
-                QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
-            }
-            if(jsonObject.value("code").toString() == "401")
-            {
-                QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
-            }
+
 
         }
 

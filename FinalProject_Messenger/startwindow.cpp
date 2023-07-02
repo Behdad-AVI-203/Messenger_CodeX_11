@@ -31,9 +31,13 @@
 #include"dialog_create_group.h"
 #include"dialog_join_channel.h"
 #include"dialog_join_group.h"
+#include <ReadUserFromFile.h>
+#include<QFile>
 
 //QVector<User> U;
 QString contactname;
+QString groupname;
+QString channelname;
 
 StartWindow::StartWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -49,6 +53,8 @@ StartWindow::StartWindow(QWidget *parent) :
     connect(this, SIGNAL(ContactSignal()),this, SLOT(show_conversation()));
     connect(timer,SIGNAL(timeout()),this,SLOT(refreshlistview()));
     connect(timer,SIGNAL(timeout()),this,SLOT(show_conversation()));
+    connect(timer,SIGNAL(timeout()),this,SLOT(show_groupmessage()));
+    connect(timer,SIGNAL(timeout()),this,SLOT(show_channelmessage()));
     timer->start(3000);
     QObject::connect(this, &QWidget::destroyed, []() {
         qDebug() << "Window was closed";
@@ -103,6 +109,8 @@ void StartWindow::on_actionLogout_triggered()
     {
         disconnect(timer,SIGNAL(timeout()),this,SLOT(refreshlistview()));
         disconnect(timer,SIGNAL(timeout()),this,SLOT(show_conversation()));
+        disconnect(timer,SIGNAL(timeout()),this,SLOT(show_groupmessage()));
+        disconnect(timer,SIGNAL(timeout()),this,SLOT(show_channelmessage()));
         QByteArray data = reply->readAll();
         QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
         QJsonObject jsonObject = jsonDocument.object();
@@ -168,8 +176,18 @@ void StartWindow::refreshlistview()
 
         }
         else{
+            QMap<QString, QJsonDocument> Users=ReadUserFromFile();
+            ui->listWidget_contacts->clear();
+            QMap<QString, QJsonDocument>::ConstIterator userit;
+            for(userit = Users.constBegin(); userit != Users.constEnd(); ++userit){
 
-        }
+                QListWidgetItem* item_user = new QListWidgetItem(userit.key());
+
+                ui->listWidget_contacts->addItem(item_user);
+                }
+
+            }
+
 
         QString urlString_group = "http://api.barafardayebehtar.ml:8080/";
             urlString_group = urlString_group + "getgrouplist?" + "token=" + U[0].GetToken();
@@ -258,7 +276,7 @@ void StartWindow::on_pushButton_searchuser_clicked()
 
 
 void StartWindow::show_conversation(){
-
+    if(contactname!=""){
     QString urlString = "http://api.barafardayebehtar.ml:8080/";
     urlString = urlString + "getuserchats?" + "token=" + U[0].GetToken()
     + "&dst=" +contactname;
@@ -293,6 +311,14 @@ void StartWindow::show_conversation(){
                 ui->textEdit_conversation->append("");
                 U[0].GetContact(contactname).SetConversation(jsonObject["block "+QString::number(i)].toObject()["src"].toString(),message);
                 i++;
+                QString filePath="User/Contacts/"+contactname+".json";
+                QJsonObject fileObjectToWrite=jsonObject;
+                QJsonDocument fileDocumentToWrite(fileObjectToWrite);
+                QFile fileToWrite(filePath);
+                if(fileToWrite.open(QIODevice::WriteOnly)){
+                    fileToWrite.write(fileDocumentToWrite.toJson());
+                    fileToWrite.close();
+                }
             }
             ui->pushButton_entermessage_contact->setEnabled(true);
         }
@@ -302,7 +328,163 @@ void StartWindow::show_conversation(){
 
     }
     else{
+        QMap<QString, QJsonDocument> Users=ReadUserFromFile();
+        ui->textEdit_conversation->clear();
+        QJsonObject messages = Users[contactname].object();
+        //qDebug()<<mess;
+        int i1=0;
+        while(messages.contains("block "+QString::number(i1))){
+            ui->textEdit_conversation->append(messages["block "+QString::number(i1)].toObject()["src"].toString()+" :");
+            QString message=messages["block "+QString::number(i1)].toObject()["body"].toString()+"       "+
+                    messages["block "+QString::number(i1)].toObject()["date"].toString();
+            ui->textEdit_conversation->append(message);
+            ui->textEdit_conversation->append("");
+            i1++;
+            }
+        ui->pushButton_entermessage_contact->setEnabled(true);
 
+    }
+    }
+
+}
+void StartWindow::show_groupmessage(){
+    if(groupname!=""){
+    QString urlString = "http://api.barafardayebehtar.ml:8080/";
+    urlString = urlString + "getgroupchats?" + "token=" + U[0].GetToken()
+    + "&dst=" +groupname;
+qDebug()<<groupname;
+    QUrl url(urlString);
+
+    QNetworkAccessManager manager;
+    QNetworkReply* reply = manager.get(QNetworkRequest(url));
+
+    QEventLoop loop;
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec(); // Block until the request is finished
+
+    if(reply->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
+    {
+        ui->textEdit_groupmessages->clear();
+
+        QByteArray data = reply->readAll();
+
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+        QJsonObject jsonObject = jsonDocument.object();
+
+        if(jsonObject["code"].toString() == "200")
+        {
+            int j=0;
+qDebug()<<jsonObject;
+            while(jsonObject.contains("block "+QString::number(j))){
+                ui->textEdit_groupmessages->append(jsonObject["block "+QString::number(j)].toObject()["src"].toString()+" :");
+                QString message=jsonObject["block "+QString::number(j)].toObject()["body"].toString()+"       "+
+                        jsonObject["block "+QString::number(j)].toObject()["date"].toString();
+                ui->textEdit_groupmessages->append(message);
+                ui->textEdit_groupmessages->append("");
+
+                j++;
+                QString filePath="User/Groups/"+groupname+".json";
+                QJsonObject fileObjectToWrite=jsonObject;
+                QJsonDocument fileDocumentToWrite(fileObjectToWrite);
+                QFile fileToWrite(filePath);
+                if(fileToWrite.open(QIODevice::WriteOnly)){
+                    fileToWrite.write(fileDocumentToWrite.toJson());
+                    fileToWrite.close();
+                }
+            }
+            ui->pushButton_entermessage_group->setEnabled(true);
+        }
+      else{
+            QMessageBox::warning(this,"GroupChat",jsonObject["message"].toString());
+}
+
+    }
+    /*else{
+        QMap<QString, QJsonDocument> Users=ReadUserFromFile();
+        ui->textEdit_conversation->clear();
+        QJsonObject messages = Users[contactname].object();
+        //qDebug()<<mess;
+        int i1=0;
+        while(messages.contains("block "+QString::number(i1))){
+            ui->textEdit_conversation->append(messages["block "+QString::number(i1)].toObject()["src"].toString()+" :");
+            QString message=messages["block "+QString::number(i1)].toObject()["body"].toString()+"       "+
+                    messages["block "+QString::number(i1)].toObject()["date"].toString();
+            ui->textEdit_conversation->append(message);
+            ui->textEdit_conversation->append("");
+            i1++;
+            }
+        ui->pushButton_entermessage_contact->setEnabled(true);
+
+    }*/
+    }
+}
+void StartWindow::show_channelmessage(){
+    if(channelname!=""){
+    QString urlString = "http://api.barafardayebehtar.ml:8080/";
+    urlString = urlString + "getchannelchats?" + "token=" + U[0].GetToken()
+    + "&dst=" +channelname;
+    QUrl url(urlString);
+
+    QNetworkAccessManager manager;
+    QNetworkReply* reply = manager.get(QNetworkRequest(url));
+
+    QEventLoop loop;
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec(); // Block until the request is finished
+
+    if(reply->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
+    {
+        ui->textEdit_channelmessages->clear();
+
+        QByteArray data = reply->readAll();
+
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+        QJsonObject jsonObject = jsonDocument.object();
+
+        if(jsonObject["code"].toString() == "200")
+        {
+            int j=0;
+
+            while(jsonObject.contains("block "+QString::number(j))){
+                QString message=jsonObject["block "+QString::number(j)].toObject()["body"].toString()+"       "+
+                        jsonObject["block "+QString::number(j)].toObject()["date"].toString();
+                ui->textEdit_channelmessages->append(message);
+                ui->textEdit_channelmessages->append("");
+
+                j++;
+                QString filePath="User/Groups/"+channelname+".json";
+                QJsonObject fileObjectToWrite=jsonObject;
+                QJsonDocument fileDocumentToWrite(fileObjectToWrite);
+                QFile fileToWrite(filePath);
+                if(fileToWrite.open(QIODevice::WriteOnly)){
+                    fileToWrite.write(fileDocumentToWrite.toJson());
+                    fileToWrite.close();
+                }
+            }
+            ui->pushButton_entermessage_channel->setEnabled(true);
+        }
+      else{
+            QMessageBox::warning(this,"GroupChat",jsonObject["message"].toString());
+}
+
+    }
+    /*else{
+        QMap<QString, QJsonDocument> Users=ReadUserFromFile();
+        ui->textEdit_conversation->clear();
+        QJsonObject messages = Users[contactname].object();
+        //qDebug()<<mess;
+        int i1=0;
+        while(messages.contains("block "+QString::number(i1))){
+            ui->textEdit_conversation->append(messages["block "+QString::number(i1)].toObject()["src"].toString()+" :");
+            QString message=messages["block "+QString::number(i1)].toObject()["body"].toString()+"       "+
+                    messages["block "+QString::number(i1)].toObject()["date"].toString();
+            ui->textEdit_conversation->append(message);
+            ui->textEdit_conversation->append("");
+            i1++;
+            }
+        ui->pushButton_entermessage_contact->setEnabled(true);
+
+    }*/
     }
 }
 
@@ -330,7 +512,6 @@ void StartWindow::on_pushButton_entermessage_contact_clicked()
         QJsonObject jsonObject = jsonDocument.object();
         if(jsonObject["code"].toString()=="200"){
             ui->lineEdit_messageuser->clear();
-            show_conversation();
         }
         else{
         QMessageBox::warning(this,"EnterMessage",jsonObject["message"].toString());
@@ -348,7 +529,6 @@ void StartWindow::on_listWidget_contacts_itemClicked(QListWidgetItem *item)
 {
     const QString text = item->text();
     contactname=text;
-    show_conversation();
 }
 
 
@@ -386,18 +566,88 @@ void StartWindow::on_actionJoin_Channel_triggered()
 
 void StartWindow::on_pushButton_entermessage_group_clicked()
 {
-    Group* G = new Group();
-    G->SetTokenOfUsernameGroup(Token);
-    G->AddMessageToGroupWithGroupName(Username,ui->lineEdit_messagegroup->text(),ui->lineEdit_searchgroupe->text());
+    if(!ui->lineEdit_messagegroup->text().isEmpty()){
+    QString urlString = "http://api.barafardayebehtar.ml:8080/";
+    urlString = urlString + "sendmessagegroup?" + "token=" + U[0].GetToken()
+    + "&dst=" +groupname+"&body="+ui->lineEdit_messagegroup->text();
 
+    QUrl url(urlString);
+
+    QNetworkAccessManager manager;
+    QNetworkReply* reply = manager.get(QNetworkRequest(url));
+
+    QEventLoop loop;
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec(); // Block until the request is finished
+
+    if(reply->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
+    {
+        QByteArray data = reply->readAll();
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+        QJsonObject jsonObject = jsonDocument.object();
+        if(jsonObject["code"].toString()=="200"){
+            ui->lineEdit_messagegroup->clear();
+        }
+        else{
+        QMessageBox::warning(this,"EnterMessage",jsonObject["message"].toString());
+}
+
+    }
+    else{
+
+    }
+    }
 }
 
 
 void StartWindow::on_pushButton_entermessage_channel_clicked()
 {
-    Channel* C = new Channel();
-    C->SetChannelTokenWithAdmin(Token);
-    C->AddMessageToChannelWithChannelName(Token,ui->lineEdit_searchchannel->text(),ui->lineEdit_messagechannel->text());
 
+    if(!ui->lineEdit_messagechannel->text().isEmpty()){
+    QString urlString = "http://api.barafardayebehtar.ml:8080/";
+    urlString = urlString + "sendmessagechannel?" + "token=" + U[0].GetToken()
+    + "&dst=" +channelname+"&body="+ui->lineEdit_messagechannel->text();
+
+    QUrl url(urlString);
+
+    QNetworkAccessManager manager;
+    QNetworkReply* reply = manager.get(QNetworkRequest(url));
+
+    QEventLoop loop;
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec(); // Block until the request is finished
+
+    if(reply->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
+    {
+        QByteArray data = reply->readAll();
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+        QJsonObject jsonObject = jsonDocument.object();
+        if(jsonObject["code"].toString()=="200"){
+            ui->lineEdit_messagechannel->clear();
+        }
+        else{
+        QMessageBox::warning(this,"EnterMessage",jsonObject["message"].toString());
+}
+
+    }
+    else{
+
+    }
+    }
+}
+
+
+void StartWindow::on_listWidget_groups_itemClicked(QListWidgetItem *item)
+{
+    const QString text = item->text();
+    groupname=text;
+    show_conversation();
+}
+
+
+void StartWindow::on_listWidget_channels_itemClicked(QListWidgetItem *item)
+{
+    const QString text = item->text();
+    channelname=text;
 }
 

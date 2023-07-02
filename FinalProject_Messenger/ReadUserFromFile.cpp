@@ -9,7 +9,10 @@ QMap<QString, QJsonDocument> ReadUserFromFile()
     QDir directory(folderPath);
     QStringList jsonFiles = directory.entryList(QStringList() << "*.json", QDir::Files);
 
+    QString temp;
     foreach (QString fileName, jsonFiles) {
+        temp = fileName;
+        temp = temp.remove(".json");
         QFile file(directory.absoluteFilePath(fileName));
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             qDebug() << "Could not open file:" << fileName;
@@ -30,7 +33,8 @@ QMap<QString, QJsonDocument> ReadUserFromFile()
             QJsonValue blockValue = jsonObj.value("block " + QString::number(index));
             if (blockValue.isObject()) {
                 QJsonObject blockObj = blockValue.toObject();
-                jsonDocuments[fileName + " - Block " + QString::number(index)] = QJsonDocument(blockObj);
+                jsonDocuments[fileName.remove(".json")] = QJsonDocument(blockObj);
+
             }
             index++;
         }
@@ -40,4 +44,3 @@ QMap<QString, QJsonDocument> ReadUserFromFile()
 
     return jsonDocuments;
 }
-

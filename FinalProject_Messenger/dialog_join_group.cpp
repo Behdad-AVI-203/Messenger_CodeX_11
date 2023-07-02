@@ -1,5 +1,7 @@
 #include "dialog_join_group.h"
 #include "ui_dialog_join_group.h"
+#include"dialog_login.h"
+
 
 Dialog_Join_Group::Dialog_Join_Group(QWidget *parent) :
     QDialog(parent),
@@ -26,7 +28,7 @@ QString Dialog_Join_Group::GetJoinGroupToken()
 void Dialog_Join_Group::on_pushButton_join_clicked()
 {
     QString urlString = "http://api.barafardayebehtar.ml:8080/joingroup?token=";
-    urlString+=Token+"&group_name="+ui->lineEdit_groupname->text();
+    urlString+=U[0].GetToken()+"&group_name="+ui->lineEdit_groupname->text();
     qDebug()<<"url = "<<urlString<<"\n";
 
     QNetworkAccessManager manager;
@@ -47,20 +49,13 @@ void Dialog_Join_Group::on_pushButton_join_clicked()
 
         if(jsonObject.value("code").toString() == "200")
         {
-            QMessageBox::information(this,"respons by server",jsonObject.value("message").toString());
+            QMessageBox::information(this,"Join Group",jsonObject.value("message").toString());
         }
-        if(jsonObject.value("code").toString() == "404")
+        else
         {
-            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
+            QMessageBox::warning(this,"Join Group",jsonObject.value("message").toString());
         }
-        if(jsonObject.value("code").toString() == "204")
-        {
-            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
-        }
-        if(jsonObject.value("code").toString() == "401")
-        {
-            QMessageBox::warning(this,"Response sent by the server",jsonObject.value("message").toString());
-        }
+
     }
     close();
 }

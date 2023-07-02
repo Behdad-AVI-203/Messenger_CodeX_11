@@ -35,6 +35,8 @@ private slots:
     void on_pushButton_searchuser_clicked();
 
     void show_conversation();
+    void show_groupmessage();
+    void show_channelmessage();
     void on_pushButton_entermessage_contact_clicked();
 
     void on_listWidget_contacts_itemClicked(QListWidgetItem *item);
@@ -50,6 +52,10 @@ private slots:
     void on_pushButton_entermessage_group_clicked();
 
     void on_pushButton_entermessage_channel_clicked();
+
+    void on_listWidget_groups_itemClicked(QListWidgetItem *item);
+
+    void on_listWidget_channels_itemClicked(QListWidgetItem *item);
 
 signals:
     void ContactSignal();
