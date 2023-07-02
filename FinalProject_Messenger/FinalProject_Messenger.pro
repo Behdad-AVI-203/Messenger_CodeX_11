@@ -10,6 +10,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    ReadFirst.cpp \
     ReadUserFromFile.cpp \
     channel.cpp \
     contact.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
     user.cpp
 
 HEADERS += \
+    ReadFirst.h \
     ReadUserFromFile.h \
     channel.h \
     contact.h \

@@ -15,6 +15,7 @@
 #include <thread>
 #include <iostream>
 #include <string>
+#include <ReadFirst.h>
 
 QVector<User> U;
 
@@ -58,6 +59,9 @@ void Dialog_Login::on_pushButton_login_clicked()
             if(jsonObject["token"].toString()!=""){
             QMessageBox::information(this,"LogIn",jsonObject["message"].toString());
             User temp(ui->lineEdit_username->text(),ui->lineEdit_password->text(),jsonObject["token"].toString());
+            ReadGroupList(jsonObject["token"].toString());
+            ReadChannelListt(jsonObject["token"].toString());
+            ReadUserLIST(jsonObject["token"].toString());
             U.push_back(temp);
             //qDebug() << U[0].GetToken();
             this->close();

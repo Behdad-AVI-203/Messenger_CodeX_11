@@ -33,6 +33,7 @@
 #include"dialog_join_group.h"
 #include <ReadUserFromFile.h>
 #include<QFile>
+#include <ReadFirst.h>
 
 //QVector<User> U;
 QString contactname;
@@ -202,6 +203,7 @@ void StartWindow::contactsrefreshlistview()
 
 }
 void StartWindow::groupsrefreshlistview(){
+
     QString urlString = "http://api.barafardayebehtar.ml:8080/";
         urlString = urlString + "getgrouplist?" + "token=" + U[0].GetToken();
 
@@ -419,6 +421,7 @@ void StartWindow::show_conversation(){
 
 }
 void StartWindow::show_groupmessage(){
+
     if(groupname!=""){
     QString urlString = "http://api.barafardayebehtar.ml:8080/";
     urlString = urlString + "getgroupchats?" + "token=" + U[0].GetToken()
