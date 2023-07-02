@@ -33,13 +33,11 @@ QMap<QString, QJsonDocument> ReadUserFromFile()
             QJsonValue blockValue = jsonObj.value("block " + QString::number(index));
             if (blockValue.isObject()) {
                 QJsonObject blockObj = blockValue.toObject();
-                jsonDocuments[fileName.remove(".json")] = QJsonDocument(blockObj);
+
 
             }
             index++;
         }
-
-        qDebug() << "File Name:" << fileName;
     }
 
     return jsonDocuments;

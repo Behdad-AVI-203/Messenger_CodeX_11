@@ -51,7 +51,9 @@ StartWindow::StartWindow(QWidget *parent) :
     ui->pushButton_entermessage_group->setEnabled(false);
     ui->pushButton_entermessage_channel->setEnabled(false);
     connect(this, SIGNAL(ContactSignal()),this, SLOT(show_conversation()));
-    connect(timer,SIGNAL(timeout()),this,SLOT(refreshlistview()));
+    connect(timer,SIGNAL(timeout()),this,SLOT(contactsrefreshlistview()));
+    connect(timer,SIGNAL(timeout()),this,SLOT(groupsrefreshlistview()));
+    connect(timer,SIGNAL(timeout()),this,SLOT(channelsrefreshlistview()));
     connect(timer,SIGNAL(timeout()),this,SLOT(show_conversation()));
     connect(timer,SIGNAL(timeout()),this,SLOT(show_groupmessage()));
     connect(timer,SIGNAL(timeout()),this,SLOT(show_channelmessage()));
@@ -135,134 +137,175 @@ void StartWindow::on_actionLogout_triggered()
 }
 
 
-void StartWindow::refreshlistview()
+void StartWindow::contactsrefreshlistview()
 {
 
-    QString urlString_user = "http://api.barafardayebehtar.ml:8080/";
-        urlString_user =urlString_user + "getuserlist?" + "token=" + U[0].GetToken();
+    QString urlString = "http://api.barafardayebehtar.ml:8080/";
+        urlString =urlString + "getuserlist?" + "token=" + U[0].GetToken();
 
-        QUrl url_user(urlString_user);
-        QNetworkAccessManager manager_user;
-        QNetworkReply* reply_user = manager_user.get(QNetworkRequest(url_user));
+        QUrl url(urlString);
+        QNetworkAccessManager manager;
+        QNetworkReply* reply = manager.get(QNetworkRequest(url));
 
-        QEventLoop loop_user;
-        connect(reply_user, &QNetworkReply::finished, &loop_user, &QEventLoop::quit);
-        loop_user.exec(); // Block until the request is finished
+        QEventLoop loop;
+        connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+        loop.exec(); // Block until the request is finished
 
-        if(reply_user->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
+        if(reply->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
         {
-            QByteArray data_user = reply_user->readAll();
-            QJsonDocument jsonDocument_user = QJsonDocument::fromJson(data_user);
-            QJsonObject jsonObject_user = jsonDocument_user.object();
-            if(jsonObject_user["code"].toString()=="200"){
+            QByteArray data = reply->readAll();
+            QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+            QJsonObject jsonObject = jsonDocument.object();
+            if(jsonObject["code"].toString()=="200"){
                 int v=0;
                 U[0].ClearContacts();
                 ui->listWidget_contacts->clear();
-                while(jsonObject_user.contains("block "+QString::number(v))){
+                while(jsonObject.contains("block "+QString::number(v))){
 
-                    QListWidgetItem* item_contact = new QListWidgetItem(jsonObject_user["block "+QString::number(v)].toObject()["src"].toString());
+                    QListWidgetItem* item = new QListWidgetItem(jsonObject["block "+QString::number(v)].toObject()["src"].toString());
 
-                            ui->listWidget_contacts->addItem(item_contact);
+                            ui->listWidget_contacts->addItem(item);
 
-                        Contact temp(jsonObject_user["block "+QString::number(v)].toObject()["src"].toString());
-                        U[0].SetUserContacts(jsonObject_user["block "+QString::number(v)].toObject()["src"].toString(),temp);
+                        Contact temp(jsonObject["block "+QString::number(v)].toObject()["src"].toString());
+                        U[0].SetUserContacts(jsonObject["block "+QString::number(v)].toObject()["src"].toString(),temp);
                          v++;
                     }
 
                 }
             else{
-                QMessageBox::warning(this,"Contacts",jsonObject_user["message"].toString());
+                QMessageBox::warning(this,"Contacts",jsonObject["message"].toString());
             }
 
         }
         else{
-            QMap<QString, QJsonDocument> Users=ReadUserFromFile();
+
             ui->listWidget_contacts->clear();
-            QMap<QString, QJsonDocument>::ConstIterator userit;
-            for(userit = Users.constBegin(); userit != Users.constEnd(); ++userit){
 
-                QListWidgetItem* item_user = new QListWidgetItem(userit.key());
+                QString folderPath = "User/Contacts";
 
-                ui->listWidget_contacts->addItem(item_user);
+                QDir directory(folderPath);
+                QStringList jsonFiles = directory.entryList(QStringList() << "*.json", QDir::Files);
+
+                QString temp;
+                foreach (QString fileName, jsonFiles) {
+                    temp = fileName;
+                    temp = temp.remove(".json");
+                QListWidgetItem* item = new QListWidgetItem(temp);
+
+                ui->listWidget_contacts->addItem(item);
                 }
 
             }
 
 
-        QString urlString_group = "http://api.barafardayebehtar.ml:8080/";
-            urlString_group = urlString_group + "getgrouplist?" + "token=" + U[0].GetToken();
 
-            QUrl url_group(urlString_group);
-            QNetworkAccessManager manager_group;
-            QNetworkReply* reply_group = manager_group.get(QNetworkRequest(url_group));
 
-            QEventLoop loop_group;
-            connect(reply_group, &QNetworkReply::finished, &loop_group, &QEventLoop::quit);
-            loop_group.exec(); // Block until the request is finished
+}
+void StartWindow::groupsrefreshlistview(){
+    QString urlString = "http://api.barafardayebehtar.ml:8080/";
+        urlString = urlString + "getgrouplist?" + "token=" + U[0].GetToken();
 
-            if(reply_group->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
-            {
-                QByteArray data_group = reply_group->readAll();
-                QJsonDocument jsonDocument_group = QJsonDocument::fromJson(data_group);
-                QJsonObject jsonObject_group = jsonDocument_group.object();
-                if(jsonObject_group["code"].toString()=="200"){
-                    int j=0;
-                    U[0].ClearGroups();
-                    ui->listWidget_groups->clear();
-                    while(jsonObject_group.contains("block "+QString::number(j))){
+        QUrl url(urlString);
+        QNetworkAccessManager manager;
+        QNetworkReply* reply = manager.get(QNetworkRequest(url));
 
-                        QListWidgetItem* item_group = new QListWidgetItem(jsonObject_group["block "+QString::number(j)].toObject()["group_name"].toString());
+        QEventLoop loop;
+        connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+        loop.exec(); // Block until the request is finished
 
-                                ui->listWidget_groups->addItem(item_group);
+        if(reply->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
+        {
+            QByteArray data = reply->readAll();
+            QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+            QJsonObject jsonObject = jsonDocument.object();
+            if(jsonObject["code"].toString()=="200"){
+                int j=0;
+                U[0].ClearGroups();
+                ui->listWidget_groups->clear();
+                while(jsonObject.contains("block "+QString::number(j))){
 
-                            j++;
+                    QListWidgetItem* item = new QListWidgetItem(jsonObject["block "+QString::number(j)].toObject()["group_name"].toString());
 
-                    }
+                            ui->listWidget_groups->addItem(item);
+
+                        j++;
+
                 }
-                else{
-                QMessageBox::warning(this,"Groups",jsonObject_group["message"].toString());
             }
-                }
             else{
-
+            QMessageBox::warning(this,"Groups",jsonObject["message"].toString());
+        }
             }
-            QString urlString_channel = "http://api.barafardayebehtar.ml:8080/";
-                urlString_channel = urlString_channel + "getchannellist?" + "token=" + U[0].GetToken();
+        else{
+            ui->listWidget_groups->clear();
 
-                QUrl url_channel(urlString_channel);
-                QNetworkAccessManager manager_channel;
-                QNetworkReply* reply_channel = manager_channel.get(QNetworkRequest(url_channel));
+                QString folderPath = "User/Groups";
 
-                QEventLoop loop_channel;
-                connect(reply_channel, &QNetworkReply::finished, &loop_channel, &QEventLoop::quit);
-                loop_channel.exec(); // Block until the request is finished
+                QDir directory(folderPath);
+                QStringList jsonFiles = directory.entryList(QStringList() << "*.json", QDir::Files);
 
-                if(reply_channel->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
-                {
-                    QByteArray data_channel = reply_channel->readAll();
-                    QJsonDocument jsonDocument_channel = QJsonDocument::fromJson(data_channel);
-                    QJsonObject jsonObject_channel = jsonDocument_channel.object();
-                    if(jsonObject_channel["code"].toString()=="200"){
-                        int i=0;
-                        U[0].ClearChannels();
-                        ui->listWidget_channels->clear();
-                        while(jsonObject_channel.contains("block "+QString::number(i))){
+                QString temp;
+                foreach (QString fileName, jsonFiles) {
+                    temp = fileName;
+                    temp = temp.remove(".json");
+                QListWidgetItem* item = new QListWidgetItem(temp);
 
-                            QListWidgetItem* item_channel = new QListWidgetItem(jsonObject_channel["block "+QString::number(i)].toObject()["channel_name"].toString());
+                ui->listWidget_groups->addItem(item);
+                }
+        }
+}
+void StartWindow::channelsrefreshlistview(){
+    QString urlString = "http://api.barafardayebehtar.ml:8080/";
+        urlString = urlString + "getchannellist?" + "token=" + U[0].GetToken();
 
-                                    ui->listWidget_channels->addItem(item_channel);
+        QUrl url(urlString);
+        QNetworkAccessManager manager;
+        QNetworkReply* reply = manager.get(QNetworkRequest(url));
 
-                                i++;
+        QEventLoop loop;
+        connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+        loop.exec(); // Block until the request is finished
 
-                        }
-                    }
-                    else{
-                        QMessageBox::warning(this,"Channels",jsonObject_channel["message"].toString());
-                    }
-                    }
-                else{
+        if(reply->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
+        {
+            QByteArray data = reply->readAll();
+            QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+            QJsonObject jsonObject = jsonDocument.object();
+            if(jsonObject["code"].toString()=="200"){
+                int i=0;
+                U[0].ClearChannels();
+                ui->listWidget_channels->clear();
+                while(jsonObject.contains("block "+QString::number(i))){
+
+                    QListWidgetItem* item = new QListWidgetItem(jsonObject["block "+QString::number(i)].toObject()["channel_name"].toString());
+
+                            ui->listWidget_channels->addItem(item);
+
+                        i++;
 
                 }
+            }
+            else{
+                QMessageBox::warning(this,"Channels",jsonObject["message"].toString());
+            }
+            }
+        else{
+            ui->listWidget_channels->clear();
+
+                QString folderPath = "User/Channels";
+
+                QDir directory(folderPath);
+                QStringList jsonFiles = directory.entryList(QStringList() << "*.json", QDir::Files);
+
+                QString temp;
+                foreach (QString fileName, jsonFiles) {
+                    temp = fileName;
+                    temp = temp.remove(".json");
+                QListWidgetItem* item = new QListWidgetItem(temp);
+
+                ui->listWidget_channels->addItem(item);
+                }
+        }
 }
 
 void StartWindow::on_pushButton_searchuser_clicked()
@@ -328,21 +371,49 @@ void StartWindow::show_conversation(){
 
     }
     else{
-        QMap<QString, QJsonDocument> Users=ReadUserFromFile();
-        ui->textEdit_conversation->clear();
-        QJsonObject messages = Users[contactname].object();
-        //qDebug()<<mess;
-        int i1=0;
-        while(messages.contains("block "+QString::number(i1))){
-            ui->textEdit_conversation->append(messages["block "+QString::number(i1)].toObject()["src"].toString()+" :");
-            QString message=messages["block "+QString::number(i1)].toObject()["body"].toString()+"       "+
-                    messages["block "+QString::number(i1)].toObject()["date"].toString();
-            ui->textEdit_conversation->append(message);
-            ui->textEdit_conversation->append("");
-            i1++;
-            }
-        ui->pushButton_entermessage_contact->setEnabled(true);
+         if(contactname!=""){
+        QString folderPath = "User/Contacts";
 
+        QDir directory(folderPath);
+        QStringList jsonFiles = directory.entryList(QStringList() << "*.json", QDir::Files);
+
+        QString temp;
+        foreach (QString fileName, jsonFiles) {
+            temp = fileName;
+            temp = temp.remove(".json");
+            if(temp==contactname){
+            QFile file(directory.absoluteFilePath(fileName));
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                qDebug() << "Could not open file:" << fileName;
+                continue;
+            }
+
+            QByteArray jsonData = file.readAll();
+            QJsonParseError parseError;
+            QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData, &parseError);
+            if (parseError.error != QJsonParseError::NoError) {
+                qDebug() << "Error parsing JSON file:" << fileName << "-" << parseError.errorString();
+                continue;
+            }
+            ui->textEdit_conversation->clear();
+            QJsonObject jsonObj = jsonDoc.object();
+            int index = 0;
+            while (jsonObj.contains("block " + QString::number(index))) {
+                QJsonValue blockValue = jsonObj.value("block " + QString::number(index));
+                if (blockValue.isObject()) {
+                    QJsonObject blockObj = blockValue.toObject();
+                    ui->textEdit_conversation->append(blockObj["src"].toString()+" :");
+                    QString offmessage=blockObj["body"].toString()+"       "+
+                            blockObj["date"].toString();
+                    ui->textEdit_conversation->append(offmessage);
+                    ui->textEdit_conversation->append("");
+
+                }
+                index++;
+            }
+        }
+        }
+}
     }
     }
 
@@ -399,23 +470,51 @@ qDebug()<<jsonObject;
 }
 
     }
-    /*else{
-        QMap<QString, QJsonDocument> Users=ReadUserFromFile();
-        ui->textEdit_conversation->clear();
-        QJsonObject messages = Users[contactname].object();
-        //qDebug()<<mess;
-        int i1=0;
-        while(messages.contains("block "+QString::number(i1))){
-            ui->textEdit_conversation->append(messages["block "+QString::number(i1)].toObject()["src"].toString()+" :");
-            QString message=messages["block "+QString::number(i1)].toObject()["body"].toString()+"       "+
-                    messages["block "+QString::number(i1)].toObject()["date"].toString();
-            ui->textEdit_conversation->append(message);
-            ui->textEdit_conversation->append("");
-            i1++;
-            }
-        ui->pushButton_entermessage_contact->setEnabled(true);
+    else{
+        if(groupname!=""){
+        QString folderPath = "User/Groups";
 
-    }*/
+        QDir directory(folderPath);
+        QStringList jsonFiles = directory.entryList(QStringList() << "*.json", QDir::Files);
+
+        QString temp;
+        foreach (QString fileName, jsonFiles) {
+            temp = fileName;
+            temp = temp.remove(".json");
+            if(temp==groupname){
+            QFile file(directory.absoluteFilePath(fileName));
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                qDebug() << "Could not open file:" << fileName;
+                continue;
+            }
+
+            QByteArray jsonData = file.readAll();
+            QJsonParseError parseError;
+            QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData, &parseError);
+            if (parseError.error != QJsonParseError::NoError) {
+                qDebug() << "Error parsing JSON file:" << fileName << "-" << parseError.errorString();
+                continue;
+            }
+            ui->textEdit_groupmessages->clear();
+            QJsonObject jsonObj = jsonDoc.object();
+            int index = 0;
+            while (jsonObj.contains("block " + QString::number(index))) {
+                QJsonValue blockValue = jsonObj.value("block " + QString::number(index));
+                if (blockValue.isObject()) {
+                    QJsonObject blockObj = blockValue.toObject();
+                    ui->textEdit_groupmessages->append(blockObj["src"].toString()+" :");
+                    QString offmessage=blockObj["body"].toString()+"       "+
+                            blockObj["date"].toString();
+                    ui->textEdit_groupmessages->append(offmessage);
+                    ui->textEdit_groupmessages->append("");
+
+                }
+                index++;
+            }
+        }
+        }
+    }
+    }
     }
 }
 void StartWindow::show_channelmessage(){
@@ -452,7 +551,7 @@ void StartWindow::show_channelmessage(){
                 ui->textEdit_channelmessages->append("");
 
                 j++;
-                QString filePath="User/Groups/"+channelname+".json";
+                QString filePath="User/Channels/"+channelname+".json";
                 QJsonObject fileObjectToWrite=jsonObject;
                 QJsonDocument fileDocumentToWrite(fileObjectToWrite);
                 QFile fileToWrite(filePath);
@@ -468,23 +567,51 @@ void StartWindow::show_channelmessage(){
 }
 
     }
-    /*else{
-        QMap<QString, QJsonDocument> Users=ReadUserFromFile();
-        ui->textEdit_conversation->clear();
-        QJsonObject messages = Users[contactname].object();
-        //qDebug()<<mess;
-        int i1=0;
-        while(messages.contains("block "+QString::number(i1))){
-            ui->textEdit_conversation->append(messages["block "+QString::number(i1)].toObject()["src"].toString()+" :");
-            QString message=messages["block "+QString::number(i1)].toObject()["body"].toString()+"       "+
-                    messages["block "+QString::number(i1)].toObject()["date"].toString();
-            ui->textEdit_conversation->append(message);
-            ui->textEdit_conversation->append("");
-            i1++;
-            }
-        ui->pushButton_entermessage_contact->setEnabled(true);
+    else{
+        if(channelname!=""){
+        QString folderPath = "User/Channels";
 
-    }*/
+        QDir directory(folderPath);
+        QStringList jsonFiles = directory.entryList(QStringList() << "*.json", QDir::Files);
+
+        QString temp;
+        foreach (QString fileName, jsonFiles) {
+            temp = fileName;
+            temp = temp.remove(".json");
+            if(temp==channelname){
+            QFile file(directory.absoluteFilePath(fileName));
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                qDebug() << "Could not open file:" << fileName;
+                continue;
+            }
+
+            QByteArray jsonData = file.readAll();
+            QJsonParseError parseError;
+            QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData, &parseError);
+            if (parseError.error != QJsonParseError::NoError) {
+                qDebug() << "Error parsing JSON file:" << fileName << "-" << parseError.errorString();
+                continue;
+            }
+            ui->textEdit_channelmessages->clear();
+            QJsonObject jsonObj = jsonDoc.object();
+            int index = 0;
+            while (jsonObj.contains("block " + QString::number(index))) {
+                QJsonValue blockValue = jsonObj.value("block " + QString::number(index));
+                if (blockValue.isObject()) {
+                    QJsonObject blockObj = blockValue.toObject();
+                    //ui->textEdit_channelmessages->append(blockObj["src"].toString()+" :");
+                    QString offmessage=blockObj["body"].toString()+"       "+
+                            blockObj["date"].toString();
+                    ui->textEdit_channelmessages->append(offmessage);
+                    ui->textEdit_channelmessages->append("");
+
+                }
+                index++;
+            }
+        }
+        }
+    }
+    }
     }
 }
 
@@ -519,7 +646,8 @@ void StartWindow::on_pushButton_entermessage_contact_clicked()
 
     }
     else{
-
+        ui->lineEdit_messageuser->setEnabled(false);
+        ui->pushButton_entermessage_contact->setEnabled(false);
     }
     }
 }
@@ -594,7 +722,8 @@ void StartWindow::on_pushButton_entermessage_group_clicked()
 
     }
     else{
-
+        ui->lineEdit_messagegroup->setEnabled(false);
+        ui->pushButton_entermessage_group->setEnabled(false);
     }
     }
 }
@@ -631,7 +760,8 @@ void StartWindow::on_pushButton_entermessage_channel_clicked()
 
     }
     else{
-
+        ui->lineEdit_messagechannel->setEnabled(false);
+        ui->pushButton_entermessage_channel->setEnabled(false);
     }
     }
 }
@@ -641,7 +771,6 @@ void StartWindow::on_listWidget_groups_itemClicked(QListWidgetItem *item)
 {
     const QString text = item->text();
     groupname=text;
-    show_conversation();
 }
 
 

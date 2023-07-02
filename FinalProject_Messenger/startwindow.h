@@ -30,7 +30,9 @@ public:
 private slots:
     void on_actionLogout_triggered();
 
-    void refreshlistview();
+    void contactsrefreshlistview();
+    void groupsrefreshlistview();
+    void channelsrefreshlistview();
 
     void on_pushButton_searchuser_clicked();
 
