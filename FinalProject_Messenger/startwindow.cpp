@@ -8,6 +8,8 @@
 #include"dialog_join_channel.h"
 #include"dialog_join_group.h"
 #include "all_include.h"
+#include <QTextEdit>
+
 
 QString contactname;
 QString groupname;
@@ -575,29 +577,39 @@ void StartWindow::ReadUserLIST()
     QEventLoop loop;
     QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
+    try {
     if (reply->error() == QNetworkReply::NoError)
-    {
-        QByteArray data = reply->readAll();
-        QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
-        QJsonObject jsonObject = jsonDocument.object();
-        if (jsonObject.value("code").toString() == "200")
         {
-            QStringList keys = jsonObject.keys();
-            for (const auto& key : keys) {
-                if (key == "code" || key == "message") {
-                }
-                else {
-                    if (key.startsWith("block")) {
-                        QJsonValue blocksValue = jsonObject.value(key);
-                        if (blocksValue.isObject())
-                        {
-                            QJsonObject blockObject = blocksValue.toObject();
-                            ReadUseristWithDestination(blockObject.value("src").toString());
+            QByteArray data = reply->readAll();
+            QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+            QJsonObject jsonObject = jsonDocument.object();
+            if (jsonObject.value("code").toString() == "200")
+            {
+                QStringList keys = jsonObject.keys();
+                for (const auto& key : keys) {
+                    if (key == "code" || key == "message") {
+                    }
+                    else {
+                        if (key.startsWith("block")) {
+                            QJsonValue blocksValue = jsonObject.value(key);
+                            if (blocksValue.isObject())
+                            {
+                                QJsonObject blockObject = blocksValue.toObject();
+                                ReadUseristWithDestination(blockObject.value("src").toString());
+                            }
                         }
                     }
                 }
             }
         }
+        else
+        {
+             throw std::invalid_argument("The server is unable to respond");
+        }
+    }
+    catch(const std::exception& e)
+    {
+        QMessageBox::information(this,"Exception",e.what());
     }
 }
 
@@ -610,28 +622,39 @@ void StartWindow::ReadUseristWithDestination(QString name)
     QEventLoop loop;
     QAbstractSocket::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec(); // Block until the request is finished
-    if(reply->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
-    {
-        QByteArray data = reply->readAll();
-        QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
-        QJsonObject jsonObject = jsonDocument.object();
-        if(jsonObject["code"].toString() == "200")
+
+    try{
+        if(reply->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
         {
-            int i=0;
-            while(jsonObject.contains("block "+QString::number(i))){
-                QString message=jsonObject["block "+QString::number(i)].toObject()["body"].toString()+"       "+
-                jsonObject["block "+QString::number(i)].toObject()["date"].toString();
-                i++;
-                QString filePath="User/Contacts/"+name+".json";
-                QJsonObject fileObjectToWrite=jsonObject;
-                QJsonDocument fileDocumentToWrite(fileObjectToWrite);
-                QFile fileToWrite(filePath);
-                if(fileToWrite.open(QIODevice::WriteOnly)){
-                    fileToWrite.write(fileDocumentToWrite.toJson());
-                    fileToWrite.close();
+            QByteArray data = reply->readAll();
+            QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+            QJsonObject jsonObject = jsonDocument.object();
+            if(jsonObject["code"].toString() == "200")
+            {
+                int i=0;
+                while(jsonObject.contains("block "+QString::number(i))){
+                    QString message=jsonObject["block "+QString::number(i)].toObject()["body"].toString()+"       "+
+                    jsonObject["block "+QString::number(i)].toObject()["date"].toString();
+                    i++;
+                    QString filePath="User/Contacts/"+name+".json";
+                    QJsonObject fileObjectToWrite=jsonObject;
+                    QJsonDocument fileDocumentToWrite(fileObjectToWrite);
+                    QFile fileToWrite(filePath);
+                    if(fileToWrite.open(QIODevice::WriteOnly)){
+                        fileToWrite.write(fileDocumentToWrite.toJson());
+                        fileToWrite.close();
+                    }
                 }
             }
         }
+        else
+        {
+             throw std::invalid_argument("The server is unable to respond");
+        }
+    }
+    catch(const std::exception& e)
+    {
+         QMessageBox::information(this,"Exception",e.what());
     }
 }
 
@@ -643,29 +666,39 @@ void StartWindow::ReadGroupList()
     QEventLoop loop;
     QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
-    if (reply->error() == QNetworkReply::NoError)
-    {
-        QByteArray data = reply->readAll();
-        QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
-        QJsonObject jsonObject = jsonDocument.object();
-        if (jsonObject.value("code").toString() == "200")
+    try{
+        if (reply->error() == QNetworkReply::NoError)
         {
-            QStringList keys = jsonObject.keys();
-            for (const auto& key : keys) {
-                if (key == "code" || key == "message") {
-                }
-                else {
-                    if (key.startsWith("block")) {
-                        QJsonValue blocksValue = jsonObject.value(key);
-                        if (blocksValue.isObject())
-                        {
-                            QJsonObject blockObject = blocksValue.toObject();
-                            ReadGroupListWithDestination(blockObject.value("group_name").toString());
+            QByteArray data = reply->readAll();
+            QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+            QJsonObject jsonObject = jsonDocument.object();
+            if (jsonObject.value("code").toString() == "200")
+            {
+                QStringList keys = jsonObject.keys();
+                for (const auto& key : keys) {
+                    if (key == "code" || key == "message") {
+                    }
+                    else {
+                        if (key.startsWith("block")) {
+                            QJsonValue blocksValue = jsonObject.value(key);
+                            if (blocksValue.isObject())
+                            {
+                                QJsonObject blockObject = blocksValue.toObject();
+                                ReadGroupListWithDestination(blockObject.value("group_name").toString());
+                            }
                         }
                     }
                 }
             }
         }
+        else
+        {
+             throw std::invalid_argument("The server is unable to respond");
+        }
+    }
+    catch(const std::exception& e)
+    {
+        QMessageBox::information(this,"Exception",e.what());
     }
 }
 
@@ -678,28 +711,38 @@ void StartWindow::ReadGroupListWithDestination(QString name)
     QEventLoop loop;
     QAbstractSocket::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec(); // Block until the request is finished
-    if(reply->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
-    {
-        QByteArray data = reply->readAll();
-        QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
-        QJsonObject jsonObject = jsonDocument.object();
-        if(jsonObject["code"].toString() == "200")
+    try{
+        if(reply->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
         {
-            int i=0;
-            while(jsonObject.contains("block "+QString::number(i))){
-                QString message=jsonObject["block "+QString::number(i)].toObject()["body"].toString()+"       "+
-                jsonObject["block "+QString::number(i)].toObject()["date"].toString();
-                i++;
-                QString filePath="User/Groups/"+name+".json";
-                QJsonObject fileObjectToWrite=jsonObject;
-                QJsonDocument fileDocumentToWrite(fileObjectToWrite);
-                QFile fileToWrite(filePath);
-                if(fileToWrite.open(QIODevice::WriteOnly)){
-                    fileToWrite.write(fileDocumentToWrite.toJson());
-                    fileToWrite.close();
+            QByteArray data = reply->readAll();
+            QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+            QJsonObject jsonObject = jsonDocument.object();
+            if(jsonObject["code"].toString() == "200")
+            {
+                int i=0;
+                while(jsonObject.contains("block "+QString::number(i))){
+                    QString message=jsonObject["block "+QString::number(i)].toObject()["body"].toString()+"       "+
+                    jsonObject["block "+QString::number(i)].toObject()["date"].toString();
+                    i++;
+                    QString filePath="User/Groups/"+name+".json";
+                    QJsonObject fileObjectToWrite=jsonObject;
+                    QJsonDocument fileDocumentToWrite(fileObjectToWrite);
+                    QFile fileToWrite(filePath);
+                    if(fileToWrite.open(QIODevice::WriteOnly)){
+                        fileToWrite.write(fileDocumentToWrite.toJson());
+                        fileToWrite.close();
+                    }
                 }
             }
         }
+        else
+        {
+            throw std::invalid_argument("The server is unable to respond");
+        }
+    }
+    catch(const std::exception& e)
+    {
+        QMessageBox::information(this,"Exception",e.what());
     }
 }
 
@@ -711,29 +754,39 @@ void StartWindow::ReadChannelListt()
     QEventLoop loop;
     QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
-    if (reply->error() == QNetworkReply::NoError)
-    {
-        QByteArray data = reply->readAll();
-        QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
-        QJsonObject jsonObject = jsonDocument.object();
-        if (jsonObject.value("code").toString() == "200")
+    try{
+        if (reply->error() == QNetworkReply::NoError)
         {
-            QStringList keys = jsonObject.keys();
-            for (const auto& key : keys) {
-                if (key == "code" || key == "message") {
-                }
-                else {
-                    if (key.startsWith("block")) {
-                        QJsonValue blocksValue = jsonObject.value(key);
-                        if (blocksValue.isObject())
-                        {
-                            QJsonObject blockObject = blocksValue.toObject();
-                            ReadChannelListWithDestination(blockObject.value("channel_name").toString());
+            QByteArray data = reply->readAll();
+            QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+            QJsonObject jsonObject = jsonDocument.object();
+            if (jsonObject.value("code").toString() == "200")
+            {
+                QStringList keys = jsonObject.keys();
+                for (const auto& key : keys) {
+                    if (key == "code" || key == "message") {
+                    }
+                    else {
+                        if (key.startsWith("block")) {
+                            QJsonValue blocksValue = jsonObject.value(key);
+                            if (blocksValue.isObject())
+                            {
+                                QJsonObject blockObject = blocksValue.toObject();
+                                ReadChannelListWithDestination(blockObject.value("channel_name").toString());
+                            }
                         }
                     }
                 }
             }
         }
+        else
+        {
+            throw std::invalid_argument("The server is unable to respond");
+        }
+    }
+    catch(const std::exception& e)
+    {
+        QMessageBox::information(this,"Exception",e.what());
     }
 }
 
@@ -747,28 +800,38 @@ void StartWindow::ReadChannelListWithDestination(QString name)
     QEventLoop loop;
     QAbstractSocket::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec(); // Block until the request is finished
-    if(reply->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
-    {
-        QByteArray data = reply->readAll();
-        QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
-        QJsonObject jsonObject = jsonDocument.object();
-        if(jsonObject["code"].toString() == "200")
+    try{
+        if(reply->error()==QNetworkReply::NoError)//This condition checks whether there is a problem on the server side
         {
-            int i=0;
-            while(jsonObject.contains("block "+QString::number(i))){
-                QString message=jsonObject["block "+QString::number(i)].toObject()["body"].toString()+"       "+
-                jsonObject["block "+QString::number(i)].toObject()["date"].toString();
-                i++;
-                QString filePath="User/Channels/"+name+".json";
-                QJsonObject fileObjectToWrite=jsonObject;
-                QJsonDocument fileDocumentToWrite(fileObjectToWrite);
-                QFile fileToWrite(filePath);
-                if(fileToWrite.open(QIODevice::WriteOnly)){
-                    fileToWrite.write(fileDocumentToWrite.toJson());
-                    fileToWrite.close();
+            QByteArray data = reply->readAll();
+            QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+            QJsonObject jsonObject = jsonDocument.object();
+            if(jsonObject["code"].toString() == "200")
+            {
+                int i=0;
+                while(jsonObject.contains("block "+QString::number(i))){
+                    QString message=jsonObject["block "+QString::number(i)].toObject()["body"].toString()+"       "+
+                    jsonObject["block "+QString::number(i)].toObject()["date"].toString();
+                    i++;
+                    QString filePath="User/Channels/"+name+".json";
+                    QJsonObject fileObjectToWrite=jsonObject;
+                    QJsonDocument fileDocumentToWrite(fileObjectToWrite);
+                    QFile fileToWrite(filePath);
+                    if(fileToWrite.open(QIODevice::WriteOnly)){
+                        fileToWrite.write(fileDocumentToWrite.toJson());
+                        fileToWrite.close();
+                    }
                 }
             }
         }
+        else
+        {
+            throw std::invalid_argument("The server is unable to respond");
+        }
+    }
+    catch(const std::exception& e)
+    {
+        QMessageBox::information(this,"Exception",e.what());
     }
 }
 

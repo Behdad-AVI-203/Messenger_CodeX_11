@@ -24,5 +24,6 @@
 #include<QDir>
 #include<QMainWindow>
 #include<QFile>
+#include <QLabel>
 
 #endif // ALL_INCLUDE_H

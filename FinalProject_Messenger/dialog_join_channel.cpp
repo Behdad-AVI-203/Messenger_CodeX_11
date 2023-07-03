@@ -18,6 +18,7 @@ Dialog_Join_Channel::~Dialog_Join_Channel()
 
 void Dialog_Join_Channel::on_pushButton_join_clicked()
 {
+    QString Exception;
     QString urlString = "http://api.barafardayebehtar.ml:8080/joinchannel?token=";
     urlString+=U[0].GetToken()+"&channel_name="+ui->lineEdit_channelname->text();
     QNetworkAccessManager manager;
@@ -25,20 +26,31 @@ void Dialog_Join_Channel::on_pushButton_join_clicked()
     QEventLoop loop;
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec(); // Block until the request is finished
-    if(reply->error() == QNetworkReply::NoError)
-    {
-        QByteArray data = reply->readAll();
-        QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
-        QJsonObject jsonObject = jsonDocument.object();
-        if(jsonObject.value("code").toString() == "200")
+    try{
+        if(reply->error() == QNetworkReply::NoError)
         {
-            QMessageBox::information(this,"Join Channel",jsonObject.value("message").toString());
-            this->close();
+            QByteArray data = reply->readAll();
+            QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+            QJsonObject jsonObject = jsonDocument.object();
+            if(jsonObject.value("code").toString() == "200")
+            {
+                QMessageBox::information(this,"Join Channel",jsonObject.value("message").toString());
+                this->close();
+            }
+            else
+            {
+                QMessageBox::warning(this,"Join Channel",jsonObject.value("message").toString());
+                Exception = jsonObject.value("message").toString();
+            }
         }
         else
         {
-            QMessageBox::warning(this,"Join Channel",jsonObject.value("message").toString());
+            throw std::invalid_argument("invalid Argument");
         }
+    }
+    catch(const std::exception& e)
+    {
+        QMessageBox::information(this,"Exception",e.what());
     }
 }
 
