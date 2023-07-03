@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>143</height>
+    <height>102</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,21 +17,21 @@
    <item row="6" column="3">
     <widget class="QPushButton" name="pushButton_logout">
      <property name="text">
-      <string>Logout</string>
+      <string>&amp;Logout</string>
      </property>
     </widget>
    </item>
    <item row="4" column="4">
     <widget class="QCheckBox" name="checkBox_setecho">
      <property name="text">
-      <string>Hide</string>
+      <string>&amp;Hide</string>
      </property>
     </widget>
    </item>
    <item row="6" column="4">
     <widget class="QPushButton" name="pushButton_2">
      <property name="text">
-      <string>Cancel</string>
+      <string>&amp;Cancel</string>
      </property>
     </widget>
    </item>
@@ -70,6 +70,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_username</tabstop>
+  <tabstop>lineEdit_password</tabstop>
+  <tabstop>checkBox_setecho</tabstop>
+  <tabstop>pushButton_logout</tabstop>
+  <tabstop>pushButton_2</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -1,9 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include<QString>
-#include<QVector>
+#include"all_include.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -36,11 +34,10 @@ private:
     QString password;
 public:
     user(QString firstname,QString lastname,QString username,QString password){
-        this->firstname=firstname;
-        this->lastname=lastname;
-        this->username=username;
-        this->password=password;
-
+    this->firstname=firstname;
+    this->lastname=lastname;
+    this->username=username;
+    this->password=password;
     }
 
 };

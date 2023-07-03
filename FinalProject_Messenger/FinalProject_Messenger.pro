@@ -10,10 +10,6 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    ReadFirst.cpp \
-    ReadUserFromFile.cpp \
-    channel.cpp \
-    contact.cpp \
     dialog_create_channel.cpp \
     dialog_create_group.cpp \
     dialog_join_channel.cpp \
@@ -21,17 +17,13 @@ SOURCES += \
     dialog_login.cpp \
     dialog_logout.cpp \
     dialog_signup.cpp \
-    group.cpp \
     main.cpp \
     mainwindow.cpp \
     startwindow.cpp \
     user.cpp
 
 HEADERS += \
-    ReadFirst.h \
-    ReadUserFromFile.h \
-    channel.h \
-    contact.h \
+    all_include.h \
     dialog_create_channel.h \
     dialog_create_group.h \
     dialog_join_channel.h \
@@ -39,7 +31,6 @@ HEADERS += \
     dialog_login.h \
     dialog_logout.h \
     dialog_signup.h \
-    group.h \
     mainwindow.h \
     startwindow.h \
     user.h

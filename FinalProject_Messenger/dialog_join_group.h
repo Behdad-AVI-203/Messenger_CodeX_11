@@ -2,7 +2,7 @@
 #define DIALOG_JOIN_GROUP_H
 
 #include <QDialog>
-#include "group.h"
+#include"all_include.h"
 
 namespace Ui {
 class Dialog_Join_Group;
@@ -15,18 +15,11 @@ class Dialog_Join_Group : public QDialog
 public:
     explicit Dialog_Join_Group(QWidget *parent = nullptr);
     ~Dialog_Join_Group();
-    void SetJoinGroupToken(QString token);
-    QString GetJoinGroupToken();
-
 private slots:
     void on_pushButton_join_clicked();
-
     void on_pushButton_cancel_clicked();
-
 private:
     Ui::Dialog_Join_Group *ui;
-    QString Token;
-
 };
 
 #endif // DIALOG_JOIN_GROUP_H

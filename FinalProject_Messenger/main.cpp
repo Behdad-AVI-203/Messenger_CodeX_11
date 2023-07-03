@@ -1,12 +1,8 @@
 #include "mainwindow.h"
 #include"startwindow.h"
 #include"user.h"
-#include<QFile>
-#include<QDate>
-#include<QJsonDocument>
-#include<QJsonObject>
 #include"dialog_login.h"
-#include<QDir>
+#include "all_include.h"
 
 #include <QApplication>
 

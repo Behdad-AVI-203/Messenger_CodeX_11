@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>387</width>
-    <height>90</height>
+    <width>351</width>
+    <height>72</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,14 +17,17 @@
    <item row="2" column="2">
     <widget class="QPushButton" name="pushButton_join">
      <property name="text">
-      <string>Join</string>
+      <string>&amp;Join</string>
      </property>
     </widget>
    </item>
    <item row="2" column="3">
     <widget class="QPushButton" name="pushButton_cancel">
      <property name="text">
-      <string>Cancel</string>
+      <string>&amp;Cancel</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -49,10 +52,19 @@
     </spacer>
    </item>
    <item row="0" column="1" colspan="3">
-    <widget class="QLineEdit" name="lineEdit_channelname"/>
+    <widget class="QLineEdit" name="lineEdit_channelname">
+     <property name="clearButtonEnabled">
+      <bool>false</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_channelname</tabstop>
+  <tabstop>pushButton_join</tabstop>
+  <tabstop>pushButton_cancel</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

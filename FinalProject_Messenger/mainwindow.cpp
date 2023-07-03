@@ -3,6 +3,7 @@
 #include"dialog_signup.h"
 #include "dialog_login.h"
 #include"dialog_logout.h"
+#include "all_include.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

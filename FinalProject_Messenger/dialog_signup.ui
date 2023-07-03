@@ -31,7 +31,7 @@
    <item row="5" column="2">
     <widget class="QPushButton" name="pushButton_signup">
      <property name="text">
-      <string>SignUp</string>
+      <string>&amp;SignUp</string>
      </property>
     </widget>
    </item>
@@ -67,7 +67,7 @@
    <item row="5" column="3">
     <widget class="QPushButton" name="pushButton_cancel">
      <property name="text">
-      <string>Cancel</string>
+      <string>&amp;Cancel</string>
      </property>
     </widget>
    </item>
@@ -88,12 +88,21 @@
    <item row="3" column="3">
     <widget class="QCheckBox" name="checkBox_echomode">
      <property name="text">
-      <string>Hide</string>
+      <string>&amp;Hide</string>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_firstname</tabstop>
+  <tabstop>lineEdit_lastname</tabstop>
+  <tabstop>lineEdit_username</tabstop>
+  <tabstop>lineEdit_password</tabstop>
+  <tabstop>checkBox_echomode</tabstop>
+  <tabstop>pushButton_signup</tabstop>
+  <tabstop>pushButton_cancel</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

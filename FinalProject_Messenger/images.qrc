@@ -4,5 +4,6 @@
         <file>background.jpg</file>
         <file>signin</file>
         <file>login</file>
+        <file>pxfuel.jpg</file>
     </qresource>
 </RCC>

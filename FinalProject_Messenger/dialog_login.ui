@@ -24,14 +24,23 @@
    <item row="2" column="3">
     <widget class="QPushButton" name="pushButton_cancel">
      <property name="text">
-      <string>Cancel</string>
+      <string>&amp;Cancel</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
    <item row="1" column="3">
     <widget class="QCheckBox" name="checkBox_setecho">
      <property name="text">
-      <string>Hide</string>
+      <string>&amp;Hide</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <property name="tristate">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -48,7 +57,7 @@
    <item row="2" column="2">
     <widget class="QPushButton" name="pushButton_login">
      <property name="text">
-      <string>Login</string>
+      <string>&amp;Login</string>
      </property>
     </widget>
    </item>
@@ -57,6 +66,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_username</tabstop>
+  <tabstop>lineEdit_password</tabstop>
+  <tabstop>checkBox_setecho</tabstop>
+  <tabstop>pushButton_login</tabstop>
+  <tabstop>pushButton_cancel</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

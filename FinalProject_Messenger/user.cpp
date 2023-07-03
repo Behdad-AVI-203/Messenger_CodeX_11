@@ -28,40 +28,6 @@ User::User(QString username, QString password, QString token)
     QDir().mkdir("User/Groups");
     QDir().mkdir("User/Channels");
 }
-
-/*void User::SetUser(string username, string password, string lastname, string firstname, string token)
-{
-    // initialize attribute
-    Token = token;
-    UserName = username;
-    Password = password;
-    LastName = lastname;
-    FirstName =  firstname;
-}
-*/
-
-void User::SetUserToken(QString token)
-{
-    Token = token;
-}
-void User::SetUserContacts(QString contact,Contact temp){
-    Contacts.insert(contact,temp);
-}
-void User::SetUserGroups(QString grname,Group temp){
-    Groups.insert(grname,temp);
-}
-void User::SetUserChannels(QString chname,Channel temp){
-    Channels.insert(chname,temp);
-}
-void User::ClearContacts(){
-    Contacts.clear();
-}
-void User::ClearGroups(){
-    Contacts.clear();
-}
-void User::ClearChannels(){
-    Contacts.clear();
-}
 QString User::GetUserName(){
     return UserName;
 }
@@ -70,13 +36,5 @@ QString User::GetPassword(){
 }
 QString User::GetToken(){
     return Token;
-}
-Contact User::GetContact(QString name){
-    Contact temp(name);
-    temp=Contacts[name];
-    return temp;
-}
-bool User::IsContactExist(QString name){
-    return Contacts.contains(name);
 }
 

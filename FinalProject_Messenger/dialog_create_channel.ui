@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>356</width>
-    <height>117</height>
+    <height>102</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,10 @@
    <item row="2" column="3">
     <widget class="QPushButton" name="pushButton_cancel">
      <property name="text">
-      <string>Cancel</string>
+      <string>&amp;Cancel</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -38,7 +41,7 @@
    <item row="2" column="2">
     <widget class="QPushButton" name="pushButton_create">
      <property name="text">
-      <string>Create</string>
+      <string>C&amp;reate</string>
      </property>
     </widget>
    </item>
@@ -63,6 +66,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_channelname</tabstop>
+  <tabstop>lineEdit_channeltitle</tabstop>
+  <tabstop>pushButton_create</tabstop>
+  <tabstop>pushButton_cancel</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

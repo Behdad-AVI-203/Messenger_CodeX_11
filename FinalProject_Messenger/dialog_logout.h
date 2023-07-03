@@ -17,11 +17,8 @@ public:
 
 private slots:
     void on_pushButton_2_clicked();
-
     void on_pushButton_logout_clicked();
-
     void on_checkBox_setecho_clicked(bool checked);
-
 private:
     Ui::Dialog_Logout *ui;
 };
