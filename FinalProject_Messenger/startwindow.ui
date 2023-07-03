@@ -53,7 +53,9 @@
    <string/>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">background-color: rgb(166, 228, 255);
+color: rgb(0, 0, 127);
+</string>
   </property>
   <property name="inputMethodHints">
    <set>Qt::ImhNone</set>
@@ -71,6 +73,10 @@
       <height>621</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(147, 203, 255);
+color: rgb(0, 0, 127);</string>
+    </property>
     <property name="title">
      <string>Contacts</string>
     </property>
@@ -86,6 +92,10 @@
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QPushButton" name="pushButton_searchuser">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(0, 0, 127);
+color: rgb(255, 255, 255);</string>
+        </property>
         <property name="text">
          <string>Search</string>
         </property>
@@ -111,6 +121,12 @@
         <property name="statusTip">
          <string/>
         </property>
+        <property name="whatsThis">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;message&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(0, 0, 197);</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -118,6 +134,10 @@
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_entermessage_contact">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(0, 0, 127);
+color: rgb(255, 255, 255);</string>
+        </property>
         <property name="text">
          <string>Enter</string>
         </property>
@@ -137,6 +157,9 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QLabel" name="label_contactname">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(0, 0, 173);</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -145,7 +168,7 @@
       <item>
        <widget class="QTextEdit" name="textEdit_conversation">
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:0.523, x2:0, y2:0.522727, stop:0 rgba(0, 0, 0, 255), stop:0.871508 rgba(0, 153, 255, 255));</string>
         </property>
        </widget>
       </item>
@@ -160,6 +183,9 @@
        <height>511</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(0, 153, 255);</string>
+     </property>
     </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox_group">
@@ -170,6 +196,10 @@
       <width>591</width>
       <height>308</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(147, 203, 255);
+color: rgb(0, 0, 127);</string>
     </property>
     <property name="title">
      <string>Groups</string>
@@ -185,10 +215,21 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_5">
       <item>
-       <widget class="QLineEdit" name="lineEdit_messagegroup"/>
+       <widget class="QLineEdit" name="lineEdit_messagegroup">
+        <property name="whatsThis">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; color:#0000c5;&quot;&gt;message&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(0, 0, 198);</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_entermessage_group">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(0, 0, 127);
+color: rgb(255, 255, 255);</string>
+        </property>
         <property name="text">
          <string>Enter</string>
         </property>
@@ -205,6 +246,9 @@
        <height>231</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(0, 153, 255);</string>
+     </property>
     </widget>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
@@ -218,13 +262,20 @@
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <widget class="QLabel" name="label_groupname">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(0, 0, 170);</string>
+        </property>
         <property name="text">
          <string/>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QTextEdit" name="textEdit_groupmessages"/>
+       <widget class="QTextEdit" name="textEdit_groupmessages">
+        <property name="styleSheet">
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:0.523, x2:0, y2:0.522727, stop:0 rgba(0, 0, 0, 255), stop:0.871508 rgba(0, 153, 255, 255));</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -237,6 +288,10 @@
       <width>591</width>
       <height>311</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(147, 203, 255);
+color: rgb(0, 0, 127);</string>
     </property>
     <property name="title">
      <string>Channels</string>
@@ -252,10 +307,21 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_7">
       <item>
-       <widget class="QLineEdit" name="lineEdit_messagechannel"/>
+       <widget class="QLineEdit" name="lineEdit_messagechannel">
+        <property name="whatsThis">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; color:#0000c6;&quot;&gt;message&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(0, 0, 200);</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_entermessage_channel">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(0, 0, 127);
+color: rgb(255, 255, 255);</string>
+        </property>
         <property name="text">
          <string>Enter</string>
         </property>
@@ -275,13 +341,20 @@
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <widget class="QLabel" name="label_channelname">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(0, 0, 197);</string>
+        </property>
         <property name="text">
          <string/>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QTextEdit" name="textEdit_channelmessages"/>
+       <widget class="QTextEdit" name="textEdit_channelmessages">
+        <property name="styleSheet">
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:0.523, x2:0, y2:0.522727, stop:0 rgba(0, 0, 0, 255), stop:0.871508 rgba(0, 153, 255, 255));</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -294,6 +367,9 @@
        <height>231</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(0, 153, 255);</string>
+     </property>
     </widget>
    </widget>
   </widget>
@@ -303,7 +379,7 @@
      <x>0</x>
      <y>0</y>
      <width>1168</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

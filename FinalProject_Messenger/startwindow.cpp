@@ -471,29 +471,30 @@ void StartWindow::on_listWidget_contacts_itemClicked(QListWidgetItem *item)
     const QString text = item->text();
     contactname=text;
     ui->label_contactname->setText(contactname);
+    show_conversation();
 }
 
 void StartWindow::on_actionCreat_Group_triggered()
 {
-    Dialog_Create_Group* window = new Dialog_Create_Group();
+    Dialog_Create_Group* window = new Dialog_Create_Group(this);
     window->show();
 }
 
 void StartWindow::on_actionCreat_Channel_triggered()
 {
-    Dialog_Create_Channel* window = new Dialog_Create_Channel();
+    Dialog_Create_Channel* window = new Dialog_Create_Channel(this);
     window->show();
 }
 
 void StartWindow::on_actionJoin_Group_triggered()
 {
-    Dialog_Join_Group* window = new Dialog_Join_Group();
+    Dialog_Join_Group* window = new Dialog_Join_Group(this);
     window->show();
 }
 
 void StartWindow::on_actionJoin_Channel_triggered()
 {
-    Dialog_Join_Channel* C = new Dialog_Join_Channel();
+    Dialog_Join_Channel* C = new Dialog_Join_Channel(this);
     C->show();
 }
 
@@ -560,6 +561,7 @@ void StartWindow::on_listWidget_groups_itemClicked(QListWidgetItem *item)
     const QString text = item->text();
     groupname=text;
     ui->label_groupname->setText(groupname);
+    show_groupmessage();
 }
 
 void StartWindow::on_listWidget_channels_itemClicked(QListWidgetItem *item)
@@ -567,6 +569,7 @@ void StartWindow::on_listWidget_channels_itemClicked(QListWidgetItem *item)
     const QString text = item->text();
     channelname=text;
     ui->label_channelname->setText(channelname);
+    show_channelmessage();
 }
 
 void StartWindow::ReadUserLIST()
